@@ -20,12 +20,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
+      
+      - uses: actions/setup-node@v3
       - name: Install ionic
-        uses: actions/setup-node@v3
-      - run: cd front
-      - run: npm i -g ionic
-      - run: ionic build
+        working-directory: ./front
+        run: |
+          npm i -g ionic
+          ionic build
 
   build-and-push-image:
     runs-on: ubuntu-latest
