@@ -23,8 +23,7 @@ jobs:
 
       - name: Install ionic
         uses: actions/setup-node@v3
-      - run: yarn install
-      - run: yarn add ionic
+      - run: npm i -g ionic
       - run: ionic build
 
   build-and-push-image:
