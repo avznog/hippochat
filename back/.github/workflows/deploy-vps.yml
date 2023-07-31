@@ -2,10 +2,9 @@ name: Deploy on vps
 
 on:
   push:
-    paths:
-      - "back/**"
-    branches: ["main"]
-
+    branches:
+      - main
+      - 'back/**'
 jobs:
   build:
     runs-on: ubuntu-latest
