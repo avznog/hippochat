@@ -31,7 +31,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: build-ionic
-          path: /wwww
+          path: /www
 
   build-and-push-image:
     runs-on: ubuntu-latest
