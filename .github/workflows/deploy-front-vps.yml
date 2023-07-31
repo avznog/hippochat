@@ -26,6 +26,7 @@ jobs:
         working-directory: ./front
         run: |
           npm i -g ionic
+          yarn install
           ionic build
 
   build-and-push-image:
