@@ -1,4 +1,4 @@
-name: Deploy backend on vps
+name: Deploy back of Hippochat on VPS
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{github.repository}}
+  IMAGE_NAME: ${{github.repository}}-back
 
 jobs:
   build-and-push-image:
@@ -34,7 +34,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-back
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Build and push the docker image
         uses: docker/build-push-action@v4
