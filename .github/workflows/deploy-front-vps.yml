@@ -23,6 +23,7 @@ jobs:
 
       - name: Install ionic
         uses: actions/setup-node@v3
+      - run: cd front
       - run: npm i -g ionic
       - run: ionic build
 
