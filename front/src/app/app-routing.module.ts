@@ -1,16 +1,27 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { LoginComponent } from './auth/login/login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { LoginGuard } from './guards/login.guard';
+import { LoggedGuard } from './guards/logged.guard';
 
 const routes: Routes = [
   {
-    path: '',
+    path: "login",
+    component: LoginComponent,
+    pathMatch: "full",
+    canActivate: [LoginGuard]
+  },
+  {
+    path: 'home',
     component: NavbarComponent,
+    canActivate: [LoggedGuard],
+    canActivateChild: [LoggedGuard],
     children: [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'conversation'
+        redirectTo: '/home/conversation'
       },
       {
         path: 'conversation',
@@ -18,6 +29,7 @@ const routes: Routes = [
       },
       {
         path: 'calendars',
+        pathMatch: "full",
         loadChildren: () => import('./components/pages/calendars/calendars.module').then( m => m.CalendarsPageModule)
       },
       {
@@ -30,7 +42,16 @@ const routes: Routes = [
       }
     ]
   },
-  
+  {
+    path: "",
+    pathMatch: "full",
+    redirectTo: "home"
+  },
+  {
+    path: "**",
+    redirectTo: "home",
+    pathMatch: "full"
+  },
 ];
 @NgModule({
   imports: [

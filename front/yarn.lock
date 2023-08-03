@@ -245,7 +245,7 @@
     symbol-observable "4.0.0"
     yargs "17.7.2"
 
-"@angular/common@^16.0.0":
+"@angular/common@^16.1.7":
   version "16.1.7"
   resolved "https://registry.yarnpkg.com/@angular/common/-/common-16.1.7.tgz#184fd912d5ac469a1aa146e479ddfe68ffe02412"
   integrity sha512-7WwYwtJjuJtUkutB+aMCvtV5zxa43T4x+kqT+kS4KnUmLv5KdrGPxcS+/7YUuKEELWp1SG032UTwGPX0DXxH4g==
@@ -306,10 +306,10 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/router@^16.0.0":
-  version "16.1.7"
-  resolved "https://registry.yarnpkg.com/@angular/router/-/router-16.1.7.tgz#03f7c3e7220baf866dcba6dcdc382b6ddedb3eef"
-  integrity sha512-nzjuAEAXLktA3puvSae54noAHEiuizNTvaOpuvQYHfvZF27QMW28XlC33+vDhckWjSD02K7Fb2+AELkOJhUM5Q==
+"@angular/router@^16.1.8":
+  version "16.1.8"
+  resolved "https://registry.yarnpkg.com/@angular/router/-/router-16.1.8.tgz#52993460d1d93ccebd83d5cf0cddf43bf5f46372"
+  integrity sha512-p11Mz0qQbl26fcEEQ9LEUZhKrca9kqSwMWgxBRMWZl0AgtbWQadiVdjiQY0rvpohI7qSO8m3s7CFIQLKIOEvYQ==
   dependencies:
     tslib "^2.3.0"
 
@@ -1966,6 +1966,17 @@
     "@tufjs/canonical-json" "1.0.0"
     minimatch "^9.0.0"
 
+"@tyoes/@angular/router", "@types/@angular/router":
+  version "0.5.3"
+  resolved "https://codeload.github.com/angular/router/tar.gz/f642b4caad6501609182487ce5e7107d9876d912"
+  dependencies:
+    angular2 "^2.0.0-beta.8"
+
+"@types/angular@^1.8.5":
+  version "1.8.5"
+  resolved "https://registry.yarnpkg.com/@types/angular/-/angular-1.8.5.tgz#71c7d3581898f1863100eeed9d25bb737a8e1062"
+  integrity sha512-tifGGLxuKOEl7Z1BoAkZKpu+eEyfZ/0Ugm5imM+D1Vj+QzuhPQS0icI34laN3CLbksyfZQPGTQa0i+jjZdpiLw==
+
 "@types/body-parser@*":
   version "1.19.2"
   resolved "https://registry.yarnpkg.com/@types/body-parser/-/body-parser-1.19.2.tgz#aea2059e28b7658639081347ac4fab3de166e6f0"
@@ -2563,6 +2574,11 @@ ajv@^6.10.0, ajv@^6.12.4, ajv@^6.12.5:
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
+
+angular2@^2.0.0-beta.8:
+  version "2.0.0-beta.21"
+  resolved "https://registry.yarnpkg.com/angular2/-/angular2-2.0.0-beta.21.tgz#78643e590641526a2596dcd1d5cca3a5509ed76d"
+  integrity sha512-J2jImQLsyDWW/gU9vjRVxxdl1Sp+m8KM7PR3K6ggy0JtRn27dUHIWCY6F3U28t+aUIFc5Wid0ULKUes7Fz89ig==
 
 ansi-colors@4.1.3, ansi-colors@^4.1.1:
   version "4.1.3"
@@ -5453,6 +5469,11 @@ jsonparse@^1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/jsonparse/-/jsonparse-1.3.1.tgz#3f4dae4a91fac315f71062f8521cc239f1366280"
   integrity sha512-POQXvpdL69+CluYsillJ7SUhKvytYjW9vG/GKpnf+xP8UWgYEM/RaMzHHofbALDiKbbP1W8UEYmgGl39WkPZsg==
+
+jwt-decode@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-3.1.2.tgz#3fb319f3675a2df0c2895c8f5e9fa4b67b04ed59"
+  integrity sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==
 
 karma-chrome-launcher@~3.2.0:
   version "3.2.0"
