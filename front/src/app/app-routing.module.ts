@@ -16,29 +16,32 @@ const routes: Routes = [
     path: 'home',
     component: NavbarComponent,
     canActivate: [LoggedGuard],
-    canActivateChild: [LoggedGuard],
     children: [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: '/home/conversation'
+        redirectTo: '/home/conversation',
       },
       {
         path: 'conversation',
-        loadChildren: () => import('./components/pages/conversation/conversation.module').then( m => m.ConversationPageModule)
+        loadChildren: () => import('./components/pages/conversation/conversation.module').then( m => m.ConversationPageModule),
+        canActivate: [LoggedGuard]
       },
       {
         path: 'calendars',
         pathMatch: "full",
-        loadChildren: () => import('./components/pages/calendars/calendars.module').then( m => m.CalendarsPageModule)
+        loadChildren: () => import('./components/pages/calendars/calendars.module').then( m => m.CalendarsPageModule),
+        canActivate: [LoggedGuard]
       },
       {
         path: 'my-mate',
-        loadChildren: () => import('./components/pages/my-mate/my-mate.module').then( m => m.MyMatePageModule)
+        loadChildren: () => import('./components/pages/my-mate/my-mate.module').then( m => m.MyMatePageModule),
+        canActivate: [LoggedGuard]
       },
       {
         path: 'my-profile',
-        loadChildren: () => import('./components/pages/my-profile/my-profile.module').then( m => m.MyProfilePageModule)
+        loadChildren: () => import('./components/pages/my-profile/my-profile.module').then( m => m.MyProfilePageModule),
+        canActivate: [LoggedGuard]
       }
     ]
   },

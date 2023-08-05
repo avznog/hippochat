@@ -35,31 +35,38 @@ export class LoginComponent implements OnInit {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home'
   }
 
-  get f() { return this.loginForm.controls }
-
   showKeyboard = () => Keyboard.show();
 
   hideKeyboard = () => Keyboard.hide();
 
   async onSubmit() {
+    // ? small vibration on click on the button
+    Haptics.impact({ style: ImpactStyle.Medium })
+
     if (this.loginForm.invalid)
       return;
 
     this.loading = true;
-    Haptics.impact({ style: ImpactStyle.Medium })
+
     try {
       await this.authService.login(this.loginForm.value["email"], this.loginForm.value["password"]);
       this.router.navigate([this.returnUrl]);
       this.loading = false;
+
+      // ? success vibration on success login
       Haptics.notification({type: NotificationType.Success})
+
     } catch (error) {
-      console.log("ERRRRRROR")
       this.error = error as string;
+
+      // ? toast with the error message
       Toast.show({
         text: this.error,
         duration: "long"
       }).finally(() => {
         this.loading = false;
+
+        // ? small vibration on failure login
         Haptics.notification({type: NotificationType.Error})
       });
     }
