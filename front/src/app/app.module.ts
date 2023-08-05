@@ -16,6 +16,7 @@ import { CredentialsInterceptor } from './interceptors/credentials.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { JwtInterceptorInterceptor } from './interceptors/jwt-interceptor.interceptor';
 import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent],
@@ -25,16 +26,18 @@ import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
     AppRoutingModule,
     PagesModule,
     ServiceWorkerModule.register('ngsw-worker.js',
-    {
-    enabled: !isDevMode(),
-    // Register the ServiceWorker as soon as the application is stable
-    // or after 30 seconds (whichever comes first).
-    registrationStrategy: 'registerWhenStable:30000'
-  }),
-HttpClientModule],
+      {
+        enabled: !isDevMode(),
+        // Register the ServiceWorker as soon as the application is stable
+        // or after 30 seconds (whichever comes first).
+        registrationStrategy: 'registerWhenStable:30000'
+      }),
+    HttpClientModule,
+    ReactiveFormsModule
+  ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: "BASE_API_URL", useValue: environment.apiUrl },
+    { provide: "BASE_API_URL", useValue: environment.apiURL },
     { provide: "DEFAULT_TIMEOUT", useValue: 30_000 },
     { provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: CredentialsInterceptor, multi: true },

@@ -5,6 +5,11 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors({
+    credentials: true,
+    origin: process.env.BASE_URL
+    })
+
   // ? swagger configuration
   const options = new DocumentBuilder()
     .setTitle("Hippochat API")

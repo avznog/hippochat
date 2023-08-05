@@ -1,3 +1,26 @@
-<div class="bg-red-500">
-f
+<div class="h-full">
+  <!-- ? username & password inputs -->
+  <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="h-1/2">
+  <div class="flex flex-col items-center justify-center h-1/2">
+    <ion-input class="w-9/12" formControlName="email" label="Email" type="email" [labelPlacement]="'floating'" [clearInput]="true" [errorText]="'L\'email n\'est pas valide'" (ionFocus)="showKeyboard()" (ionBlur)="hideKeyboard()"></ion-input>
+    <ion-input class="w-9/12" formControlName="password" label="Mot de passe" [labelPlacement]="'floating'" type="password" [clearOnEdit]="true"></ion-input>
+  </div>
+
+
+  <!-- ? buttons -->
+  <div class="flex flex-col items-center justify-center w-full h-1/2">
+    <div class="w-1/2 text-center">
+      <ion-button *ngIf="!loading" expand="undefined" size="large" type="submit" [disabled]="loading">Connexion</ion-button>
+    </div>
+    <ion-progress-bar *ngIf="loading" type="indeterminate" class="w-11/12"></ion-progress-bar>
+    <div class="w-1/2 text-center">
+      <ion-button expand="undefined" *ngIf="!loading" >S'inscrire</ion-button>
+    </div>
+  </div>
+</form>
+
+  <!-- ? pictures -->
+  <div class="flex justify-center w-full">
+    <ion-img [src]="boyImg" class="w-[90%]"></ion-img>
+  </div>
 </div>
