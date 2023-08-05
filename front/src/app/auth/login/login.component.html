@@ -14,7 +14,7 @@
     </div>
     <ion-progress-bar *ngIf="loading" type="indeterminate" class="w-11/12"></ion-progress-bar>
     <div class="w-1/2 text-center">
-      <ion-button expand="undefined" *ngIf="!loading" >S'inscrire</ion-button>
+      <ion-button expand="undefined" *ngIf="!loading" (click)="onRegister()">Pas de compte</ion-button>
     </div>
   </div>
 </form>

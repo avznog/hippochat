@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { LoginGuard } from './guards/login.guard';
+import { AuthGuard } from './guards/auth.guard';
 import { LoggedGuard } from './guards/logged.guard';
 
 const routes: Routes = [
@@ -10,7 +10,7 @@ const routes: Routes = [
     path: "login",
     component: LoginComponent,
     pathMatch: "full",
-    canActivate: [LoginGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'home',

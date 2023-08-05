@@ -43,6 +43,10 @@ export class LoginComponent implements OnInit {
     // ? small vibration on click on the button
     Haptics.impact({ style: ImpactStyle.Medium })
 
+
+    // ? hiding keyboard
+    this.hideKeyboard();
+
     if (this.loginForm.invalid)
       return;
 
@@ -70,5 +74,15 @@ export class LoginComponent implements OnInit {
         Haptics.notification({type: NotificationType.Error})
       });
     }
+  }
+  
+    // convenience getter for easy access to form fields
+    get f() { return this.loginForm.controls; }
+
+  onRegister() {
+    Haptics.impact({
+      style: ImpactStyle.Medium
+    });
+    this.router.navigate(["register"]);
   }
 }

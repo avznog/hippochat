@@ -22,7 +22,7 @@ export class AuthService {
     private router: Router
   ) { 
     this.currentUserSubject = new BehaviorSubject<Mate>(JSON.parse(localStorage.getItem("currentUser")!));
-    this.loggedInSubject = new BehaviorSubject(localStorage.getItem("loggedIn") == "true");
+    this.loggedInSubject = new BehaviorSubject(localStorage.getItem("loggedIn") === "true");
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
