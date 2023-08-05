@@ -2,22 +2,22 @@
 
   <ion-tab-bar slot="bottom">
     <ion-tab-button tab="conversation">
-      <img [src]="router.url.includes('conversation') ? conversationOnIcon : conversationOffIcon " class="w-1/3" />
+      <ion-img [src]="router.url.includes('conversation') ? conversationOnIcon : conversationOffIcon " class="w-1/3" />
       <ion-label>Conversation</ion-label>
     </ion-tab-button>
 
     <ion-tab-button tab="calendars">
-      <img [src]="router.url.includes('calendars') ? calendarsOnIcon : calendarsOffIcon " class="w-1/3" />
+      <ion-img [src]="router.url.includes('calendars') ? calendarsOnIcon : calendarsOffIcon " class="w-1/3" />
       <ion-label>Calendars</ion-label>
     </ion-tab-button>
 
     <ion-tab-button tab="my-mate">
-      <img [src]="router.url.includes('my-mate') ? myMateOnIcon : myMateOffIcon " class="w-1/3" />
+      <ion-img [src]="router.url.includes('my-mate') ? myMateOnIcon : myMateOffIcon " class="w-1/3" />
       <ion-label>My Mate</ion-label>
     </ion-tab-button>
     
     <ion-tab-button tab="my-profile">
-      <img [src]="router.url.includes('my-profile') ? myProfileOnIcon : myProfileOffIcon " class="w-1/3" />
+      <ion-img [src]="router.url.includes('my-profile') ? myProfileOnIcon : myProfileOffIcon " class="w-1/3" />
       <ion-label>My Profile</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
