@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -7,8 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterComponent  implements OnInit {
 
-  constructor() { }
+  registerForm!: UntypedFormGroup;
+  notifyImg = "../../../../../assets/register-icons/notify-heart-dynamic-color.png";
 
-  ngOnInit() {}
+  constructor(
+    private formBuilder: UntypedFormBuilder
+  ) { }
+
+  ngOnInit() {
+    this.registerForm = this.formBuilder.group({
+      firstname: ["", Validators.required]
+    })
+  }
+
+  onSubmit() {
+    console.log("good")
+  }
 
 }

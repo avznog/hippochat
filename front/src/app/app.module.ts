@@ -5,7 +5,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -24,9 +24,11 @@ import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
   declarations: [AppComponent, LoginComponent],
   imports: [
     BrowserModule,
+    ReactiveFormsModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     PagesModule,
+    FormsModule,
     ServiceWorkerModule.register('ngsw-worker.js',
       {
         enabled: !isDevMode(),
@@ -35,7 +37,6 @@ import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
         registrationStrategy: 'registerWhenStable:30000'
       }),
     HttpClientModule,
-    ReactiveFormsModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
