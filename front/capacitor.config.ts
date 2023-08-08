@@ -6,7 +6,9 @@ const config: CapacitorConfig = {
   appName: 'front',
   webDir: 'www',
   server: {
-    androidScheme: 'https'
+    androidScheme: 'https',
+    url: "http://192.168.1.190:8100",
+    cleartext: true
   },
   plugins: {
     Keyboard: {
