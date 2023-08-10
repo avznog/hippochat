@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, lastValueFrom } from 'rxjs';
-import { Mate } from '../models/mate.model';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import jwtDecode from 'jwt-decode';
-import AccessToken from './models/access-token.model';
+import { BehaviorSubject, Observable, lastValueFrom } from 'rxjs';
+import { Mate } from '../models/mate.model';
 import LoginResponseDTO from './dto/login-response.dto';
+import AccessToken from './models/access-token.model';
 
 @Injectable({
   providedIn: 'root'

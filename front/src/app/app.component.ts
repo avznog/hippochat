@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { HeaderService } from './services/header.service';
 import { Router } from '@angular/router';
+import { LoginComponent } from './auth/login/login.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { HeaderService } from './services/header.service';
 
 @Component({
   selector: 'app-root',
@@ -8,8 +10,10 @@ import { Router } from '@angular/router';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+  loginComponent = LoginComponent;
+  navbarComponent = NavbarComponent;
   constructor(
     public readonly headerService: HeaderService,
-    public readonly router: Router
-  ) {}
+    public readonly router: Router,
+    ) {}
 }

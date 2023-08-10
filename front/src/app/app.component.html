@@ -1,13 +1,7 @@
 <ion-app>
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>{{headerService.getHeaderTitle()}}</ion-title>
-      <ion-buttons *ngIf="!router.url.includes('login')" text-center>
-        <ion-back-button defaultHref="login" mode="ios"></ion-back-button>
-      </ion-buttons>
-    </ion-toolbar>
-  </ion-header>
   <ion-content class="ion-padding">
-    <ion-router-outlet></ion-router-outlet>
+    <ion-nav>
+      <ion-router-outlet></ion-router-outlet>
+    </ion-nav>
   </ion-content>
 </ion-app>

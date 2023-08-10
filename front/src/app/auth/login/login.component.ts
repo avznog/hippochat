@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Keyboard } from '@capacitor/keyboard';
-import { AuthService } from '../auth.service';
-import { Toast } from '@capacitor/toast';
 import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics';
+import { Keyboard } from '@capacitor/keyboard';
+import { Toast } from '@capacitor/toast';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -83,6 +83,6 @@ export class LoginComponent implements OnInit {
     Haptics.impact({
       style: ImpactStyle.Medium
     });
-    this.router.navigate(["register"]);
+    this.router.navigate(["/register"])
   }
 }
