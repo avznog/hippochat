@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Toast } from '@capacitor/toast';
 import jwtDecode from 'jwt-decode';
 import { BehaviorSubject, Observable, lastValueFrom } from 'rxjs';
+import { RegisterDto } from '../dto/register/register.dto';
 import { Mate } from '../models/mate.model';
 import LoginResponseDTO from './dto/login-response.dto';
 import AccessToken from './models/access-token.model';
@@ -20,7 +22,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router
-  ) { 
+  ) {
     this.currentUserSubject = new BehaviorSubject<Mate>(JSON.parse(localStorage.getItem("currentUser")!));
     this.loggedInSubject = new BehaviorSubject(localStorage.getItem("loggedIn") === "true");
     this.currentUser = this.currentUserSubject.asObservable();
@@ -38,7 +40,7 @@ export class AuthService {
     this.router.navigate(["login"]);
   }
 
-  public async isLoggedIn() { 
+  public async isLoggedIn() {
     try {
       return !!(await this.getAccessToken())?.length
     } catch (error) {
@@ -46,8 +48,8 @@ export class AuthService {
     }
   }
 
-  public async getAccessToken() : Promise<string | undefined> {
-    if(!this.loggedInSubject.value)
+  public async getAccessToken(): Promise<string | undefined> {
+    if (!this.loggedInSubject.value)
       return undefined
 
     let previousWaiter = this.tokenWaiter;
@@ -55,7 +57,7 @@ export class AuthService {
     return this.tokenWaiter = (async () => {
       await previousWaiter;
       try {
-        if(!this.accessToken?.length || jwtDecode<AccessToken>(this.accessToken).exp - Date.now()/1000 < 35)
+        if (!this.accessToken?.length || jwtDecode<AccessToken>(this.accessToken).exp - Date.now() / 1000 < 35)
           await this.refresh();
 
         return this.accessToken!;
@@ -75,7 +77,7 @@ export class AuthService {
     this.loggedInSubject.next(true);
     localStorage.setItem("loggedIn", "true");
 
-    if(!this.currentUserSubject.value)
+    if (!this.currentUserSubject.value)
       await this.refreshUser();
   }
 
@@ -85,9 +87,26 @@ export class AuthService {
   }
 
   async login(username: string, password: string) {
-    const response = await lastValueFrom(this.http.post<LoginResponseDTO>("auth/login", {username, password}));
+    const response = await lastValueFrom(this.http.post<LoginResponseDTO>("auth/login", { username, password }));
     this.accessToken = response.accessToken;
     await this.setLoggedIn();
     return this.accessToken;
+  }
+
+  async register(registerDto: RegisterDto) {
+      await lastValueFrom(this.http.post("auth/register", registerDto))
+      .then(mate => {
+        this.router.navigate(["/login"]);
+        Toast.show({
+          text: "Utilisateur inscrit",
+          duration: "long"
+        })
+      })
+      .catch(error => {
+        Toast.show({
+          text: error as string,
+          duration: "long",
+        })
+      })      
   }
 }

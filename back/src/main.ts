@@ -7,7 +7,7 @@ async function bootstrap() {
 
   app.enableCors({
     credentials: true,
-    origin: [process.env.BASE_URL, "http://localhost:8100"]
+    origin: [process.env.BASE_URL, "http://localhost:8100", "http://192.168.1.15:8100"]
     })
 
   // ? swagger configuration

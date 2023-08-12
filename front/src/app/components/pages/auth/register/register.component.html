@@ -8,29 +8,30 @@
 </ion-header>
 <ion-content>
   <div class="">
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="registerForm">
       <ion-list lines="full">
         <ion-item>
-          <ion-input label="Prénom" type="text" labelPlacement="floating"></ion-input>
+          <ion-input label="Prénom" type="text" labelPlacement="floating" formControlName="firstname" [clearInput]="true"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input label="Nom" type="text" labelPlacement="floating"></ion-input>
+          <ion-input label="Nom" type="text" labelPlacement="floating" formControlName="lastname" [clearInput]="true"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input label="Email" type="email" labelPlacement="floating"></ion-input>
+          <ion-input label="Email" type="email" labelPlacement="floating" formControlName="email" [clearInput]="true" [errorText]="registerForm.value['email'] && 'Email non conforme'"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input label="Age" type="number" labelPlacement="floating"></ion-input>
+          <ion-input label="Age" type="number" labelPlacement="floating" formControlName="age" [clearInput]="true"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input label="Mot de passe" type="password" labelPlacement="floating"></ion-input>
+          <ion-input label="Mot de passe" type="password" labelPlacement="floating" formControlName="password"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input label="Répéter le mot de passe" type="password" labelPlacement="floating"></ion-input>
+          <ion-input label="Répéter le mot de passe" type="password" labelPlacement="floating" formControlName="confirmPassword" [errorText]="(registerForm.value['password'] !== '' && registerForm.value['confirmPassword'] !== '' && registerForm.value['password'] !== registerForm.value['confirmPassword'] ) ? 'Les mots de passe ne correspondent pas' : ''"></ion-input>
         </ion-item>
+       
       </ion-list>
       <div class="flex justify-center w-full pt-10">
-        <ion-button type="submit">Je crée mon compte</ion-button>
+        <ion-button (click)="onSubmit()" [disabled]="false">Je crée mon compte</ion-button>
       </div>
     </form>
     <div class="flex justify-center w-full">
