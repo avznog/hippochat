@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
@@ -33,9 +34,13 @@ export class RegisterComponent  implements OnInit {
   }
 
   async onSubmit() {
+    Haptics.impact({
+      style: ImpactStyle.Medium
+    });
+
     if(this.registerForm.invalid)
       return 
-    
+
     this.loading = true;
     await this.authService.register({
       email: this.registerForm.value["email"],

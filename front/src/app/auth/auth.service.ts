@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Haptics, NotificationType } from '@capacitor/haptics';
 import { Toast } from '@capacitor/toast';
 import jwtDecode from 'jwt-decode';
 import { BehaviorSubject, Observable, lastValueFrom } from 'rxjs';
@@ -101,12 +102,18 @@ export class AuthService {
           text: "Utilisateur inscrit",
           duration: "long"
         })
+        Haptics.notification({
+          type: NotificationType.Success
+        });
       })
       .catch(error => {
         Toast.show({
           text: error as string,
           duration: "long",
-        })
+        });
+        Haptics.notification({
+          type: NotificationType.Error
+        });
       })      
   }
 }
