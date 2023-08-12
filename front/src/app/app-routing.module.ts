@@ -2,15 +2,22 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { LoginGuard } from './guards/login.guard';
+import { AuthGuard } from './guards/auth.guard';
 import { LoggedGuard } from './guards/logged.guard';
+import { RegisterComponent } from './components/pages/auth/register/register.component';
 
 const routes: Routes = [
   {
     path: "login",
     component: LoginComponent,
     pathMatch: "full",
-    canActivate: [LoginGuard]
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "register",
+    component: RegisterComponent,
+    pathMatch: "full",
+    canActivate: [AuthGuard]
   },
   {
     path: 'home',

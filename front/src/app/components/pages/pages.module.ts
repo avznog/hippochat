@@ -4,6 +4,7 @@ import { CalendarsPageModule } from './calendars/calendars.module';
 import { MyMatePageModule } from './my-mate/my-mate.module';
 import { MyProfilePageModule } from './my-profile/my-profile.module';
 import { ConversationPageModule } from './conversation/conversation.module';
+import { RegisterModule } from './auth/register/register.module';
 
 
 
@@ -14,7 +15,8 @@ import { ConversationPageModule } from './conversation/conversation.module';
     CalendarsPageModule,
     MyMatePageModule,
     MyProfilePageModule,
-    ConversationPageModule
+    ConversationPageModule,
+    RegisterModule
   ]
 })
 export class PagesModule { }

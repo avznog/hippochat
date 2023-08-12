@@ -1,16 +1,16 @@
-// logged-in.guard.ts
+// auth.guard.ts
 
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 
 @Injectable()
-export class LoggedGuard implements CanActivate {
+export class AuthGuard implements CanActivate {
   constructor(private router: Router) {}
 
   canActivate(): boolean {
-    if (localStorage.getItem('loggedIn') !== 'true') {
-      // User is not logged in, redirect to login page
-      this.router.navigate(['/login']);
+    if (localStorage.getItem('loggedIn') === 'true') {
+      // User is logged in, redirect to home page
+      this.router.navigate(['/home']);
       return false;
     }
     return true;

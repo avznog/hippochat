@@ -1,0 +1,50 @@
+<!-- ? header -->
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Je m'inscris</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="">
+    <!-- ? form -->
+    <form [formGroup]="registerForm">
+      <ion-list lines="full">
+        <ion-item>
+          <ion-input label="Prénom" type="text" labelPlacement="floating" formControlName="firstname" [clearInput]="true"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Nom" type="text" labelPlacement="floating" formControlName="lastname" [clearInput]="true"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Email" type="email" labelPlacement="floating" formControlName="email" [clearInput]="true" [errorText]="registerForm.value['email'] && 'Email non conforme'"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Age" type="number" labelPlacement="floating" formControlName="age" [clearInput]="true"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Mot de passe" type="password" labelPlacement="floating" formControlName="password"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Répéter le mot de passe" type="password" labelPlacement="floating" formControlName="confirmPassword" [errorText]="(registerForm.value['password'] !== '' && registerForm.value['confirmPassword'] !== '' && registerForm.value['password'] !== registerForm.value['confirmPassword'] ) ? 'Les mots de passe ne correspondent pas' : ''"></ion-input>
+        </ion-item>
+       
+      </ion-list>
+
+      <!-- ? buttons -->
+      <div class="flex justify-center w-full pt-10">
+        <ion-button (click)="onSubmit()" *ngIf="!loading" [disabled]="registerForm.invalid">Je crée mon compte</ion-button>
+        <ion-progress-bar *ngIf="loading" type="indeterminate" class="w-11/12"></ion-progress-bar>
+
+      </div>
+    </form>
+
+    <!-- ? image -->
+    <div class="flex justify-center w-full">
+      <ion-img [src]="notifyImg" class="w-60"></ion-img>
+    </div>
+  </div>
+</ion-content>

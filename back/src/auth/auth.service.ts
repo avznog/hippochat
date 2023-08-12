@@ -82,7 +82,7 @@ export class AuthService {
     } catch (error) {
       switch (error) {
         case 0:
-          throw new HttpException("User already exists", HttpStatus.UNAUTHORIZED);
+          throw new HttpException("User already exists", HttpStatus.CONFLICT);
         
         case 1:
           throw new HttpException("Empty password or email", HttpStatus.BAD_REQUEST);
