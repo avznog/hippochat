@@ -24,6 +24,7 @@ import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
   declarations: [AppComponent, LoginComponent],
   imports: [
     BrowserModule,
+    HttpClientModule,
     ReactiveFormsModule,
     IonicModule.forRoot(),
     AppRoutingModule,
@@ -36,19 +37,21 @@ import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
         // or after 30 seconds (whichever comes first).
         registrationStrategy: 'registerWhenStable:30000'
       }),
-    HttpClientModule,
   ],
+  bootstrap: [AppComponent],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+
     { provide: "BASE_API_URL", useValue: environment.apiURL },
     { provide: "DEFAULT_TIMEOUT", useValue: 30_000 },
+
     { provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: CredentialsInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: TimeoutInterceptor, multi: true },
     AuthGuard, LoggedGuard
   ],
-  bootstrap: [AppComponent],
 })
 export class AppModule { }

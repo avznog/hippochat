@@ -6,18 +6,19 @@ import { Observable, catchError, throwError } from "rxjs";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService, private router: Router) {}
-  
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-      return next.handle(req).pipe(catchError(err => {
-        if (err.status === 401) {
-          this.authService.logout();
-          this.router.navigate(["login"]);
-          console.log("not authorized")
-        }
 
-        const error = err.error.message || err.statusText;
-        return throwError(() => error);
-      }))
+  constructor(private authService: AuthService, private router: Router) { }
+
+  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    return next.handle(request).pipe(catchError(err => {
+      if (err.status === 401) {
+        this.authService.logout();
+        this.router.navigate(["login"]);
+        console.log("not authorized")
+      }
+
+      const error = err.error.message || err.statusText;
+      return throwError(error);
+    }))
   }
 }
