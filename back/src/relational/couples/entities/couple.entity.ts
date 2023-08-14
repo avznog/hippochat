@@ -9,6 +9,6 @@ export class Couple {
   @Column({nullable: true})
   name: string;
 
-  @OneToMany(() => Mate, mate => mate.couple)
+  @OneToMany(() => Mate, mate => mate.couple, { nullable: true })
   mates: Mate[];
 }

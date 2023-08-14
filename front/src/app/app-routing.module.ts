@@ -5,6 +5,9 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { AuthGuard } from './guards/auth.guard';
 import { LoggedGuard } from './guards/logged.guard';
 import { RegisterComponent } from './components/pages/auth/register/register.component';
+import { NoMateGuard } from './guards/no-mate.guard';
+import { NoMateComponent } from './components/pages/auth/no-mate/no-mate.component';
+import { HasMateGuard } from './guards/has-mate.guard';
 
 const routes: Routes = [
   {
@@ -22,7 +25,7 @@ const routes: Routes = [
   {
     path: 'home',
     component: NavbarComponent,
-    canActivate: [LoggedGuard],
+    canActivate: [LoggedGuard, NoMateGuard],
     children: [
       {
         path: '',
@@ -32,25 +35,30 @@ const routes: Routes = [
       {
         path: 'conversation',
         loadChildren: () => import('./components/pages/conversation/conversation.module').then( m => m.ConversationPageModule),
-        canActivate: [LoggedGuard]
+        canActivate: [LoggedGuard, NoMateGuard]
       },
       {
         path: 'calendars',
         pathMatch: "full",
         loadChildren: () => import('./components/pages/calendars/calendars.module').then( m => m.CalendarsPageModule),
-        canActivate: [LoggedGuard]
+        canActivate: [LoggedGuard, NoMateGuard]
       },
       {
         path: 'my-mate',
         loadChildren: () => import('./components/pages/my-mate/my-mate.module').then( m => m.MyMatePageModule),
-        canActivate: [LoggedGuard]
+        canActivate: [LoggedGuard, NoMateGuard]
       },
       {
         path: 'my-profile',
         loadChildren: () => import('./components/pages/my-profile/my-profile.module').then( m => m.MyProfilePageModule),
-        canActivate: [LoggedGuard]
+        canActivate: [LoggedGuard, NoMateGuard]
       }
     ]
+  },
+  {
+    path: "no-mate",
+    component: NoMateComponent,
+    canActivate: [LoggedGuard, HasMateGuard]
   },
   {
     path: "",

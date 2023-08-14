@@ -24,13 +24,13 @@ export class MatesService {
     }
   }
 
-  amInCouple(me: Mate) {
-    const mate = this.mateRepository.findOne({
+  async amInCouple(me: Mate) {
+    const mate = await this.mateRepository.findOne({
       where: {
         id: me.id
       },
       relations: ["couple"]
     });
-    return mate
+    return mate.couple ? true : false
   }
 }

@@ -22,7 +22,7 @@ export class Mate {
   @Column({nullable: false})
   age: number;
 
-  @ManyToOne(() => Couple, couple => couple.mates)
+  @ManyToOne(() => Couple, couple => couple.mates, { nullable: true })
   couple: Couple;
 
 }

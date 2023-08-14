@@ -12,6 +12,6 @@ export class MatesService {
   ) { }
 
   async amInCouple() {
-    return this.http.get<boolean>("mates/am-in-couple").subscribe(d => console.log(d))
+    return await lastValueFrom(this.http.get<boolean>("mates/am-in-couple"))
   }
 }

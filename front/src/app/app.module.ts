@@ -19,6 +19,8 @@ import { CredentialsInterceptor } from './interceptors/credentials.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { JwtInterceptorInterceptor } from './interceptors/jwt-interceptor.interceptor';
 import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
+import { NoMateGuard } from './guards/no-mate.guard';
+import { HasMateGuard } from './guards/has-mate.guard';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent],
@@ -51,7 +53,7 @@ import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
     { provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: CredentialsInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: TimeoutInterceptor, multi: true },
-     AuthGuard, LoggedGuard
+     AuthGuard, LoggedGuard, NoMateGuard, HasMateGuard
   ],
 })
 export class AppModule { }
