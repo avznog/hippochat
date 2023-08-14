@@ -23,4 +23,14 @@ export class MatesService {
       throw new HttpException("Can't get payload", HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+  amInCouple(me: Mate) {
+    const mate = this.mateRepository.findOne({
+      where: {
+        id: me.id
+      },
+      relations: ["couple"]
+    });
+    return mate
+  }
 }

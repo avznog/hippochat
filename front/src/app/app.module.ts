@@ -51,7 +51,7 @@ import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
     { provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: CredentialsInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: TimeoutInterceptor, multi: true },
-    AuthGuard, LoggedGuard
+     AuthGuard, LoggedGuard
   ],
 })
 export class AppModule { }

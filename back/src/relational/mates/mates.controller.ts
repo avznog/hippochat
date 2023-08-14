@@ -15,4 +15,9 @@ export class MatesController {
   me(@CurrentUser() user: Mate) : Mate {
     return user;
   }
+
+  @Get("am-in-couple")
+  amInCouple(@CurrentUser() me: Mate) {
+    return this.matesService.amInCouple(me);
+  }
 }
