@@ -19,11 +19,14 @@ import { CredentialsInterceptor } from './interceptors/credentials.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { JwtInterceptorInterceptor } from './interceptors/jwt-interceptor.interceptor';
 import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
+import { NoMateGuard } from './guards/no-mate.guard';
+import { HasMateGuard } from './guards/has-mate.guard';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent],
   imports: [
     BrowserModule,
+    HttpClientModule,
     ReactiveFormsModule,
     IonicModule.forRoot(),
     AppRoutingModule,
@@ -36,19 +39,21 @@ import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
         // or after 30 seconds (whichever comes first).
         registrationStrategy: 'registerWhenStable:30000'
       }),
-    HttpClientModule,
-  ],
-  providers: [
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: "BASE_API_URL", useValue: environment.apiURL },
-    { provide: "DEFAULT_TIMEOUT", useValue: 30_000 },
-    { provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: CredentialsInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: TimeoutInterceptor, multi: true },
-    AuthGuard, LoggedGuard
   ],
   bootstrap: [AppComponent],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+
+    { provide: "BASE_API_URL", useValue: environment.apiURL },
+    { provide: "DEFAULT_TIMEOUT", useValue: 30_000 },
+
+    { provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: CredentialsInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: TimeoutInterceptor, multi: true },
+     AuthGuard, LoggedGuard, NoMateGuard, HasMateGuard
+  ],
 })
 export class AppModule { }
