@@ -7,6 +7,8 @@ import * as bcrypt from 'bcrypt';
 import TokenPayload from './interfaces/tokenPayload.interface';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterDto } from './dto/register.dto';
+import { PublicProfile } from 'src/relational/public-profile/entities/public-profile.entity';
+import { Sex } from 'src/constants/sex.type';
 
 @Injectable()
 export class AuthService {
@@ -14,6 +16,9 @@ export class AuthService {
   constructor(
     @InjectRepository(Mate)
     private readonly mateRepository: Repository<Mate>,
+
+    @InjectRepository(PublicProfile)
+    private readonly publicProfileRepository: Repository<PublicProfile>,
 
     private readonly jwtService: JwtService
   ) {}
@@ -62,7 +67,7 @@ export class AuthService {
     }))
   }
 
-  async register(registerDto: RegisterDto) : Promise<boolean | Mate> {
+  async register(registerDto: RegisterDto, gender: Sex) : Promise<boolean | Mate> {
     try {
       if(await this.mateRepository.findOne({where: { email: registerDto.email }}))
         throw 0
@@ -73,11 +78,17 @@ export class AuthService {
       const mate = await this.mateRepository.save({
         ...registerDto,
         password: bcrypt.hashSync(registerDto.password, await bcrypt.genSalt())
-      })
-
+      });
+      
       if(!mate) 
         throw 2
-      
+    
+      mate.publicProfile = await this.publicProfileRepository.save({
+        sex: gender
+      })
+
+      await this.mateRepository.update(mate.id, mate)
+
       return mate;
     } catch (error) {
       switch (error) {

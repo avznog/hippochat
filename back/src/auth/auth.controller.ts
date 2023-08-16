@@ -1,10 +1,11 @@
-import { Body, ClassSerializerInterceptor, Controller, Get, HttpCode, HttpException, HttpStatus, Post, Req, Res, UnauthorizedException, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Get, HttpCode, HttpException, HttpStatus, Post, Query, Req, Res, UnauthorizedException, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import JwtRefreshGuard from './guards/jwt-refresh.guard';
+import { Sex } from 'src/constants/sex.type';
 
 @Controller('auth')
 @ApiTags("auth")
@@ -33,8 +34,8 @@ export class AuthController {
 
   @HttpCode(200)
   @Post("register")
-  async register(@Body() registerDto: RegisterDto ) {
-    return await this.authService.register(registerDto);
+  async register(@Body() registerDto: RegisterDto, @Query("gender") gender: Sex) {
+    return await this.authService.register(registerDto, gender);
   }
   
   @HttpCode(200)

@@ -31,12 +31,18 @@
         <ion-item>
           <ion-input label="Répéter le mot de passe" type="password" labelPlacement="floating" formControlName="confirmPassword" [errorText]="(registerForm.value['password'] !== '' && registerForm.value['confirmPassword'] !== '' && registerForm.value['password'] !== registerForm.value['confirmPassword'] ) ? 'Les mots de passe ne correspondent pas' : ''"></ion-input>
         </ion-item>
+        <ion-item>
+          <ion-select interface="popover" placeholder="Sexe" (ionChange)="onChangeGender($event )">
+            <ion-select-option [value]="1">Femme</ion-select-option>
+            <ion-select-option [value]="0">Homme</ion-select-option>
+          </ion-select>
+        </ion-item>
        
       </ion-list>
 
       <!-- ? buttons -->
       <div class="flex justify-center w-full pt-10">
-        <ion-button (click)="onSubmit()" *ngIf="!loading" [disabled]="registerForm.invalid">Je crée mon compte</ion-button>
+        <ion-button (click)="onSubmit()" *ngIf="!loading" [disabled]="registerForm.invalid || gender === null">Je crée mon compte</ion-button>
         <ion-progress-bar *ngIf="loading" type="indeterminate" class="w-11/12"></ion-progress-bar>
 
       </div>

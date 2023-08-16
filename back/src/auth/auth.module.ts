@@ -9,10 +9,11 @@ import { LocalStrategy } from './local.strategy';
 import { JwtStrategy } from './jwt.strategy';
 import { JwtRefreshTokenStrategy } from './jwt-refresh-token.strategy';
 import { MatesService } from 'src/relational/mates/mates.service';
+import { PublicProfile } from 'src/relational/public-profile/entities/public-profile.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Mate]),
+    TypeOrmModule.forFeature([Mate, PublicProfile]),
     PassportModule,
     JwtModule.registerAsync({
       useFactory: async () => ({

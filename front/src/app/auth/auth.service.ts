@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Haptics, NotificationType } from '@capacitor/haptics';
@@ -9,6 +9,7 @@ import { RegisterDto } from '../dto/register/register.dto';
 import { Mate } from '../models/mate.model';
 import LoginResponseDTO from './dto/login-response.dto';
 import AccessToken from './models/access-token.model';
+import { Sex } from '../constants/sex.type';
 
 @Injectable({
   providedIn: 'root'
@@ -94,26 +95,27 @@ export class AuthService {
     return this.accessToken;
   }
 
-  async register(registerDto: RegisterDto) {
-      await lastValueFrom(this.http.post("auth/register", registerDto))
-      .then(mate => {
-        this.router.navigate(["/login"]);
-        Toast.show({
-          text: "Utilisateur inscrit",
-          duration: "long"
-        })
-        Haptics.notification({
-          type: NotificationType.Success
-        });
+  async register(registerDto: RegisterDto, gender: Sex) {
+    let queryParams = new HttpParams().append("gender", gender);
+    await lastValueFrom(this.http.post("auth/register", registerDto, { params: queryParams }))
+    .then(mate => {
+      this.router.navigate(["/login"]);
+      Toast.show({
+        text: "Utilisateur inscrit",
+        duration: "long"
       })
-      .catch(error => {
-        Toast.show({
-          text: error as string,
-          duration: "long",
-        });
-        Haptics.notification({
-          type: NotificationType.Error
-        });
-      })      
+      Haptics.notification({
+        type: NotificationType.Success
+      });
+    })
+    .catch(error => {
+      Toast.show({
+        text: error as string,
+        duration: "long",
+      });
+      Haptics.notification({
+        type: NotificationType.Error
+      });
+    })      
   }
 }

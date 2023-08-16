@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import { AuthService } from 'src/app/auth/auth.service';
+import { Sex } from 'src/app/constants/sex.type';
 
 @Component({
   selector: 'app-register',
@@ -13,6 +14,7 @@ export class RegisterComponent  implements OnInit {
   registerForm!: UntypedFormGroup;
   notifyImg = "../../../../../assets/register-icons/notify-heart-dynamic-color.png";
   loading: boolean = false;
+  gender: Sex | null = null;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -26,7 +28,7 @@ export class RegisterComponent  implements OnInit {
       email: ["", [Validators.required, Validators.email]],
       age: [0, [Validators.required, Validators.min(0)]],
       password: ["", [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ["", [Validators.required, Validators.minLength(8)]]
+      confirmPassword: ["", [Validators.required, Validators.minLength(8)]],
     },
     {
       validators: this.ConfirmedValidator("password", "confirmPassword")
@@ -47,8 +49,9 @@ export class RegisterComponent  implements OnInit {
       firstname: this.registerForm.value["firstname"],
       lastname: this.registerForm.value["lastname"],
       age: this.registerForm.value["age"],
-      password: this.registerForm.value["password"],
-    });
+      password: this.registerForm.value["password"]
+    },
+    this.gender!);
     this.loading = false;
   }
 
@@ -80,6 +83,11 @@ export class RegisterComponent  implements OnInit {
         }
 
       }
+    }
+
+    onChangeGender(e: any) {
+      console.log(e.detail.value)
+      this.gender = e.detail.value;
     }
 
 }
