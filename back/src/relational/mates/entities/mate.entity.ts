@@ -1,5 +1,6 @@
 import { Couple } from "src/relational/couples/entities/couple.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { PublicProfile } from "src/relational/public-profile/entities/public-profile.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Mate {
@@ -25,4 +26,7 @@ export class Mate {
   @ManyToOne(() => Couple, couple => couple.mates, { nullable: true })
   couple: Couple;
 
+  @OneToOne(() => PublicProfile)
+  @JoinColumn()
+  publicProfile: PublicProfile;
 }

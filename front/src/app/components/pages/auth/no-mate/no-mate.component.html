@@ -1,3 +1,43 @@
-<p>
-  no-mate works!
-</p>
+<!-- ? header -->
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Je choisis mon mate</ion-title>
+    <ion-progress-bar class="transition-all ease-in-out" *ngIf="loading" type="indeterminate"></ion-progress-bar>
+  </ion-toolbar>
+</ion-header>
+
+<!-- ? page content -->
+<ion-content>
+  <ion-segment [(ngModel)]="gender" (ngModelChange)="loadSingleMates(true)">
+    <ion-segment-button value="male">
+      <ion-label>Homme</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="female">
+      <ion-label>Femme</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-searchbar [debounce]="1000" [animated]="true" [autocomplete]="'name'" [(ngModel)]="name"
+    [enterkeyhint]="'search'" inputmode="text" placeholder="Ex: Benjamin Gonzva"
+    (ionInput)="loadSingleMates(true)" (input)="loading = true"></ion-searchbar>
+
+  <ion-card class="transition-all ease-in" *ngIf="!loading && matesService.singleMates && matesService.singleMates.length <= 0">
+    <ion-card-header>
+      <ion-card-title>Aucun résultat</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Recherchez un autre nom pour obtenir d'autres résultats
+    </ion-card-content>
+  </ion-card>
+  <ion-list class="transition-all ease-in-out" *ngIf="!loading && matesService.singleMates && matesService.singleMates.length > 0">
+    <ion-item button *ngFor="let singleMate of matesService.singleMates">
+      <ion-avatar slot="start">
+        <img src="../../../../../assets/login-icons/home-bodies.png" />
+      </ion-avatar>
+      <ion-label>{{singleMate.firstname}} {{singleMate.lastname}}</ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
