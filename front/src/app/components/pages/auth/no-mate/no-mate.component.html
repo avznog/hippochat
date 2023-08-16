@@ -30,7 +30,7 @@
     </ion-card-content>
   </ion-card>
   <ion-list class="transition-all ease-in-out" *ngIf="!loading && matesService.singleMates && matesService.singleMates.length > 0">
-    <ion-item button *ngFor="let singleMate of matesService.singleMates">
+    <ion-item [disabled]="singleMate.id === authService.currentUserSubject.getValue().id" button *ngFor="let singleMate of matesService.singleMates" (click)="onSelectItem(singleMate)">
       <ion-avatar slot="start">
         <img src="../../../../../assets/login-icons/home-bodies.png" />
       </ion-avatar>
