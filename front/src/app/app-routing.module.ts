@@ -44,8 +44,8 @@ const routes: Routes = [
         canActivate: [LoggedGuard, NoMateGuard]
       },
       {
-        path: 'my-mate',
-        loadChildren: () => import('./components/pages/my-mate/my-mate.module').then( m => m.MyMatePageModule),
+        path: 'my-couple',
+        loadChildren: () => import('./components/pages/my-couple/my-couple.module').then( m => m.MyCouplePageModule),
         canActivate: [LoggedGuard, NoMateGuard]
       },
       {
