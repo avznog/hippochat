@@ -1,13 +1,35 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>myCouple</ion-title>
+    <ion-title>Mon couple</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">myCouple</ion-title>
+      <ion-title size="large">Mon couple</ion-title>
     </ion-toolbar>
   </ion-header>
+  <ion-title class="w-full pt-5 text-center">
+    <span *ngIf="!coupleService.myCouple?.name || coupleService.myCouple?.name === ''" class="italic font-light">Ce couple n'a pas de surnom</span>
+    <span *ngIf="coupleService.myCouple?.name && coupleService.myCouple?.name !== ''">{{coupleService.myCouple?.name}}</span>
+  </ion-title>
 </ion-content>
+<ion-fab horizontal="end" vertical="bottom" slot="fixed">
+  <ion-fab-button>
+    <ion-icon name="pencil"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list [side]="'top'">
+    <ion-fab-button id="triggerAlert">
+      <ion-icon name="heart-half-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab-list>
+</ion-fab>
+<ion-alert
+  mode="ios"
+  [animated]="true"
+  [header]="'Donne un nouveau surnom à ton couple'"
+  [buttons]="alertButtons"
+  [inputs]="alertInputs"
+  trigger="triggerAlert"
+></ion-alert>

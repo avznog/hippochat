@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics';
 import { ActionSheetController, InfiniteScrollCustomEvent } from '@ionic/angular';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Sex } from 'src/app/constants/sex.type';
@@ -33,7 +34,22 @@ export class NoMateComponent  implements OnInit {
   async loadSingleMates(reset: boolean) {
     this.loading = true;
     await this.matesService.findAllSingle(this.gender, this.name, reset)
+    if(this.matesService.singleMates.length <= 0) {
+      Haptics.notification({
+        type: NotificationType.Error
+      })
+    } else {
+      Haptics.notification({
+        type: NotificationType.Success
+      })
+    }
     this.loading = false;
+  }
+
+  onChangeGender() {
+    Haptics.impact({
+      style: ImpactStyle.Light
+    })
   }
 
   async onIonInfinite(e: any) {
@@ -45,6 +61,9 @@ export class NoMateComponent  implements OnInit {
   }
 
   async onSelectItem(mate: Mate) {
+    Haptics.impact({
+      style: ImpactStyle.Medium
+    });
     const actionSheet = await this.actionSheetController.create({
       animated: true,
       backdropDismiss: true,
@@ -55,12 +74,18 @@ export class NoMateComponent  implements OnInit {
         {
           text: 'Oui',
           handler: () => {
+            Haptics.impact({
+              style: ImpactStyle.Light
+            });
             this.couplesService.create({
               matesIds: [this.authService.currentUserSubject.getValue().id, mate.id]
             }).then(() => {
               this.authService.refreshUser();
+              Haptics.notification({
+                type: NotificationType.Success
+              })
               this.router.navigate(["/home/conversation"])
-            })
+            });
           }
         },
         {
@@ -68,6 +93,11 @@ export class NoMateComponent  implements OnInit {
           role: 'destructive',
           data: {
             action: 'cancel'
+          },
+          handler: () => {
+            Haptics.notification({
+              type: NotificationType.Error
+            })
           }
         }
       ]

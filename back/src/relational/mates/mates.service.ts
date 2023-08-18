@@ -15,6 +15,7 @@ export class MatesService {
   async findByPayload(payload: TokenPayload) : Promise<Mate> {
     try {
       return await this.mateRepository.findOne({
+        relations: ["couple"],
         where: {
           email: payload.username
         }
@@ -48,4 +49,5 @@ export class MatesService {
       }
     })
   }
+
 }

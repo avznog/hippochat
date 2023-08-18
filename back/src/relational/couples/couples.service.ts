@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Couple } from './entities/couple.entity';
 import { Repository } from 'typeorm';
 import { Mate } from '../mates/entities/mate.entity';
+import { UpdateCoupleDto } from './dto/update-couple.dto';
 
 @Injectable()
 export class CouplesService {
@@ -21,6 +22,23 @@ export class CouplesService {
       mates: [await this.mateRepository.findOne({ where: { id: createCoupleDto.matesIds[0] } }), await this.mateRepository.findOne({ where: { id: createCoupleDto.matesIds[1] } })],
       name: createCoupleDto.name ?? null
     })
+  }
+
+  async getMyCouple(mate: Mate) : Promise<Couple> {
+    return await this.coupleRepository.findOne({
+      relations: ["mates"],
+      where: {
+        id: mate.couple.id
+      }
+    })
+  }
+
+  async updateMyCouple(mate: Mate, updateCoupleDto: UpdateCoupleDto) : Promise<Couple> {
+    await this.coupleRepository.update(mate.couple.id, updateCoupleDto)
+    return {
+      ...mate.couple, 
+      ...updateCoupleDto
+    }
   }
 
 }

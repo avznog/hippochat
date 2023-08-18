@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertButton, AlertInput } from '@ionic/angular';
+import { CouplesService } from 'src/app/services/couples/couples.service';
 
 @Component({
   selector: 'app-my-couple',
@@ -7,9 +9,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyCouplePage implements OnInit {
 
-  constructor() { }
+  alertButtons: AlertButton[] = [
+    {
+      text: "Annuler",
+      role: "destructive"
+    },
+    {
+      text: "Modifier",
+      role: "confirm",
+      handler: (answer) => {
+        this.coupleService.updateMyCouple({
+          name: answer.name
+        })
+      }
+    }
+  ]
+  alertInputs: AlertInput[] = [
+    {
+      type: "text",
+      name: "name"
+    }
+  ]
+  constructor(
+    public readonly coupleService: CouplesService,
+  ) { }
 
   ngOnInit() {
+    this.coupleService.getMyCouple();
   }
-
 }
