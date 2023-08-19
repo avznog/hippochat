@@ -10,26 +10,50 @@
       <ion-title size="large">Mon couple</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-title class="w-full pt-5 text-center">
+  <ion-title class="w-full pt-5 pb-5 text-center">
     <span *ngIf="!coupleService.myCouple?.name || coupleService.myCouple?.name === ''" class="italic font-light">Ce couple n'a pas de surnom</span>
     <span *ngIf="coupleService.myCouple?.name && coupleService.myCouple?.name !== ''">{{coupleService.myCouple?.name}}</span>
   </ion-title>
+  <div class="flex justify-center w-full">
+      <div class="relative w-40 h-40">
+        <img class="object-cover w-full h-full border rounded-full shadow-md border-cyan-200 shadow-cyan-100" src="../../../../assets/test-icons/benji.png"/>
+        <div class="absolute top-0 left-0 bg-white border-2 border-white rounded-full">
+          <ion-label class="text-5xl">{{publicProfileService.myPublicProfile?.profileEmoji}}</ion-label>
+        </div>
+      </div>
+      <div class="relative w-40 h-40">
+        <img class="object-cover w-40 h-40 border rounded-full shadow-md border-cyan-200 shadow-cyan-100" src="../../../../assets/test-icons/celeste.png"/>
+      <div class="absolute top-0 right-0 bg-white border-2 border-white rounded-full">
+        <ion-label class="text-5xl">{{publicProfileService.myMatePublicProfile?.profileEmoji}}</ion-label>
+      </div>
+      </div>
+  </div>
 </ion-content>
 <ion-fab horizontal="end" vertical="bottom" slot="fixed">
   <ion-fab-button>
     <ion-icon name="pencil"></ion-icon>
   </ion-fab-button>
   <ion-fab-list [side]="'top'">
-    <ion-fab-button id="triggerAlert">
+    <ion-fab-button id="triggerEmojiAlert">
+      <ion-icon name="bonfire-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button id="triggerNicknameAlert">
       <ion-icon name="heart-half-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab-list>
 </ion-fab>
 <ion-alert
-  mode="ios"
   [animated]="true"
   [header]="'Donne un nouveau surnom à ton couple'"
-  [buttons]="alertButtons"
-  [inputs]="alertInputs"
-  trigger="triggerAlert"
+  [buttons]="nicknameAlertButtons"
+  [inputs]="nicknameAlertInputs"
+  trigger="triggerNicknameAlert"
 ></ion-alert>
+<ion-alert
+  [animated]="true"
+  header="Donne un nouvel émoji à ton profil"
+  [buttons]="emojiAlertButtons"
+  [inputs]="emojiAlertInputs"
+  trigger="triggerEmojiAlert"
+>
+</ion-alert>

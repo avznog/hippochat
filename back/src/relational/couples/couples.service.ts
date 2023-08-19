@@ -26,7 +26,7 @@ export class CouplesService {
 
   async getMyCouple(mate: Mate) : Promise<Couple> {
     return await this.coupleRepository.findOne({
-      relations: ["mates"],
+      relations: ["mates", "mates.publicProfile"],
       where: {
         id: mate.couple.id
       }
