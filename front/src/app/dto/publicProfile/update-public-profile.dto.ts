@@ -1,3 +1,5 @@
 export interface UpdatePublicProfileDto {
-  profileEmoji: string;
+  profileEmoji?: string;
+  lastBatteryPercentage?: string;
+  nickname?: string;
 }

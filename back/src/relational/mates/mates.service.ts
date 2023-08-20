@@ -15,7 +15,7 @@ export class MatesService {
   async findByPayload(payload: TokenPayload) : Promise<Mate> {
     try {
       return await this.mateRepository.findOne({
-        relations: ["couple", "publicProfile"],
+        relations: ["couple", "publicProfile", "publicProfile.sadness"],
         where: {
           email: payload.username
         }

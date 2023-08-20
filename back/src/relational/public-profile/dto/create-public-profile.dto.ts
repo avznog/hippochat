@@ -20,7 +20,7 @@ export class CreatePublicProfileDto {
   @ApiProperty({
     required: false
   })
-  lastBatteryPercentage: number;
+  lastBatteryPercentage: string;
 
   @ApiProperty({
     required: false

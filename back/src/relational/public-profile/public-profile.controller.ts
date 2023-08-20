@@ -10,9 +10,14 @@ import { PublicProfileService } from './public-profile.service';
 export class PublicProfileController {
   constructor(private readonly publicProfileService: PublicProfileService) {}
 
-  @Patch("update-my-public-profile")
+  @Patch("my")
   updateMyPublicProfile(@CurrentUser() mate: Mate, @Body() updatePublicProfileDto: UpdatePublicProfileDto) {
     return this.publicProfileService.updateMyPublicProfile(mate, updatePublicProfileDto);
+  }
+
+  @Patch("my-mate")
+  updateMyMatesPublicProfile(@CurrentUser() mate: Mate, @Body() updatePublicProfileDto: UpdatePublicProfileDto) {
+    return this.publicProfileService.updateMyMatesPublicProfile(mate, updatePublicProfileDto);
   }
 
   @Get("my")

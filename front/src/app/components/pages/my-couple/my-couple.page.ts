@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Device } from '@capacitor/device';
+import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics';
 import { Toast } from '@capacitor/toast';
 import { AlertButton, AlertInput } from '@ionic/angular';
 import { CouplesService } from 'src/app/services/couples/couples.service';
 import { PublicProfileService } from 'src/app/services/publicProfile/public-profile.service';
+import { SadnessService } from 'src/app/services/sadness/sadness.service';
 
 @Component({
   selector: 'app-my-couple',
@@ -10,11 +13,19 @@ import { PublicProfileService } from 'src/app/services/publicProfile/public-prof
   styleUrls: ['./my-couple.page.scss'],
 })
 export class MyCouplePage implements OnInit {
+  cancelHaptics = () => Haptics.notification({
+    type: NotificationType.Error
+  });
 
-  nicknameAlertButtons: AlertButton[] = [
+  successHaptics = () => Haptics.notification({
+    type: NotificationType.Success
+  })
+
+  coupleNicknameAlertButtons: AlertButton[] = [
     {
       text: "Annuler",
-      role: "destructive"
+      role: "destructive",
+      handler: () => this.cancelHaptics()
     },
     {
       text: "Modifier",
@@ -23,10 +34,11 @@ export class MyCouplePage implements OnInit {
         this.coupleService.updateMyCouple({
           name: answer.name
         })
+        this.successHaptics();
       }
     }
   ]
-  nicknameAlertInputs: AlertInput[] = [
+  coupleNicknameAlertInputs: AlertInput[] = [
     {
       type: "text",
       name: "name",
@@ -37,12 +49,14 @@ export class MyCouplePage implements OnInit {
   emojiAlertButtons: AlertButton[] = [
     {
       text: "Annuler",
-      role: "destructive"
+      role: "destructive",
+      handler: () => this.cancelHaptics()
+
     },
     {
       text: "Modifier",
       role: "confirm",
-      handler: (answer) => {
+      handler: async (answer) => {
         if(this.regexEmoji.exec(answer.profileEmoji)?.length === undefined || !this.regexEmoji.test(answer.profileEmoji)) {
           Toast.show({
             text: "Vous devez entrer un émoji valide",
@@ -50,9 +64,11 @@ export class MyCouplePage implements OnInit {
           });
         } else (
           this.publicProfileService.updateMyPublicProfile({
-            profileEmoji: answer.profileEmoji
+            profileEmoji: answer.profileEmoji,
+            lastBatteryPercentage: (await Device.getBatteryInfo()).batteryLevel?.toString()
           })
         )
+        this.successHaptics();
       }
     }
   ]
@@ -60,7 +76,32 @@ export class MyCouplePage implements OnInit {
     {
       name: "profileEmoji",
       type: "text",
-      placeholder: "😁",
+      placeholder: "Un émoji fou !",
+    }
+  ]
+
+  mateNicknameAlertButtons: AlertButton[] = [
+    {
+      text: "Annuler",
+      role: "destructive",
+      handler: () => this.cancelHaptics()
+    },
+    {
+      text: "Modifier",
+      role: "confirm",
+      handler: (answer) => {
+        this.publicProfileService.updateMyMatesPublicProfile({
+          nickname: answer.mateNickname
+        })
+        this.successHaptics();
+      }
+    }
+  ]
+  mateNicknameAlertInputs: AlertInput[] = [
+    {
+      type: "text",
+      name: "mateNickname",
+      placeholder: "Mon super bébé !"
     }
   ]
 
@@ -69,11 +110,23 @@ export class MyCouplePage implements OnInit {
   constructor(
     public readonly coupleService: CouplesService,
     public readonly publicProfileService: PublicProfileService,
+    private readonly sadnessService: SadnessService
   ) { }
 
   ngOnInit() {
     this.coupleService.getMyCouple();
     this.publicProfileService.getMyPublicProfile();
     this.publicProfileService.getMyMatesPublicProfile();
+    this.publicProfileService.updateMyBatteryPercentage();
+  }
+
+  onClickSadness() {
+    console.log("lkjh")
+    this.sadnessService.create({
+      date: new Date()
+    });
+    Haptics.impact({
+      style: ImpactStyle.Medium
+    })
   }
 }

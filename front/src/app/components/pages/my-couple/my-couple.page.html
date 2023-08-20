@@ -1,59 +1,113 @@
+<!-- ? header -->
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Mon couple</ion-title>
+    <ion-title>{{(coupleService.myCouple?.name && coupleService.myCouple?.name !== '') ? coupleService.myCouple!.name :
+      'Mon couple'}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
+<!-- ? full page -->
 <ion-content [fullscreen]="true">
+  <!-- ? header -->
   <ion-header collapse="condense">
+    <!-- ? couple nickname -->
     <ion-toolbar>
-      <ion-title size="large">Mon couple</ion-title>
+      <ion-title size="large">{{(coupleService.myCouple?.name && coupleService.myCouple?.name !== '') ?
+        coupleService.myCouple!.name : 'Mon couple'}}</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-title class="w-full pt-5 pb-5 text-center">
-    <span *ngIf="!coupleService.myCouple?.name || coupleService.myCouple?.name === ''" class="italic font-light">Ce couple n'a pas de surnom</span>
-    <span *ngIf="coupleService.myCouple?.name && coupleService.myCouple?.name !== ''">{{coupleService.myCouple?.name}}</span>
-  </ion-title>
-  <div class="flex justify-center w-full">
-      <div class="relative w-40 h-40">
-        <img class="object-cover w-full h-full border rounded-full shadow-md border-cyan-200 shadow-cyan-100" src="../../../../assets/test-icons/benji.png"/>
+
+  <!-- ? Pictures -->
+  <div class="flex justify-center w-full pt-5">
+    <div class="relative w-40">
+      <div class="h-40">
+        <img class="object-cover w-full h-full border rounded-full shadow-md border-cyan-200 shadow-cyan-100"
+          src="../../../../assets/test-icons/benji.png" />
         <div class="absolute top-0 left-0 bg-white border-2 border-white rounded-full">
           <ion-label class="text-5xl">{{publicProfileService.myPublicProfile?.profileEmoji}}</ion-label>
         </div>
       </div>
-      <div class="relative w-40 h-40">
-        <img class="object-cover w-40 h-40 border rounded-full shadow-md border-cyan-200 shadow-cyan-100" src="../../../../assets/test-icons/celeste.png"/>
-      <div class="absolute top-0 right-0 bg-white border-2 border-white rounded-full">
-        <ion-label class="text-5xl">{{publicProfileService.myMatePublicProfile?.profileEmoji}}</ion-label>
+      <div class="pl-2 text-center">
+        <ion-label>{{publicProfileService.myPublicProfile?.nickname ?? 'Donne moi un surnom !'}}</ion-label>
       </div>
+    </div>
+    <div class="relative w-40 h-40">
+      <div class="h-40">
+        <img class="object-cover w-40 h-40 border rounded-full shadow-md border-cyan-200 shadow-cyan-100"
+          src="../../../../assets/test-icons/celeste.png" />
+        <div class="absolute top-0 right-0 bg-white border-2 border-white rounded-full">
+          <ion-label class="text-5xl">{{publicProfileService.myMatePublicProfile?.profileEmoji}}</ion-label>
+        </div>
       </div>
+      <div class="pl-2 text-center">
+        <ion-label>{{publicProfileService.myMatePublicProfile?.nickname ?? 'Donne à mon mate un surnom !'}}</ion-label>
+      </div>
+    </div>
+  </div>
+
+  <!-- ? Battery card -->
+  <div class="w-full">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Batterie de mon mate</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <span
+          *ngIf="publicProfileService.myMatePublicProfile?.lastBatteryPercentage && publicProfileService.myMatePublicProfile?.lastBatteryPercentage !== ''">Mon
+          mate a {{publicProfileService.myMatePublicProfile?.lastBatteryPercentage | slice:0:2}} % de batterie</span>
+        <span
+          *ngIf="!publicProfileService.myMatePublicProfile?.lastBatteryPercentage || publicProfileService.myMatePublicProfile?.lastBatteryPercentage === ''">Batterie
+          de mon mate inconnue</span>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- ? sadness (tristoune) count -->
+  <div class="w-full">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Compte de tristoune</ion-card-title>
+        <ion-card-subtitle>À chaque fois que tu es tristoune, clique sur le bouton !</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="inline-flex w-full">
+          <div class="flex self-center justify-center w-1/5">
+            <ion-chip color="primary" class="">{{publicProfileService.myPublicProfile?.sadness?.length}}</ion-chip>
+          </div>
+          <div class="w-3/5 text-center">
+            <ion-button (click)="onClickSadness()">Je suis tristoune</ion-button>
+          </div>
+          <div class="flex self-center justify-center w-1/5">
+            <ion-chip color="secondary">{{publicProfileService.myMatePublicProfile?.sadness?.length}}</ion-chip>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
   </div>
 </ion-content>
+
+<!-- ? Fab buttons -->
 <ion-fab horizontal="end" vertical="bottom" slot="fixed">
   <ion-fab-button>
     <ion-icon name="pencil"></ion-icon>
   </ion-fab-button>
   <ion-fab-list [side]="'top'">
+    <ion-fab-button id="triggerMateNicknameAlert">
+      <ion-icon name="body-outline"></ion-icon>
+    </ion-fab-button>
     <ion-fab-button id="triggerEmojiAlert">
       <ion-icon name="bonfire-outline"></ion-icon>
     </ion-fab-button>
-    <ion-fab-button id="triggerNicknameAlert">
+    <ion-fab-button id="triggerCoupleNicknameAlert">
       <ion-icon name="heart-half-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab-list>
 </ion-fab>
-<ion-alert
-  [animated]="true"
-  [header]="'Donne un nouveau surnom à ton couple'"
-  [buttons]="nicknameAlertButtons"
-  [inputs]="nicknameAlertInputs"
-  trigger="triggerNicknameAlert"
-></ion-alert>
-<ion-alert
-  [animated]="true"
-  header="Donne un nouvel émoji à ton profil"
-  [buttons]="emojiAlertButtons"
-  [inputs]="emojiAlertInputs"
-  trigger="triggerEmojiAlert"
->
+<ion-alert [animated]="true" header="Donne un nouveau surnom à ton couple !" [buttons]="coupleNicknameAlertButtons"
+  [inputs]="coupleNicknameAlertInputs" trigger="triggerCoupleNicknameAlert"></ion-alert>
+<ion-alert [animated]="true" header="Donne un nouvel émoji à ton profil !" [buttons]="emojiAlertButtons"
+  [inputs]="emojiAlertInputs" trigger="triggerEmojiAlert">
+</ion-alert>
+<ion-alert [animated]="true" header="Donne un nouveau surnom à ton mate !" [buttons]="mateNicknameAlertButtons"
+  [inputs]="mateNicknameAlertInputs" trigger="triggerMateNicknameAlert">
 </ion-alert>

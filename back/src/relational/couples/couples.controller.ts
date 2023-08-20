@@ -28,4 +28,9 @@ export class CouplesController {
   updateMyCouple(@CurrentUser() mate: Mate, @Body() updateCoupleDto: UpdateCoupleDto) : Promise<Couple> {
     return this.couplesService.updateMyCouple(mate, updateCoupleDto);
   }
+
+  @Get("my-mate")
+  getMyMate(@CurrentUser() mate: Mate) {
+    return this.couplesService.getMyMate(mate);
+  }
 }

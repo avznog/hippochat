@@ -33,6 +33,16 @@ export class CouplesService {
     })
   }
 
+  async getMyMate(mate: Mate) : Promise<Mate> {
+    const couple =  await this.coupleRepository.findOne({
+      relations: ["mates", "mates.publicProfile"],
+      where: {
+        id: mate.couple.id
+      }
+    });
+    return couple.mates.find(m => m.id !== mate.id);
+  }
+
   async updateMyCouple(mate: Mate, updateCoupleDto: UpdateCoupleDto) : Promise<Couple> {
     await this.coupleRepository.update(mate.couple.id, updateCoupleDto)
     return {

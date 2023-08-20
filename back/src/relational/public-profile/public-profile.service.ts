@@ -25,9 +25,19 @@ export class PublicProfileService {
     }
   }
 
+  async updateMyMatesPublicProfile(mate: Mate, updatePublicProfileDto: UpdatePublicProfileDto) : Promise<PublicProfile> {
+    const myMatesPublicProfile = (await this.couplesService.getMyMate(mate)).publicProfile;
+    await this.publicProfileRepostiory.update(myMatesPublicProfile.id, updatePublicProfileDto);
+    return {
+      ...myMatesPublicProfile,
+      ...updatePublicProfileDto
+    }
+  }
+
   async getMyMatesPublicProfile(mate: Mate) {
     const couple = await this.couplesService.getMyCouple(mate);
     return await this.publicProfileRepostiory.findOne({
+      relations: ["sadness"],
       where: {
         id: couple.mates.find(m => m.id !== mate.id).publicProfile.id
       }

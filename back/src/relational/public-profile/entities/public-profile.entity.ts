@@ -1,5 +1,6 @@
 import { Sex } from "src/constants/sex.type";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Sadness } from "src/relational/sadness/entities/sadness.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class PublicProfile {
@@ -16,11 +17,14 @@ export class PublicProfile {
   nickname: string;
 
   @Column({ nullable: true })
-  lastBatteryPercentage: number;
+  lastBatteryPercentage: string;
 
   @Column({ nullable: true})
   profilePicture: string;
 
   @Column({ nullable: true })
   sex: Sex;
+
+  @OneToMany(() => Sadness, sadness => sadness.publicProfile)
+  sadness: Sadness;
 }
