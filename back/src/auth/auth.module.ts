@@ -10,10 +10,12 @@ import { JwtStrategy } from './jwt.strategy';
 import { JwtRefreshTokenStrategy } from './jwt-refresh-token.strategy';
 import { MatesService } from 'src/relational/mates/mates.service';
 import { PublicProfile } from 'src/relational/public-profile/entities/public-profile.entity';
+import { CouplesService } from 'src/relational/couples/couples.service';
+import { Couple } from 'src/relational/couples/entities/couple.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Mate, PublicProfile]),
+    TypeOrmModule.forFeature([Mate, PublicProfile, Couple]),
     PassportModule,
     JwtModule.registerAsync({
       useFactory: async () => ({
@@ -30,7 +32,8 @@ import { PublicProfile } from 'src/relational/public-profile/entities/public-pro
     LocalStrategy,
     JwtStrategy,
     JwtRefreshTokenStrategy,
-    MatesService
+    MatesService,
+    CouplesService
   ]
 })
 export class AuthModule {}

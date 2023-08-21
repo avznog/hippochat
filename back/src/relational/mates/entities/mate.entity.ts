@@ -1,6 +1,7 @@
 import { Couple } from "src/relational/couples/entities/couple.entity";
 import { PublicProfile } from "src/relational/public-profile/entities/public-profile.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Sadness } from "src/relational/sadness/entities/sadness.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Mate {

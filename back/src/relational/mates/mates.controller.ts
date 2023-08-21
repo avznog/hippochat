@@ -26,4 +26,9 @@ export class MatesController {
     return this.matesService.findAllSingle(params.gender, params.name);
   }
 
+  @Get("my")
+  getMyMate(@CurrentUser() mate: Mate, @Query("coupleId") data: { coupleId: string }) {
+    return this.matesService.getMyMate(mate, data.coupleId);
+  }
+
 }

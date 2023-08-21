@@ -8,7 +8,7 @@
 
 <!-- ? page content -->
 <ion-content>
-  <ion-segment [(ngModel)]="gender" (ngModelChange)="loadSingleMates(true)">
+  <ion-segment [(ngModel)]="gender" (ngModelChange)="loadSingleMates(true); onChangeGender()">
     <ion-segment-button value="male">
       <ion-label>Homme</ion-label>
     </ion-segment-button>

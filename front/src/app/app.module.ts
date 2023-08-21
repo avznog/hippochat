@@ -13,14 +13,15 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
 import { PagesModule } from './components/pages/pages.module';
 import { AuthGuard } from './guards/auth.guard';
+import { HasMateGuard } from './guards/has-mate.guard';
 import { LoggedGuard } from './guards/logged.guard';
+import { NoMateGuard } from './guards/no-mate.guard';
 import { BaseUrlInterceptor } from './interceptors/base-url.interceptor';
 import { CredentialsInterceptor } from './interceptors/credentials.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { JwtInterceptorInterceptor } from './interceptors/jwt-interceptor.interceptor';
 import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
-import { NoMateGuard } from './guards/no-mate.guard';
-import { HasMateGuard } from './guards/has-mate.guard';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent],
@@ -32,6 +33,7 @@ import { HasMateGuard } from './guards/has-mate.guard';
     AppRoutingModule,
     PagesModule,
     FormsModule,
+    BrowserAnimationsModule,
     ServiceWorkerModule.register('ngsw-worker.js',
       {
         enabled: !isDevMode(),
