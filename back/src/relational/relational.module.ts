@@ -7,12 +7,14 @@ import { MatesModule } from './mates/mates.module';
 import { MatesService } from './mates/mates.service';
 import { PublicProfileModule } from './public-profile/public-profile.module';
 import { SadnessModule } from './sadness/sadness.module';
+import { CouplesService } from './couples/couples.service';
+import { Couple } from './couples/entities/couple.entity';
 
 @Module({
   imports: [
-    MatesModule, PublicProfileModule, CouplesModule, TypeOrmModule.forFeature([Mate]), SadnessModule
+    MatesModule, PublicProfileModule, CouplesModule, TypeOrmModule.forFeature([Mate, Couple]), SadnessModule
   ],
   controllers: [MatesController],
-  providers: [MatesService]
+  providers: [MatesService, CouplesService]
 })
 export class RelationalModule {}

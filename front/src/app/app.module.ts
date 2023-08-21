@@ -21,6 +21,7 @@ import { CredentialsInterceptor } from './interceptors/credentials.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { JwtInterceptorInterceptor } from './interceptors/jwt-interceptor.interceptor';
 import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent],
@@ -32,6 +33,7 @@ import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
     AppRoutingModule,
     PagesModule,
     FormsModule,
+    BrowserAnimationsModule,
     ServiceWorkerModule.register('ngsw-worker.js',
       {
         enabled: !isDevMode(),

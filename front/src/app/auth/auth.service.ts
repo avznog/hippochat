@@ -10,6 +10,7 @@ import { Mate } from '../models/mate.model';
 import LoginResponseDTO from './dto/login-response.dto';
 import AccessToken from './models/access-token.model';
 import { Sex } from '../constants/sex.type';
+import { PublicProfileService } from '../services/publicProfile/public-profile.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,8 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private readonly publicProfileService: PublicProfileService
   ) {
     this.currentUserSubject = new BehaviorSubject<Mate>(JSON.parse(localStorage.getItem("currentUser")!));
     this.loggedInSubject = new BehaviorSubject(localStorage.getItem("loggedIn") === "true");
@@ -92,6 +94,7 @@ export class AuthService {
     const response = await lastValueFrom(this.http.post<LoginResponseDTO>("auth/login", { username, password }));
     this.accessToken = response.accessToken;
     await this.setLoggedIn();
+    this.publicProfileService.setPrimaryColorOnLogin();
     return this.accessToken;
   }
 

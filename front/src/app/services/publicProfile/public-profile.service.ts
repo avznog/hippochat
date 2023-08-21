@@ -17,11 +17,25 @@ export class PublicProfileService {
     private http: HttpClient
   ) { }
 
-  updateMyPublicProfile(updatePublicProfileDto: UpdatePublicProfileDto) {
-    this.http.patch<PublicProfile>(`public-profile/my`, updatePublicProfileDto).subscribe(publicProfile => this.myPublicProfile = publicProfile);
+  async updateMyPublicProfile(updatePublicProfileDto: UpdatePublicProfileDto) {
+    
+    try {
+      const deviceBattery = await Device.getBatteryInfo();
+      if(deviceBattery.batteryLevel)
+        updatePublicProfileDto = {
+          ...updatePublicProfileDto,
+          lastBatteryPercentage: deviceBattery.batteryLevel!.toString()
+        }
+      this.http.patch<PublicProfile>(`public-profile/my`, updatePublicProfileDto).subscribe(publicProfile => this.myPublicProfile = publicProfile);
+
+    } catch (error) {
+      this.http.patch<PublicProfile>(`public-profile/my`, updatePublicProfileDto).subscribe(publicProfile => this.myPublicProfile = publicProfile);
+      
+    }
   }
 
   updateMyMatesPublicProfile(updatePublicProfileDto: UpdatePublicProfileDto) {
+    this.updateMyPublicProfile({});
     this.http.patch<PublicProfile>(`public-profile/my-mate`, updatePublicProfileDto).subscribe(publicProfile => this.myMatePublicProfile = publicProfile);
   }
 
@@ -40,5 +54,18 @@ export class PublicProfileService {
         lastBatteryPercentage: batteryLevel.toString()
       })
     }
+  }
+
+  onChangePrimaryColor(color: string) {
+    document.documentElement.style.setProperty("--ion-color-primary", color);
+    document.documentElement.style.setProperty("--ion-color-primary-rgb",color);
+    document.documentElement.style.setProperty("--ion-color-primary-shade",color);
+    document.documentElement.style.setProperty("--ion-color-primary-tint",color);
+  }
+
+  async setPrimaryColorOnLogin() {
+    await this.getMyPublicProfile();
+    this.onChangePrimaryColor(this.myPublicProfile?.preferedColor!)
+    
   }
 }

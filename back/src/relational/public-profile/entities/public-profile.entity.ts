@@ -25,6 +25,9 @@ export class PublicProfile {
   @Column({ nullable: true })
   sex: Sex;
 
+  @Column({nullable: false, default: "#3880ff"})
+  preferedColor: string;
+
   @OneToMany(() => Sadness, sadness => sadness.publicProfile)
   sadness: Sadness;
 }

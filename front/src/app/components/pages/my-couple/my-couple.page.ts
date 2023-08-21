@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Device } from '@capacitor/device';
 import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics';
 import { Toast } from '@capacitor/toast';
 import { AlertButton, AlertInput } from '@ionic/angular';
@@ -7,12 +6,14 @@ import { CouplesService } from 'src/app/services/couples/couples.service';
 import { PublicProfileService } from 'src/app/services/publicProfile/public-profile.service';
 import { SadnessService } from 'src/app/services/sadness/sadness.service';
 
+
 @Component({
   selector: 'app-my-couple',
   templateUrl: './my-couple.page.html',
   styleUrls: ['./my-couple.page.scss'],
 })
 export class MyCouplePage implements OnInit {
+
   cancelHaptics = () => Haptics.notification({
     type: NotificationType.Error
   });
@@ -65,7 +66,6 @@ export class MyCouplePage implements OnInit {
         } else (
           this.publicProfileService.updateMyPublicProfile({
             profileEmoji: answer.profileEmoji,
-            lastBatteryPercentage: (await Device.getBatteryInfo()).batteryLevel?.toString()
           })
         )
         this.successHaptics();
@@ -105,6 +105,32 @@ export class MyCouplePage implements OnInit {
     }
   ]
 
+  myDescriptionAlertButtons: AlertButton[] = [
+    {
+      text: "Annuler",
+      role: "destructive",
+      handler: () => this.cancelHaptics()
+    },
+    {
+      text: "Modifier",
+      role: "confirm",
+      handler: async (answer) => {
+        this.publicProfileService.updateMyPublicProfile({
+          description: answer.myDescription,
+        })
+        this.successHaptics();
+      }
+    }
+  ]
+
+  myMateDescriptionAlertInputs: AlertInput[] = [
+    {
+      type: "textarea",
+      name: "myDescription",
+      placeholder: "Écris ici ta description !"
+    }
+  ]
+
   regexEmoji = new RegExp("(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])")
 
   constructor(
@@ -120,13 +146,31 @@ export class MyCouplePage implements OnInit {
     this.publicProfileService.updateMyBatteryPercentage();
   }
 
+  color = this.publicProfileService.myPublicProfile?.preferedColor ?? '';
   onClickSadness() {
-    console.log("lkjh")
     this.sadnessService.create({
       date: new Date()
     });
     Haptics.impact({
       style: ImpactStyle.Medium
     })
+  }
+
+  onClickFab() {
+    Haptics.impact({
+      style: ImpactStyle.Heavy
+    })
+  }
+
+  toDeviceBattery(battery: string | undefined) {
+    return Number(battery) * 100;
+  }
+
+  onChangePrimaryColor() {
+    this.publicProfileService.updateMyPublicProfile({
+      preferedColor: this.color
+    })
+    this.publicProfileService.onChangePrimaryColor(this.color);
+    
   }
 }

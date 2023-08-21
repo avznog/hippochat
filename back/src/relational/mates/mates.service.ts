@@ -4,12 +4,15 @@ import TokenPayload from 'src/auth/interfaces/tokenPayload.interface';
 import { Sex } from 'src/constants/sex.type';
 import { ILike, IsNull, Repository } from 'typeorm';
 import { Mate } from './entities/mate.entity';
+import { CouplesService } from '../couples/couples.service';
 
 @Injectable()
 export class MatesService {
   constructor(
     @InjectRepository(Mate)
-    private readonly mateRepository: Repository<Mate>
+    private readonly mateRepository: Repository<Mate>,
+
+    private readonly couplesService: CouplesService
   ) {}
 
   async findByPayload(payload: TokenPayload) : Promise<Mate> {
@@ -49,5 +52,18 @@ export class MatesService {
       }
     })
   }
-
+  
+  async getMyMate(mate: Mate, coupleId: string) {
+    if(coupleId === '') {
+      coupleId = (await this.couplesService.getMyCouple(mate)).id
+    }
+    return await this.mateRepository.findOne({
+      relations: ["publicProfile", "publicProfile.sadness"],
+      where: {
+        couple: {
+          id: coupleId
+        }
+      }
+    })
+  }
 }

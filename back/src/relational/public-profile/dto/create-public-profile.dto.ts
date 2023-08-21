@@ -31,4 +31,9 @@ export class CreatePublicProfileDto {
     required: true
   })
   sex: Sex;
+
+  @ApiProperty({
+    required: false
+  })
+  preferedColor: string;
 }

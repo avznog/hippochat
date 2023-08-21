@@ -9,5 +9,6 @@ export interface PublicProfile {
   lastBatteryPercentage: string;
   profilePicture: string;
   sex: Sex;
+  preferedColor: string;
   sadness: Sadness[];
 }
