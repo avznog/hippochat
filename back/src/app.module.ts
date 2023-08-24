@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { RelationalModule } from './relational/relational.module';
+import { GatewaysModule } from './gateways/gateways.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { RelationalModule } from './relational/relational.module';
   }),
     RelationalModule,
     AuthModule,
+    GatewaysModule,
     ],
   controllers: [AppController],
   providers: [AppService],

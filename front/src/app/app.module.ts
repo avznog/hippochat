@@ -22,6 +22,8 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { JwtInterceptorInterceptor } from './interceptors/jwt-interceptor.interceptor';
 import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SocketIoModule, SocketIoConfig } from "ngx-socket-io";
+const config: SocketIoConfig = {url: environment.apiURL, options: {}}
 
 @NgModule({
   declarations: [AppComponent, LoginComponent],
@@ -34,6 +36,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     PagesModule,
     FormsModule,
     BrowserAnimationsModule,
+    SocketIoModule.forRoot(config),
     ServiceWorkerModule.register('ngsw-worker.js',
       {
         enabled: !isDevMode(),
