@@ -12,10 +12,13 @@ import { MatesService } from 'src/relational/mates/mates.service';
 import { PublicProfile } from 'src/relational/public-profile/entities/public-profile.entity';
 import { CouplesService } from 'src/relational/couples/couples.service';
 import { Couple } from 'src/relational/couples/entities/couple.entity';
+import { MinioService } from 'src/minio/minio.service';
+import { ConfigService } from '@nestjs/config';
+import { PublicProfileService } from 'src/relational/public-profile/public-profile.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Mate, PublicProfile, Couple]),
+    TypeOrmModule.forFeature([Mate, PublicProfile, Couple, PublicProfile]),
     PassportModule,
     JwtModule.registerAsync({
       useFactory: async () => ({
@@ -33,7 +36,10 @@ import { Couple } from 'src/relational/couples/entities/couple.entity';
     JwtStrategy,
     JwtRefreshTokenStrategy,
     MatesService,
-    CouplesService
+    CouplesService,
+    MinioService,
+    ConfigService,
+    PublicProfileService
   ]
 })
 export class AuthModule {}

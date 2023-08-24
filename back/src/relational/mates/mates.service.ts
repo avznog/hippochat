@@ -5,6 +5,8 @@ import { Sex } from 'src/constants/sex.type';
 import { ILike, IsNull, Repository } from 'typeorm';
 import { Mate } from './entities/mate.entity';
 import { CouplesService } from '../couples/couples.service';
+import { MinioService } from 'src/minio/minio.service';
+import { PublicProfileService } from '../public-profile/public-profile.service';
 
 @Injectable()
 export class MatesService {
@@ -12,7 +14,9 @@ export class MatesService {
     @InjectRepository(Mate)
     private readonly mateRepository: Repository<Mate>,
 
-    private readonly couplesService: CouplesService
+    private readonly couplesService: CouplesService,
+    private readonly minioService: MinioService,
+    private readonly publicProfileService: PublicProfileService
   ) {}
 
   async findByPayload(payload: TokenPayload) : Promise<Mate> {
@@ -64,6 +68,14 @@ export class MatesService {
           id: coupleId
         }
       }
+    })
+  }
+
+  async updateProfilePicture(mate: Mate, file: Express.Multer.File) {
+    const path = `/users/${mate.email}/profile-pictures/${file.originalname}`;
+    await this.minioService.uploadFile(path, file)
+    this.publicProfileService.updateMyPublicProfile(mate, {
+      profilePicture: path
     })
   }
 }
