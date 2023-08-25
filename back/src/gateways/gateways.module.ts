@@ -5,8 +5,9 @@ import { Couple } from 'src/relational/couples/entities/couple.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Mate } from 'src/relational/mates/entities/mate.entity';
 import { GatewaysService } from './services/gateways.service';
+import { PublicProfileGateway } from './public-profile/public-profile.gateway';
 @Module({
   imports: [TypeOrmModule.forFeature([Couple, Mate])],
-  providers: [SadnessGateway, CouplesService, GatewaysService]
+  providers: [SadnessGateway, CouplesService, GatewaysService, PublicProfileGateway]
 })
 export class GatewaysModule {}

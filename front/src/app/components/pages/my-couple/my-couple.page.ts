@@ -5,7 +5,7 @@ import { AlertButton, AlertInput } from '@ionic/angular';
 import { CouplesService } from 'src/app/services/couples/couples.service';
 import { PublicProfileService } from 'src/app/services/publicProfile/public-profile.service';
 import { SadnessService } from 'src/app/services/sadness/sadness.service';
-import { SocketSadnessService } from 'src/app/services/socket/socket-sadness/socket-sadness.service';
+import { SocketSadnessService } from 'src/app/services/sockets/socket-sadness/socket-sadness.service';
 
 
 @Component({

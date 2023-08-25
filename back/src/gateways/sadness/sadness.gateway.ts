@@ -5,7 +5,7 @@ import { Mate } from 'src/relational/mates/entities/mate.entity';
 import { Sadness } from 'src/relational/sadness/entities/sadness.entity';
 import { GatewaysService } from '../services/gateways.service';
 
-@WebSocketGateway({ cors: { origin: "*"}, transports: ["polling", "websocket"]})
+@WebSocketGateway({namespace: "sadness", cors: { origin: "*"}, transports: ["polling", "websocket"]})
 export class SadnessGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(
     private readonly couplesService: CouplesService,

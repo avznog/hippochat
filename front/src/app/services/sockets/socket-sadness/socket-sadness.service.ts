@@ -1,23 +1,23 @@
 import { Injectable } from '@angular/core';
-import { Socket } from 'ngx-socket-io';
-import { PublicProfileService } from '../../publicProfile/public-profile.service';
-import { Sadness } from 'src/app/models/sadness.model';
 import { Observable, Observer } from 'rxjs';
+import { Sadness } from 'src/app/models/sadness.model';
+import { PublicProfileService } from '../../publicProfile/public-profile.service';
+import { SocketSadness } from 'src/app/providers/socket-sadness.provider';
 @Injectable({
   providedIn: 'root'
 })
 export class SocketSadnessService {
 
   constructor(
-    private socket: Socket,
+    private socket: SocketSadness,
     private readonly publicProfileService: PublicProfileService
   ) {
-    this.getSadness().subscribe()
+    this.updateMateSadness().subscribe()
   }
 
 
   // ? update sadness count if mate updates it
-  getSadness(): Observable<any> {
+  updateMateSadness(): Observable<any> {
     return new Observable<any>((observer: Observer<any>) => {
       this.socket.on("create-mate-sadness", (sadness: Sadness) => {
         if (this.publicProfileService.myMatePublicProfile)
