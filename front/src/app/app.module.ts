@@ -23,7 +23,8 @@ import { JwtInterceptorInterceptor } from './interceptors/jwt-interceptor.interc
 import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SocketIoModule, SocketIoConfig } from "ngx-socket-io";
-const config: SocketIoConfig = {url: environment.apiURL, options: {}}
+import { Mate } from './models/mate.model';
+const config: SocketIoConfig = {url: environment.apiURL, options: {query: {mateId: localStorage.getItem("currentUser") ? ( JSON.parse((localStorage.getItem("currentUser")!)) as Mate).id : ''}}}
 
 @NgModule({
   declarations: [AppComponent, LoginComponent],

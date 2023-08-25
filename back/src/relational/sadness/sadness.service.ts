@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { SadnessGateway } from 'src/gateways/sadness/sadness.gateway';
 import { Repository } from 'typeorm';
-import { CreateSadnessDto } from './dto/create-sadness.dto';
-import { Sadness } from './entities/sadness.entity';
 import { Mate } from '../mates/entities/mate.entity';
 import { PublicProfile } from '../public-profile/entities/public-profile.entity';
+import { CreateSadnessDto } from './dto/create-sadness.dto';
+import { Sadness } from './entities/sadness.entity';
 
 @Injectable()
 export class SadnessService {
@@ -15,6 +16,7 @@ export class SadnessService {
 
     @InjectRepository(PublicProfile)
     private readonly publicProfileRepository: Repository<PublicProfile>,
+    private readonly sadnessGateway: SadnessGateway
   ) {}
 
   async create(mate: Mate, createSadnessDto: CreateSadnessDto) {
@@ -23,6 +25,8 @@ export class SadnessService {
         id: mate.publicProfile.id
       }
     })
-    return await this.sadnessRepository.save({...createSadnessDto, publicProfile: publicProfile});
+    const sadness = await this.sadnessRepository.save({...createSadnessDto, publicProfile: publicProfile});
+    this.sadnessGateway.createMateSadness(sadness, mate);
+    return sadness;
   }
 }

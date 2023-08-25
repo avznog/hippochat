@@ -5,8 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { RelationalModule } from './relational/relational.module';
 import { GatewaysModule } from './gateways/gateways.module';
+import { RelationalModule } from './relational/relational.module';
 
 @Module({
   imports: [

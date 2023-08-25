@@ -1,7 +1,12 @@
 import { Module } from '@nestjs/common';
-import { AppGateway } from './app.gateway';
-
+import { SadnessGateway } from './sadness/sadness.gateway';
+import { CouplesService } from 'src/relational/couples/couples.service';
+import { Couple } from 'src/relational/couples/entities/couple.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Mate } from 'src/relational/mates/entities/mate.entity';
+import { GatewaysService } from './services/gateways.service';
 @Module({
-  providers: [AppGateway]
+  imports: [TypeOrmModule.forFeature([Couple, Mate])],
+  providers: [SadnessGateway, CouplesService, GatewaysService]
 })
 export class GatewaysModule {}
