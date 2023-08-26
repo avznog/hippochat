@@ -22,6 +22,7 @@ import { JwtInterceptorInterceptor } from './interceptors/jwt-interceptor.interc
 import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
 import { SocketSadness } from './providers/socket-sadness.provider';
 import { SocketPublicProfile } from './providers/socket-public-profile.provider';
+import { SocketCouple } from './providers/socket-couple.provider';
 
 
 @NgModule({
@@ -57,7 +58,7 @@ import { SocketPublicProfile } from './providers/socket-public-profile.provider'
     { provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: CredentialsInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: TimeoutInterceptor, multi: true },
-     AuthGuard, LoggedGuard, NoMateGuard, HasMateGuard, SocketSadness, SocketPublicProfile
+     AuthGuard, LoggedGuard, NoMateGuard, HasMateGuard, SocketSadness, SocketPublicProfile, SocketCouple
   ],
 })
 export class AppModule { }

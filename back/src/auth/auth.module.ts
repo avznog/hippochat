@@ -12,6 +12,8 @@ import { MatesService } from 'src/relational/mates/mates.service';
 import { PublicProfile } from 'src/relational/public-profile/entities/public-profile.entity';
 import { CouplesService } from 'src/relational/couples/couples.service';
 import { Couple } from 'src/relational/couples/entities/couple.entity';
+import { CoupleGateway } from 'src/gateways/couple/couple.gateway';
+import { GatewaysService } from 'src/gateways/services/gateways.service';
 
 @Module({
   imports: [
@@ -33,7 +35,9 @@ import { Couple } from 'src/relational/couples/entities/couple.entity';
     JwtStrategy,
     JwtRefreshTokenStrategy,
     MatesService,
-    CouplesService
+    CouplesService,
+    CoupleGateway,
+    GatewaysService
   ]
 })
 export class AuthModule {}

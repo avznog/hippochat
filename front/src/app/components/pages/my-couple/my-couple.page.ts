@@ -5,6 +5,8 @@ import { AlertButton, AlertInput } from '@ionic/angular';
 import { CouplesService } from 'src/app/services/couples/couples.service';
 import { PublicProfileService } from 'src/app/services/publicProfile/public-profile.service';
 import { SadnessService } from 'src/app/services/sadness/sadness.service';
+import { SocketCoupleService } from 'src/app/services/sockets/socket-couple/socket-couple.service';
+import { SocketPublicProfileService } from 'src/app/services/sockets/socket-public-profile/socket-public-profile.service';
 import { SocketSadnessService } from 'src/app/services/sockets/socket-sadness/socket-sadness.service';
 
 
@@ -138,11 +140,14 @@ export class MyCouplePage implements OnInit {
     public readonly coupleService: CouplesService,
     public readonly publicProfileService: PublicProfileService,
     private readonly sadnessService: SadnessService,
-    private socketSadnessService: SocketSadnessService // ? leave for socket listener initalization
+    private socketSadnessService: SocketSadnessService, // ? leave for socket listener initalization
+    private socketPublicProfileService: SocketPublicProfileService, // ? leave for socket listener initalization
+    private socketCoupleService: SocketCoupleService, // ? leave for socket listener initalization
   ) { }
 
   ngOnInit() {
     this.coupleService.getMyCouple();
+    this.coupleService.getMyMate();
     this.publicProfileService.getMyPublicProfile();
     this.publicProfileService.getMyMatesPublicProfile();
     this.publicProfileService.updateMyBatteryPercentage();

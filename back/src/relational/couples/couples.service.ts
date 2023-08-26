@@ -5,6 +5,7 @@ import { Couple } from './entities/couple.entity';
 import { Repository } from 'typeorm';
 import { Mate } from '../mates/entities/mate.entity';
 import { UpdateCoupleDto } from './dto/update-couple.dto';
+import { CoupleGateway } from 'src/gateways/couple/couple.gateway';
 
 @Injectable()
 export class CouplesService {
@@ -14,7 +15,9 @@ export class CouplesService {
     private readonly coupleRepository: Repository<Couple>,
 
     @InjectRepository(Mate)
-    private readonly mateRepository: Repository<Mate>
+    private readonly mateRepository: Repository<Mate>,
+
+    private readonly coupleGateway: CoupleGateway
   ) { }
 
   async create(createCoupleDto: CreateCoupleDto) {
@@ -26,7 +29,7 @@ export class CouplesService {
 
   async getMyCouple(mate: Mate) : Promise<Couple> {
     return await this.coupleRepository.findOne({
-      relations: ["mates", "mates.publicProfile"],
+      relations: ["mates", "mates.publicProfile", "mates.publicProfile.sadness"],
       where: {
         id: mate.couple.id
       }
@@ -35,7 +38,7 @@ export class CouplesService {
 
   async getMyMate(mate: Mate) : Promise<Mate> {
     const couple =  await this.coupleRepository.findOne({
-      relations: ["mates", "mates.publicProfile"],
+      relations: ["mates", "mates.publicProfile", "mates.publicProfile.sadness"],
       where: {
         id: mate.couple.id
       }
@@ -45,6 +48,10 @@ export class CouplesService {
 
   async updateMyCouple(mate: Mate, updateCoupleDto: UpdateCoupleDto) : Promise<Couple> {
     await this.coupleRepository.update(mate.couple.id, updateCoupleDto)
+    this.coupleGateway.updateMyCouple(mate, {
+      ...mate.couple,
+      ...updateCoupleDto
+    })
     return {
       ...mate.couple, 
       ...updateCoupleDto

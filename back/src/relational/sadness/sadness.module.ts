@@ -9,10 +9,11 @@ import { PublicProfile } from '../public-profile/entities/public-profile.entity'
 import { Sadness } from './entities/sadness.entity';
 import { SadnessController } from './sadness.controller';
 import { SadnessService } from './sadness.service';
+import { CoupleGateway } from 'src/gateways/couple/couple.gateway';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Sadness, PublicProfile, Couple, Mate])],
   controllers: [SadnessController],
-  providers: [SadnessService, SadnessGateway, CouplesService, GatewaysService]
+  providers: [SadnessService, SadnessGateway, CouplesService, GatewaysService, CoupleGateway]
 })
 export class SadnessModule {}

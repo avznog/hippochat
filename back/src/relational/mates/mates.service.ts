@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import TokenPayload from 'src/auth/interfaces/tokenPayload.interface';
 import { Sex } from 'src/constants/sex.type';
-import { ILike, IsNull, Repository } from 'typeorm';
+import { ILike, IsNull, Not, Repository } from 'typeorm';
 import { Mate } from './entities/mate.entity';
 import { CouplesService } from '../couples/couples.service';
 
@@ -18,7 +18,7 @@ export class MatesService {
   async findByPayload(payload: TokenPayload) : Promise<Mate> {
     try {
       return await this.mateRepository.findOne({
-        relations: ["couple", "publicProfile", "publicProfile.sadness"],
+        relations: ["couple", "publicProfile", "publicProfile.sadness", "couple.mates"],
         where: {
           email: payload.username
         }
@@ -53,17 +53,7 @@ export class MatesService {
     })
   }
   
-  async getMyMate(mate: Mate, coupleId: string) {
-    if(coupleId === '') {
-      coupleId = (await this.couplesService.getMyCouple(mate)).id
-    }
-    return await this.mateRepository.findOne({
-      relations: ["publicProfile", "publicProfile.sadness"],
-      where: {
-        couple: {
-          id: coupleId
-        }
-      }
-    })
+  async getMyMate(mate: Mate) {
+    return (await this.couplesService.getMyCouple(mate)).mates.find(m => m.id !== mate.id);
   }
 }
