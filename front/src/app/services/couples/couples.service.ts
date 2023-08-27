@@ -17,7 +17,6 @@ export class CouplesService {
     private http: HttpClient
   ) {
     this.getMyCouple();
-    this.getMyMate();
   }
 
   async create(createCoupleDto: CreateCoupleDto ) {
@@ -25,9 +24,7 @@ export class CouplesService {
   }
 
   getMyCouple() {
-    this.http.get<Couple>(`couples/my-couple`).subscribe(couple => {
-      this.myCouple = couple;
-    })
+    this.http.get<Couple>(`couples/my-couple`).subscribe(couple => this.myCouple = couple)
   }
 
   updateMyCouple(updateCoupleDto: UpdateCoupleDto ) {
@@ -35,8 +32,7 @@ export class CouplesService {
   }
 
   getMyMate() { 
-    let queryParams = new HttpParams().append("coupleId", this.myCouple?.id ?? '')
-    this.http.get<Mate>(`mates/my`, { params: queryParams }).subscribe(mate => this.myMate = mate);
+    this.http.get<Mate>(`mates/my`).subscribe(mate => this.myMate = mate);
   }
 
 }

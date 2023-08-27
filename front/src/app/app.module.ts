@@ -1,12 +1,11 @@
-import { NgModule, isDevMode } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { RouteReuseStrategy } from '@angular/router';
-
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { NgModule, isDevMode } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouteReuseStrategy } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,7 +20,10 @@ import { CredentialsInterceptor } from './interceptors/credentials.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { JwtInterceptorInterceptor } from './interceptors/jwt-interceptor.interceptor';
 import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SocketSadness } from './providers/socket-sadness.provider';
+import { SocketPublicProfile } from './providers/socket-public-profile.provider';
+import { SocketCouple } from './providers/socket-couple.provider';
+
 
 @NgModule({
   declarations: [AppComponent, LoginComponent],
@@ -34,6 +36,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     PagesModule,
     FormsModule,
     BrowserAnimationsModule,
+    // SocketIoModule.forRoot(config),
     ServiceWorkerModule.register('ngsw-worker.js',
       {
         enabled: !isDevMode(),
@@ -55,7 +58,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     { provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: CredentialsInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: TimeoutInterceptor, multi: true },
-     AuthGuard, LoggedGuard, NoMateGuard, HasMateGuard
+     AuthGuard, LoggedGuard, NoMateGuard, HasMateGuard, SocketSadness, SocketCouple, SocketPublicProfile,
   ],
 })
 export class AppModule { }

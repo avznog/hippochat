@@ -18,7 +18,7 @@
   </ion-header>
 
   <!-- ? Pictures -->
-  <div class="flex justify-center w-full pt-5">
+  <div class="flex w-full pt-5 justify-evenly">
     <div class="relative w-40">
       <div class="h-40">
         <img class="object-cover w-full h-full rounded-full"
@@ -117,6 +117,8 @@
     </ion-fab-button>
   </ion-fab-list>
 </ion-fab>
+
+<!-- ? alert on click buttons -->
 <ion-alert [animated]="true" header="Donne un nouveau surnom à ton couple !" [buttons]="coupleNicknameAlertButtons"
   [inputs]="coupleNicknameAlertInputs" trigger="triggerCoupleNicknameAlert"></ion-alert>
 <ion-alert [animated]="true" header="Donne un nouvel émoji à ton profil !" [buttons]="emojiAlertButtons"

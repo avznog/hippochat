@@ -5,13 +5,13 @@
 export const environment = {
   production: false,
   environmentName: "dev",
-  apiURL: "http://192.168.7.191:3003",
+  // apiURL: "http://192.168.7.191:3003",
   // apiURL: "http://localhost:3003"
   // apiURL: "http://192.168.1.19:3003"
   // apiURL: "http://172.20.10.3:3003"
   // apiURL: "http://192.168.1.15:3003",
   // apiURL: "http://10.221.14.108:3003",
-  // apiURL: "http://localhost:3003",
+  apiURL: "http://localhost:3003",
 };
 
 /*
