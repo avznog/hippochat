@@ -140,9 +140,9 @@ export class MyCouplePage implements OnInit {
     public readonly coupleService: CouplesService,
     public readonly publicProfileService: PublicProfileService,
     private readonly sadnessService: SadnessService,
+    private socketCoupleService: SocketCoupleService, // ? leave for socket listener initalization
     private socketSadnessService: SocketSadnessService, // ? leave for socket listener initalization
     private socketPublicProfileService: SocketPublicProfileService, // ? leave for socket listener initalization
-    // private socketCoupleService: SocketCoupleService, // ? leave for socket listener initalization
   ) { }
 
   ngOnInit() {

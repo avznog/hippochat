@@ -12,6 +12,7 @@ export class CoupleGateway implements OnGatewayConnection, OnGatewayDisconnect {
   ) {}
 
   handleConnection(client: any, ...args: any[]) {
+    console.log("connected")
     this.gatewaysService.connectedUsers.set(client.handshake.query.mateId, client.id)
   }
 

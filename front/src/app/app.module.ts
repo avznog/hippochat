@@ -58,7 +58,7 @@ import { SocketCouple } from './providers/socket-couple.provider';
     { provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: CredentialsInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: TimeoutInterceptor, multi: true },
-     AuthGuard, LoggedGuard, NoMateGuard, HasMateGuard, SocketSadness, SocketPublicProfile, SocketCouple
+     AuthGuard, LoggedGuard, NoMateGuard, HasMateGuard, SocketSadness, SocketCouple, SocketPublicProfile,
   ],
 })
 export class AppModule { }
