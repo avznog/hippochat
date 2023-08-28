@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { PublicProfileService } from 'src/app/services/publicProfile/public-profile.service';
 
 @Component({
   selector: 'app-conversation',
@@ -9,14 +10,13 @@ import { Component, OnInit } from '@angular/core';
 export class ConversationPage implements OnInit {
 
   constructor(
-    private http: HttpClient
-  ) { }
+    private http: HttpClient,
+    public readonly publicProfileService: PublicProfileService
+  ) {
 
-  ngOnInit() {
-    
-    
-    // this.http.post("mates/upload-profile-picture", )
-  }
+   }
+
+  ngOnInit() { }
   async onFileSelected(event: any) {
     console.log(event.target.files[0])
     let formData = new FormData()

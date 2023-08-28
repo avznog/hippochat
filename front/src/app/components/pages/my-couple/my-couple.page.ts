@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Camera, CameraResultType } from '@capacitor/camera';
 import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics';
 import { Toast } from '@capacitor/toast';
 import { AlertButton, AlertInput } from '@ionic/angular';
@@ -144,6 +145,7 @@ export class MyCouplePage implements OnInit {
     this.publicProfileService.getMyPublicProfile();
     this.publicProfileService.getMyMatesPublicProfile();
     this.publicProfileService.updateMyBatteryPercentage();
+    this.publicProfileService.getProfilePictures()
   }
 
   color = this.publicProfileService.myPublicProfile?.preferedColor ?? '';
@@ -171,6 +173,13 @@ export class MyCouplePage implements OnInit {
       preferedColor: this.color
     })
     this.publicProfileService.onChangePrimaryColor(this.color);
-    
+  }
+
+  async onClickPicture() {
+    const picture = await Camera.getPhoto({
+      resultType: CameraResultType.DataUrl,
+      saveToGallery: true
+    });
+    this.publicProfileService.updateProfilePicture(picture);
   }
 }

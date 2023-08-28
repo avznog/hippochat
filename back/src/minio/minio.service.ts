@@ -22,19 +22,13 @@ export class MinioService {
     })
   }
 
-  // async addProfilePicture(mate: Mate, file: Express.Multer.File) {
-  //   try {
-  //     // await this.minioClient.fGetObject("hippochat","/profile-pictures/bengonzva75@gmail.com/profile-picture.png", "./profile-picture.png")
-  //     if(!await this.minioClient.bucketExists("hippochat")){
-  //       await this.minioClient.makeBucket("hippochat")
-  //     }
-  //     return await this.minioClient.putObject("hippochat", `/profile-pictures/${mate.email}/${file.originalname}`,file.buffer, {
-  //       'Content-Type': file.mimetype,
-  //     })
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
+  async getFile(path: string) {
+    try {
+      return await this.minioClient.getObject("hippochat", path);
+    } catch (error) {
+      return null
+    }
+  }
 
   async uploadFile(path: string, file: Express.Multer.File) {
     try {

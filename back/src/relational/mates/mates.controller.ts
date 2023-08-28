@@ -31,14 +31,4 @@ export class MatesController {
   getMyMate(@CurrentUser() mate: Mate, @Query("coupleId") data: { coupleId: string }) {
     return this.matesService.getMyMate(mate, data.coupleId);
   }
-
-  @Post("update-profile-picture")
-  @UseInterceptors(FileInterceptor("file", {
-
-  }))
-  updateProfilePicture(@CurrentUser() mate: Mate, @UploadedFile() file: Express.Multer.File) {
-    this.matesService.updateProfilePicture(mate, file)
-  }
-
-
 }
