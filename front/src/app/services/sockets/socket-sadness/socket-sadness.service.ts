@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Observer } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Sadness } from 'src/app/models/sadness.model';
 import { SocketSadness } from 'src/app/providers/socket-sadness.provider';
 import { PublicProfileService } from '../../publicProfile/public-profile.service';

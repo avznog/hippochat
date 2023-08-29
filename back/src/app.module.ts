@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { GatewaysModule } from './gateways/gateways.module';
 import { RelationalModule } from './relational/relational.module';
+import { MinioService } from './minio/minio.service';
 
 @Module({
   imports: [
@@ -33,6 +34,6 @@ import { RelationalModule } from './relational/relational.module';
     GatewaysModule,
     ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, MinioService],
 })
 export class AppModule {}

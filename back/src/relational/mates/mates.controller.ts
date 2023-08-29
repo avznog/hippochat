@@ -1,9 +1,10 @@
-import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Post, Query, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { MatesService } from './mates.service';
 import { CurrentUser } from 'src/auth/decorators/current-user.model';
 import { Mate } from './entities/mate.entity';
 import JwtAuthGuard from 'src/auth/guards/jwt-auth.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags("mates")
 @Controller('mates')
@@ -30,5 +31,4 @@ export class MatesController {
   getMyMate(@CurrentUser() mate: Mate) {
     return this.matesService.getMyMate(mate);
   }
-
 }

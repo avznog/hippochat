@@ -22,7 +22,7 @@
     <div class="relative w-40">
       <div class="h-40">
         <img class="object-cover w-full h-full rounded-full"
-          src="../../../../assets/test-icons/benji.png" />
+          [src]="publicProfileService.myProfilePicture" (click)="onClickPicture()" />
         <div class="absolute top-0 left-0 bg-white border-2 border-white rounded-full">
           <ion-label class="text-5xl">{{publicProfileService.myPublicProfile?.profileEmoji}}</ion-label>
         </div>
@@ -33,7 +33,7 @@
     </div>
     <div class="relative w-40 h-40">
       <div class="h-40">
-        <img class="object-cover w-40 h-40 border rounded-full" src="../../../../assets/test-icons/celeste.png" />
+        <img class="object-cover w-40 h-40 rounded-full" [src]="publicProfileService.myMatesProfilePicture" />
         <div class="absolute top-0 right-0 bg-white border-2 border-white rounded-full">
           <ion-label class="text-5xl">{{publicProfileService.myMatePublicProfile?.profileEmoji}}</ion-label>
         </div>

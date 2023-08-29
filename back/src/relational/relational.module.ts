@@ -9,14 +9,20 @@ import { PublicProfileModule } from './public-profile/public-profile.module';
 import { SadnessModule } from './sadness/sadness.module';
 import { CouplesService } from './couples/couples.service';
 import { Couple } from './couples/entities/couple.entity';
+import { MinioService } from 'src/minio/minio.service';
+import { ConfigService } from '@nestjs/config';
+import { PublicProfileService } from './public-profile/public-profile.service';
+import { PublicProfile } from './public-profile/entities/public-profile.entity';
 import { CoupleGateway } from 'src/gateways/couple/couple.gateway';
 import { GatewaysService } from 'src/gateways/services/gateways.service';
+import { PublicProfileGateway } from 'src/gateways/public-profile/public-profile.gateway';
 
 @Module({
   imports: [
-    MatesModule, PublicProfileModule, CouplesModule, TypeOrmModule.forFeature([Mate, Couple]), SadnessModule
+    MatesModule, PublicProfileModule, CouplesModule, TypeOrmModule.forFeature([Mate, Couple, PublicProfile]), SadnessModule
   ],
   controllers: [MatesController],
-  providers: [MatesService, CouplesService, CoupleGateway, GatewaysService]
+  providers: [MatesService, CouplesService, MinioService, ConfigService, PublicProfileService, CoupleGateway, GatewaysService, PublicProfileGateway]
 })
 export class RelationalModule {}
+

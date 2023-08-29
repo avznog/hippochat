@@ -6,6 +6,8 @@ import { PublicProfile } from './entities/public-profile.entity';
 import { CouplesService } from '../couples/couples.service';
 import { Couple } from '../couples/entities/couple.entity';
 import { Mate } from '../mates/entities/mate.entity';
+import { MinioService } from 'src/minio/minio.service';
+import { ConfigService } from '@nestjs/config';
 import { PublicProfileGateway } from 'src/gateways/public-profile/public-profile.gateway';
 import { GatewaysService } from 'src/gateways/services/gateways.service';
 import { CoupleGateway } from 'src/gateways/couple/couple.gateway';
@@ -13,6 +15,6 @@ import { CoupleGateway } from 'src/gateways/couple/couple.gateway';
 @Module({
   imports: [TypeOrmModule.forFeature([PublicProfile, Couple, Mate])],
   controllers: [PublicProfileController],
-  providers: [PublicProfileService, CouplesService, PublicProfileGateway, GatewaysService, CoupleGateway, GatewaysService]
+  providers: [PublicProfileService, CouplesService, MinioService, ConfigService, PublicProfileGateway, GatewaysService, CoupleGateway, GatewaysService]
 })
 export class PublicProfileModule {}

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Camera, CameraResultType } from '@capacitor/camera';
 import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics';
 import { Toast } from '@capacitor/toast';
 import { AlertButton, AlertInput } from '@ionic/angular';
@@ -178,6 +179,20 @@ export class MyCouplePage implements OnInit {
       preferedColor: this.color
     })
     this.publicProfileService.onChangePrimaryColor(this.color);
-    
+  }
+
+  async onClickPicture() {
+    const picture = await Camera.getPhoto({
+      correctOrientation: true,
+      promptLabelCancel: "Annuler",
+      promptLabelPhoto: "Pellicule",
+      promptLabelHeader:"Je change de photo de profil",
+      promptLabelPicture: "Prendre une photo",
+      allowEditing: false,
+      quality: 100,
+      resultType: CameraResultType.DataUrl,
+      saveToGallery: true
+    });
+    this.publicProfileService.updateProfilePicture(picture);
   }
 }
