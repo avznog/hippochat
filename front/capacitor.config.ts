@@ -11,7 +11,8 @@ const config: CapacitorConfig = {
     // url: "http://172.20.10.3:8100",
     // url: "http://192.168.1.15:8100",
     // url: "http://10.221.14.108:8100",
-    url: "http://192.168.7.191:8100",
+    // url: "http://192.168.7.191:8100",
+    url: "http://172.20.10.3:8100",
     cleartext: true
   },
   plugins: {
