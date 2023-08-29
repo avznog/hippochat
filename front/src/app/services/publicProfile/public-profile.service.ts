@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Photo } from '@capacitor/camera';
 import { Device } from '@capacitor/device';
+import { Haptics, NotificationType } from '@capacitor/haptics';
 import { lastValueFrom } from 'rxjs';
 import { Sex } from 'src/app/constants/sex.type';
 import { UpdatePublicProfileDto } from 'src/app/dto/publicProfile/update-public-profile.dto';
@@ -86,16 +87,24 @@ export class PublicProfileService {
       lastModified: new Date().getTime(),
     }));
     this.http.post(`public-profile/update-profile-picture`, formData).subscribe(res => {
-      this.getMyProfilePictures()
+      this.getMyProfilePictures();
     })
   }
 
   getMyProfilePictures() {
     this.http.get(`public-profile/get-my-profile-picture`, { responseType: "blob" }).subscribe(async (file) => {
-      if(file.size === 0)
+      if(file.size === 0) {
         this.myProfilePicture = this.myPublicProfile?.sex === Sex.MALE ? '../../../assets/couple-icons/boy-iso-color.png' : '../../../assets/couple-icons/girl-iso-color.png'
-      else
+        Haptics.notification({
+          type: NotificationType.Error
+        }) 
+      }
+      else {
         this.myProfilePicture = await this.createProfilePicture(file);
+        Haptics.notification({
+          type: NotificationType.Success
+        })
+      }
     })
   }
 

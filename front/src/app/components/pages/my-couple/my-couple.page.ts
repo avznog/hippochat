@@ -182,6 +182,9 @@ export class MyCouplePage implements OnInit {
   }
 
   async onClickPicture() {
+    Haptics.impact({
+      style: ImpactStyle.Heavy
+    });
     const picture = await Camera.getPhoto({
       correctOrientation: true,
       promptLabelCancel: "Annuler",
