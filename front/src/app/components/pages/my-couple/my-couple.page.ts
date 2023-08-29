@@ -145,7 +145,6 @@ export class MyCouplePage implements OnInit {
     this.publicProfileService.getMyPublicProfile();
     this.publicProfileService.getMyMatesPublicProfile();
     this.publicProfileService.updateMyBatteryPercentage();
-    this.publicProfileService.getProfilePictures()
   }
 
   color = this.publicProfileService.myPublicProfile?.preferedColor ?? '';

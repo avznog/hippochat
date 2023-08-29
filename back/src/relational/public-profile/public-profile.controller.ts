@@ -46,7 +46,10 @@ export class PublicProfileController {
   async getMyProfilePicture(@Res() response: Response, @CurrentUser() mate: Mate)  {
     try {
       const file = await this.minioService.getFile(mate.publicProfile.profilePicture);
-      file.pipe(response)
+      if(!file)
+        response.send(null)
+      else 
+        file.pipe(response)
     } catch (error) { 
       console.log(error)
       throw new HttpException("No file found", HttpStatus.INTERNAL_SERVER_ERROR)
@@ -55,8 +58,16 @@ export class PublicProfileController {
 
   @Get("get-mate-profile-picture")
   async getMateProfilePicture(@Res() response: Response, @CurrentUser() mate: Mate) {
+    try {
       const file = await this.publicProfileService.getMyMatesProfilePicture(mate)
-      file.pipe(response)
-    
+      if(!file) {
+        response.send(null)
+      } else {
+        file.pipe(response)
+      }
+    } catch (error) {
+      console.log(error)
+      throw new HttpException("No file found", HttpStatus.INTERNAL_SERVER_ERROR)
+    }
   }
 }
