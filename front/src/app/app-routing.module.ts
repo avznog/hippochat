@@ -38,9 +38,9 @@ const routes: Routes = [
         canActivate: [LoggedGuard, NoMateGuard]
       },
       {
-        path: 'calendars',
+        path: 'moodboard',
         pathMatch: "full",
-        loadChildren: () => import('./components/pages/calendars/calendars.module').then( m => m.CalendarsPageModule),
+        loadChildren: () => import('./components/pages/moodboard/moodboard.module').then( m => m.MoodboardPageModule),
         canActivate: [LoggedGuard, NoMateGuard]
       },
       {

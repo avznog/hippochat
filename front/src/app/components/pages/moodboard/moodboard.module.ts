@@ -3,18 +3,17 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
+import { MoodboardPageRoutingModule } from './moodboard-routing.module';
+import { MoodboardPage } from './moodboard.page';
 
-import { CalendarsPageRoutingModule } from './calendars-routing.module';
-
-import { CalendarsPage } from './calendars.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CalendarsPageRoutingModule
+    MoodboardPageRoutingModule
   ],
-  declarations: [CalendarsPage]
+  declarations: [MoodboardPage]
 })
-export class CalendarsPageModule {}
+export class MoodboardPageModule {}
