@@ -18,7 +18,7 @@ export class MatesService {
   async findByPayload(payload: TokenPayload) : Promise<Mate> {
     try {
       return await this.mateRepository.findOne({
-        relations: ["couple", "publicProfile", "publicProfile.sadness"],
+        relations: ["couple", "publicProfile", "publicProfile.sadness", "couple.mates"],
         where: {
           email: payload.username
         }
@@ -53,17 +53,7 @@ export class MatesService {
     })
   }
   
-  async getMyMate(mate: Mate, coupleId: string) {
-    if(coupleId === '') {
-      coupleId = (await this.couplesService.getMyCouple(mate)).id
-    }
-    return await this.mateRepository.findOne({
-      relations: ["publicProfile", "publicProfile.sadness"],
-      where: {
-        couple: {
-          id: coupleId
-        }
-      }
-    })
+  async getMyMate(mate: Mate) {
+    return (await this.couplesService.getMyCouple(mate)).mates.find(m => m.id !== mate.id);
   }
 }

@@ -15,6 +15,9 @@ import { Couple } from 'src/relational/couples/entities/couple.entity';
 import { MinioService } from 'src/minio/minio.service';
 import { ConfigService } from '@nestjs/config';
 import { PublicProfileService } from 'src/relational/public-profile/public-profile.service';
+import { CoupleGateway } from 'src/gateways/couple/couple.gateway';
+import { GatewaysService } from 'src/gateways/services/gateways.service';
+import { PublicProfileGateway } from 'src/gateways/public-profile/public-profile.gateway';
 
 @Module({
   imports: [
@@ -39,7 +42,10 @@ import { PublicProfileService } from 'src/relational/public-profile/public-profi
     CouplesService,
     MinioService,
     ConfigService,
-    PublicProfileService
+    PublicProfileService,
+    CoupleGateway,
+    GatewaysService,
+    PublicProfileGateway
   ]
 })
 export class AuthModule {}

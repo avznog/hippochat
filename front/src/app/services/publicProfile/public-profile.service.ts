@@ -42,7 +42,6 @@ export class PublicProfileService {
   }
 
   updateMyMatesPublicProfile(updatePublicProfileDto: UpdatePublicProfileDto) {
-    this.updateMyPublicProfile({});
     this.http.patch<PublicProfile>(`public-profile/my-mate`, updatePublicProfileDto).subscribe(publicProfile => this.myMatePublicProfile = publicProfile);
   }
 

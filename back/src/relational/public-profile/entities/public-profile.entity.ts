@@ -28,6 +28,6 @@ export class PublicProfile {
   @Column({nullable: false, default: "#3880ff"})
   preferedColor: string;
 
-  @OneToMany(() => Sadness, sadness => sadness.publicProfile)
+  @OneToMany(() => Sadness, sadness => sadness.publicProfile, { onUpdate: "CASCADE"})
   sadness: Sadness;
 }

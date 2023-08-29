@@ -28,7 +28,7 @@ export class MatesController {
   }
 
   @Get("my")
-  getMyMate(@CurrentUser() mate: Mate, @Query("coupleId") data: { coupleId: string }) {
-    return this.matesService.getMyMate(mate, data.coupleId);
+  getMyMate(@CurrentUser() mate: Mate) {
+    return this.matesService.getMyMate(mate);
   }
 }

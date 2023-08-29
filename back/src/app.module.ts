@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { GatewaysModule } from './gateways/gateways.module';
 import { RelationalModule } from './relational/relational.module';
 import { MinioService } from './minio/minio.service';
 
@@ -30,6 +31,7 @@ import { MinioService } from './minio/minio.service';
   }),
     RelationalModule,
     AuthModule,
+    GatewaysModule,
     ],
   controllers: [AppController],
   providers: [AppService, MinioService],

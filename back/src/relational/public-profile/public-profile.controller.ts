@@ -7,9 +7,11 @@ import { Mate } from '../mates/entities/mate.entity';
 import { UpdatePublicProfileDto } from './dto/update-public-profile.dto';
 import { PublicProfileService } from './public-profile.service';
 import { MinioService } from 'src/minio/minio.service';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('public-profile')
 @UseGuards(JwtAuthGuard)
+@ApiTags("public-profile")
 export class PublicProfileController {
   constructor(
     private readonly publicProfileService: PublicProfileService,
