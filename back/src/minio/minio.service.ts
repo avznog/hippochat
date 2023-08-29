@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as Minio from "minio";
-import { Mate } from 'src/relational/mates/entities/mate.entity';
 
 @Injectable()
 export class MinioService {

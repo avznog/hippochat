@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PublicProfile } from './entities/public-profile.entity';
+import { PublicProfileGateway } from 'src/gateways/public-profile/public-profile.gateway';
+import { MinioService } from 'src/minio/minio.service';
 import { Repository } from 'typeorm';
+import { CouplesService } from '../couples/couples.service';
 import { Mate } from '../mates/entities/mate.entity';
 import { UpdatePublicProfileDto } from './dto/update-public-profile.dto';
-import { CouplesService } from '../couples/couples.service';
-import { MinioService } from 'src/minio/minio.service';
-import { PublicProfileGateway } from 'src/gateways/public-profile/public-profile.gateway';
+import { PublicProfile } from './entities/public-profile.entity';
 
 @Injectable()
 export class PublicProfileService {
@@ -62,6 +62,7 @@ export class PublicProfileService {
     this.updateMyPublicProfile(mate, {
       profilePicture: path
     });
+    this.publicProfileGateway.updateMyProfilePicture(mate);
     return await this.publicProfileRepostiory.findOne({where: {id: mate.publicProfile.id}, relations: ["sadness"]});
   }
 

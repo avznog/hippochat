@@ -1,13 +1,13 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Patch, Post, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { CurrentUser } from 'src/auth/decorators/current-user.model';
 import JwtAuthGuard from 'src/auth/guards/jwt-auth.guard';
+import { MinioService } from 'src/minio/minio.service';
 import { Mate } from '../mates/entities/mate.entity';
 import { UpdatePublicProfileDto } from './dto/update-public-profile.dto';
 import { PublicProfileService } from './public-profile.service';
-import { MinioService } from 'src/minio/minio.service';
-import { ApiTags } from '@nestjs/swagger';
 
 @Controller('public-profile')
 @UseGuards(JwtAuthGuard)
@@ -15,7 +15,7 @@ import { ApiTags } from '@nestjs/swagger';
 export class PublicProfileController {
   constructor(
     private readonly publicProfileService: PublicProfileService,
-    private readonly minioService: MinioService
+    private readonly minioService: MinioService,
     ) {}
 
   @Patch("my")
@@ -41,7 +41,7 @@ export class PublicProfileController {
   @Post("update-profile-picture")
   @UseInterceptors(FileInterceptor("file"))
   async updateProfilePicture(@CurrentUser() mate: Mate, @UploadedFile() file: Express.Multer.File) {
-    return await this.publicProfileService.updateProfilePicture(mate, file)
+    return await this.publicProfileService.updateProfilePicture(mate, file);
   }
 
   @Get("get-my-profile-picture")

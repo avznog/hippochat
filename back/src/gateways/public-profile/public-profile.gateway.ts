@@ -1,9 +1,9 @@
 import { OnGatewayConnection, OnGatewayDisconnect, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server } from 'socket.io';
-import { GatewaysService } from '../services/gateways.service';
 import { CouplesService } from 'src/relational/couples/couples.service';
 import { Mate } from 'src/relational/mates/entities/mate.entity';
 import { PublicProfile } from 'src/relational/public-profile/entities/public-profile.entity';
+import { GatewaysService } from '../services/gateways.service';
 
 @WebSocketGateway({namespace: "public-profile", cors: { origin: "*"}, transports: ["polling", "websocket"]})
 export class PublicProfileGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -33,4 +33,9 @@ export class PublicProfileGateway implements OnGatewayConnection, OnGatewayDisco
     const couple = await this.couplesService.getMyCouple(mate);
     this.server.to(this.gatewaysService.connectedUsers.get(couple.mates.find(m => m.id !== mate.id).id)).emit("update-my-public-profile", publicProfile);
   } 
+
+  async updateMyProfilePicture(mate: Mate) {
+    const couple = await this.couplesService.getMyCouple(mate);
+    this.server.to(this.gatewaysService.connectedUsers.get(couple.mates.find(m => m.id !== mate.id).id)).emit("update-profile-picture");
+  }
 }
