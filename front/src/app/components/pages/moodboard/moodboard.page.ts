@@ -7,9 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MoodboardPage implements OnInit {
 
+  timePeriod: "today" | "month" = "today";
   constructor() { }
 
   ngOnInit() {
   }
-
 }

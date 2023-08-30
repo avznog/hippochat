@@ -1,4 +1,6 @@
 import { Couple } from "./couple.model";
+import { DaysEmoji } from "./days-emoji.model";
+import { DaysPicture } from "./days-picture.model";
 import { PublicProfile } from "./public-profile.model";
 
 export interface Mate {
@@ -8,6 +10,9 @@ export interface Mate {
   firstname: string;
   lastname: string;
   age: number;
+  timezone: string;
+  daysEmojis: DaysEmoji[];
+  daysPictures: DaysPicture[];
   publicProfile: PublicProfile;
   couple: Couple;
 }

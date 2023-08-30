@@ -23,6 +23,7 @@ import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
 import { SocketSadness } from './providers/socket-sadness.provider';
 import { SocketPublicProfile } from './providers/socket-public-profile.provider';
 import { SocketCouple } from './providers/socket-couple.provider';
+import { SocketDaysEmojis } from './providers/socket-days-emojis.provider';
 
 
 @NgModule({
@@ -58,7 +59,7 @@ import { SocketCouple } from './providers/socket-couple.provider';
     { provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: CredentialsInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: TimeoutInterceptor, multi: true },
-     AuthGuard, LoggedGuard, NoMateGuard, HasMateGuard, SocketSadness, SocketCouple, SocketPublicProfile,
+     AuthGuard, LoggedGuard, NoMateGuard, HasMateGuard, SocketSadness, SocketCouple, SocketPublicProfile, SocketDaysEmojis
   ],
 })
 export class AppModule { }

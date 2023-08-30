@@ -5,9 +5,25 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
+  <!-- ? header -->
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">moodboard</ion-title>
     </ion-toolbar>
   </ion-header>
-</ion-content>
+
+  <!-- ? segment for choosing today -->
+  <ion-segment class="mt-5" [(ngModel)]="timePeriod">
+    <ion-segment-button value="today">
+      <ion-label>Aujourd'hui</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="month">
+      <ion-label>Ce mois</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <app-moodboard-today *ngIf="timePeriod === 'today'"></app-moodboard-today>
+  <app-moodboard-month *ngIf="timePeriod === 'month'"></app-moodboard-month>
+
+  </ion-content>
