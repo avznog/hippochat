@@ -1,22 +1,22 @@
 <ion-tabs>
 
   <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="conversation">
+    <ion-tab-button tab="conversation" (click)="onClickTab()">
       <ion-img [src]="router.url.includes('conversation') ? conversationOnIcon : conversationOffIcon " class="w-1/3" />
       <ion-label>Conversation</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="moodboard">
+    <ion-tab-button tab="moodboard" (click)="onClickTab()">
       <ion-img [src]="router.url.includes('moodboard') ? calendarsOnIcon : calendarsOffIcon " class="w-1/3" />
       <ion-label>Moodboard</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="my-couple">
+    <ion-tab-button tab="my-couple" (click)="onClickTab()">
       <ion-img [src]="router.url.includes('my-couple') ? myCoupleOnIcon : myCoupleOffIcon " class="w-1/3" />
       <ion-label>Mon couple</ion-label>
     </ion-tab-button>
     
-    <ion-tab-button tab="my-profile">
+    <ion-tab-button tab="my-profile" (click)="onClickTab()">
       <ion-img [src]="router.url.includes('my-profile') ? myProfileOnIcon : myProfileOffIcon " class="w-1/3" />
       <ion-label>Mon profil</ion-label>
     </ion-tab-button>

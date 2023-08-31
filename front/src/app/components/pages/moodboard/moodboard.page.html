@@ -10,12 +10,12 @@
   <!-- ? header -->
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">moodboard</ion-title>
+      <ion-title size="large">Mon Moodboard</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <!-- ? segment for choosing today -->
-  <ion-segment class="mt-5" [(ngModel)]="timePeriod">
+  <ion-segment class="mt-5" [(ngModel)]="timePeriod" (ngModelChange)="onChangeTimePeriod()">
     <ion-segment-button value="today">
       <ion-label>Aujourd'hui</ion-label>
     </ion-segment-button>

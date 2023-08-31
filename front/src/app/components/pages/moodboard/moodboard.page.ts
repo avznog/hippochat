@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Haptics, NotificationType } from '@capacitor/haptics';
 
 @Component({
   selector: 'app-moodboard',
@@ -11,5 +12,11 @@ export class MoodboardPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onChangeTimePeriod() {
+    Haptics.notification({
+      type: NotificationType.Warning
+    })
   }
 }

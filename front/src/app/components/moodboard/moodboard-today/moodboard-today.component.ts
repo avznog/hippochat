@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Camera, CameraResultType } from '@capacitor/camera';
-import { Device } from '@capacitor/device';
+import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics';
 import { Toast } from '@capacitor/toast';
 import { AlertButton, AlertInput } from '@ionic/angular';
 import * as moment from 'moment-timezone';
@@ -73,7 +73,7 @@ export class MoodboardTodayComponent  implements OnInit {
       });
       return
     } else {
-      const picture = await Camera.getPhoto({
+      Camera.getPhoto({
         correctOrientation: true,
         promptLabelCancel: "Annuler",
         promptLabelPhoto: "Pellicule",
@@ -83,9 +83,37 @@ export class MoodboardTodayComponent  implements OnInit {
         quality: 100,
         resultType: CameraResultType.DataUrl,
         saveToGallery: true
-      });
-      this.daysPicturesService.addTodayDayPicture(picture);
+      })
+        .then(picture => {
+          Haptics.notification({type: NotificationType.Success})
+          this.daysPicturesService.addTodayDayPicture(picture);
+        }
+        )
+        .catch(() => Haptics.notification({type: NotificationType.Error}));
+      
     }
+  }
+
+  onChangeMate() {
+    Haptics.notification({
+      type: NotificationType.Warning
+    })
+  }
+
+  onClickEmoji() {
+    Haptics.impact({
+      style: ImpactStyle.Heavy
+    })
+  }
+
+  onClickPicture() {
+    this.who === 'me' ? 
+    Haptics.impact({
+      style: ImpactStyle.Heavy
+    }) : 
+    Haptics.notification({
+      type: NotificationType.Error
+    });
   }
 
 }
