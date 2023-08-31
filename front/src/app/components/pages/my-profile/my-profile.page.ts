@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import * as moment from 'moment-timezone';
 import { AuthService } from 'src/app/auth/auth.service';
+import { MatesService } from 'src/app/services/mates/mates.service';
 
 @Component({
   selector: 'app-my-profile',
@@ -9,8 +11,12 @@ import { AuthService } from 'src/app/auth/auth.service';
 export class MyProfilePage implements OnInit {
 
   constructor(
-    private authService: AuthService
+    public authService: AuthService,
+    private readonly matesService: MatesService
   ) { }
+
+  timezone: string = this.authService.currentUserSubject.getValue().timezone;
+  allTimezones: string[] = moment.tz.names();
 
   ngOnInit() {
   }
@@ -19,4 +25,9 @@ export class MyProfilePage implements OnInit {
     this.authService.logout();
   }
 
+  onChangeTimezone(e: any) {
+    this.matesService.updateMe({
+      timezone: e.detail.value
+    })
+  }
 }

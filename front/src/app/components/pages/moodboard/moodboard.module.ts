@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { MoodboardPageRoutingModule } from './moodboard-routing.module';
 import { MoodboardPage } from './moodboard.page';
+import { MoodboardTodayComponent } from '../../moodboard/moodboard-today/moodboard-today.component';
+import { MoodboardMonthComponent } from '../../moodboard/moodboard-month/moodboard-month.component';
 
 
 @NgModule({
@@ -12,8 +14,8 @@ import { MoodboardPage } from './moodboard.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    MoodboardPageRoutingModule
+    MoodboardPageRoutingModule,
   ],
-  declarations: [MoodboardPage]
+  declarations: [MoodboardPage, MoodboardTodayComponent, MoodboardMonthComponent]
 })
 export class MoodboardPageModule {}

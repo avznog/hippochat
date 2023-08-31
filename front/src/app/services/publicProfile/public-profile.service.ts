@@ -116,7 +116,6 @@ export class PublicProfileService {
           this.myMatesProfilePicture = await this.createProfilePicture(file);
         }
       })
-
     }
 
   async createProfilePicture(file: Blob) {

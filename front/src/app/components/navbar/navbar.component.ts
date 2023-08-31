@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import { IonicModule } from '@ionic/angular';
 
 @Component({
@@ -28,5 +29,11 @@ export class NavbarComponent  implements OnInit {
   ) { }
 
   ngOnInit() {}
+
+  onClickTab() {
+    Haptics.impact({
+      style: ImpactStyle.Light
+    })
+  }
 
 }

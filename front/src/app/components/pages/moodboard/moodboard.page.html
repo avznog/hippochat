@@ -1,13 +1,42 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>moodboard</ion-title>
+    <ion-title>Mon Moodboard</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+
+<ion-content [fullscreen]="false">
+
+  <!-- ? header -->
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">moodboard</ion-title>
+      <ion-title size="large">Mon Moodboard</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <!-- ? segment for choosing today -->
+  <ion-segment class="mt-5" [(ngModel)]="timePeriod" (ngModelChange)="onChangeTimePeriod()">
+    <ion-segment-button value="today">
+      <ion-label>Aujourd'hui</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="month">
+      <ion-label>Ce mois</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <app-moodboard-today [who]="who" *ngIf="timePeriod === 'today'"></app-moodboard-today>
+  <app-moodboard-month *ngIf="timePeriod === 'month'"></app-moodboard-month>
+  
 </ion-content>
+
+<!-- ? bottom segment for me  -->
+<ion-segment *ngIf="timePeriod === 'today'" [(ngModel)]="who"
+  (ngModelChange)="onChangeMate(); who === 'me' ? daysEmojisService.getMyTodaysEmoji() : daysEmojisService.getMyMatesTodaysEmoji()">
+  <ion-segment-button value="me">
+    <ion-label>{{publicProfileService.myPublicProfile?.nickname}}</ion-label>
+  </ion-segment-button>
+
+  <ion-segment-button value="mate">
+    <ion-label>{{publicProfileService.myMatePublicProfile?.nickname}}</ion-label>
+  </ion-segment-button>
+</ion-segment>

@@ -25,17 +25,14 @@ export class PublicProfileGateway implements OnGatewayConnection, OnGatewayDisco
   server: Server;
 
   async updateMatePublicProfile(mate: Mate, publicProfile: PublicProfile) {
-    const couple = await this.couplesService.getMyCouple(mate);
-    this.server.to(this.gatewaysService.connectedUsers.get(couple.mates.find(m => m.id !== mate.id).id)).emit("update-mate-public-profile", publicProfile);
+    this.server.to(this.gatewaysService.connectedUsers.get((await this.couplesService.getMyMate(mate)).id)).emit("update-mate-public-profile", publicProfile);
   }
 
   async updateMyPublicProfile(mate: Mate, publicProfile: PublicProfile) {
-    const couple = await this.couplesService.getMyCouple(mate);
-    this.server.to(this.gatewaysService.connectedUsers.get(couple.mates.find(m => m.id !== mate.id).id)).emit("update-my-public-profile", publicProfile);
+    this.server.to(this.gatewaysService.connectedUsers.get((await this.couplesService.getMyMate(mate)).id)).emit("update-my-public-profile", publicProfile);
   } 
 
   async updateMyProfilePicture(mate: Mate) {
-    const couple = await this.couplesService.getMyCouple(mate);
-    this.server.to(this.gatewaysService.connectedUsers.get(couple.mates.find(m => m.id !== mate.id).id)).emit("update-profile-picture");
+    this.server.to(this.gatewaysService.connectedUsers.get((await this.couplesService.getMyMate(mate)).id)).emit("update-profile-picture");
   }
 }

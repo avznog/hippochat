@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
+import * as moment from 'moment-timezone';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Sex } from 'src/app/constants/sex.type';
 
@@ -15,6 +16,8 @@ export class RegisterComponent  implements OnInit {
   notifyImg = "../../../../../assets/register-icons/notify-heart-dynamic-color.png";
   loading: boolean = false;
   gender: Sex | null = null;
+  timezone: string = "";
+  allTimezones: string[] = moment.tz.names();
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -29,6 +32,7 @@ export class RegisterComponent  implements OnInit {
       age: [0, [Validators.required, Validators.min(0)]],
       password: ["", [Validators.required, Validators.minLength(8)]],
       confirmPassword: ["", [Validators.required, Validators.minLength(8)]],
+      timezone: ["", Validators.required]
     },
     {
       validators: this.ConfirmedValidator("password", "confirmPassword")
@@ -49,7 +53,8 @@ export class RegisterComponent  implements OnInit {
       firstname: this.registerForm.value["firstname"],
       lastname: this.registerForm.value["lastname"],
       age: this.registerForm.value["age"],
-      password: this.registerForm.value["password"]
+      password: this.registerForm.value["password"],
+      timezone: this.timezone
     },
     this.gender!);
     this.loading = false;
@@ -86,8 +91,11 @@ export class RegisterComponent  implements OnInit {
     }
 
     onChangeGender(e: any) {
-      console.log(e.detail.value)
       this.gender = e.detail.value;
+    }
+
+    onChangeTimezone(e: any) {
+      this.timezone = e.detail.value;
     }
 
 }

@@ -5,6 +5,7 @@ import { Sex } from 'src/constants/sex.type';
 import { ILike, IsNull, Repository } from 'typeorm';
 import { CouplesService } from '../couples/couples.service';
 import { Mate } from './entities/mate.entity';
+import { UpdateMateDto } from './dto/update-mate.dto';
 
 @Injectable()
 export class MatesService {
@@ -55,5 +56,11 @@ export class MatesService {
   
   async getMyMate(mate: Mate) {
     return (await this.couplesService.getMyCouple(mate)).mates.find(m => m.id !== mate.id);
+  }
+  
+
+  async update(mate: Mate, updateMateDto: UpdateMateDto) {
+    console.log(updateMateDto)
+    return await this.mateRepository.update(mate.id, updateMateDto);
   }
 }
