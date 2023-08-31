@@ -32,9 +32,14 @@
           <ion-input label="Répéter le mot de passe" type="password" labelPlacement="floating" formControlName="confirmPassword" [errorText]="(registerForm.value['password'] !== '' && registerForm.value['confirmPassword'] !== '' && registerForm.value['password'] !== registerForm.value['confirmPassword'] ) ? 'Les mots de passe ne correspondent pas' : ''"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-select interface="popover" placeholder="Sexe" (ionChange)="onChangeGender($event )">
+          <ion-select interface="popover" placeholder="Sexe" (ionChange)="onChangeGender($event)">
             <ion-select-option [value]="1">Femme</ion-select-option>
             <ion-select-option [value]="0">Homme</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-select formControlName="timezone" interface="popover" placeholder="Timezone" (ionChange)="onChangeTimezone($event)">
+            <ion-select-option [value]="zone" *ngFor="let zone of allTimezones">{{zone}}</ion-select-option>
           </ion-select>
         </ion-item>
        
