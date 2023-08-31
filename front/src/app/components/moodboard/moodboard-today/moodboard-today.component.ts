@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics';
 import { Toast } from '@capacitor/toast';
@@ -18,7 +18,7 @@ import { SocketDaysPicturesService } from 'src/app/services/sockets/socket-days-
 })
 export class MoodboardTodayComponent  implements OnInit {
 
-  who: "me" | "mate" = "me";
+  @Input() who!: "me" | "mate";
   constructor(
     public readonly publicProfileService: PublicProfileService,
     public readonly daysEmojisService: DaysEmojisService,
