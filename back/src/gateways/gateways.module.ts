@@ -8,8 +8,9 @@ import { GatewaysService } from './services/gateways.service';
 import { PublicProfileGateway } from './public-profile/public-profile.gateway';
 import { CoupleGateway } from './couple/couple.gateway';
 import { DaysEmojisGateway } from './days-emojis/days-emojis.gateway';
+import { DaysPicturesGateway } from './days-pictures/days-pictures.gateway';
 @Module({
   imports: [TypeOrmModule.forFeature([Couple, Mate])],
-  providers: [SadnessGateway, CouplesService, GatewaysService, PublicProfileGateway, CoupleGateway, DaysEmojisGateway]
+  providers: [SadnessGateway, CouplesService, GatewaysService, PublicProfileGateway, CoupleGateway, DaysEmojisGateway, DaysPicturesGateway]
 })
 export class GatewaysModule {}

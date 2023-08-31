@@ -4,7 +4,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+
+<ion-content [fullscreen]="false">
 
   <!-- ? header -->
   <ion-header collapse="condense">
@@ -25,5 +26,4 @@
 
   <app-moodboard-today *ngIf="timePeriod === 'today'"></app-moodboard-today>
   <app-moodboard-month *ngIf="timePeriod === 'month'"></app-moodboard-month>
-
-  </ion-content>
+</ion-content>

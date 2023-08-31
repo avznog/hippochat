@@ -1,7 +1,7 @@
-<div class="flex justify-center w-full align-baseline bdg-red-700 h-4/5">
+<div class="flex justify-center w-full align-baseline">
   <div class="relative justify-center w-full p-5 pb-2">
-    <img class="object-cover rounded-lg" src="../../../../assets/test-icons/benji.png" />
-    <div class="absolute top-0 {{who === 'me' ? 'left-0' : 'right-0'}} bg-white border-2 border-white rounded-full">
+    <img class="object-cover rounded-lg {{who === 'me' ? 'hover:cursor-pointer' : ''}}" (click)="who === 'me' && onAddDayPicture()" [src]="who === 'me' ? daysPicturesService.myTodaysPicture?.value : daysPicturesService.myMatesTodaysPicture?.value" />
+    <div class="absolute top-0 {{who === 'me' ? 'left-0' : 'right-0'}} bg-white border-2 border-white rounded-full {{who === 'me' ? 'hover:cursor-pointer' : ''}}">
       <ion-label *ngIf="who === 'me' && daysEmojisService.myTodaysEmoji" class="text-8xl">{{daysEmojisService.myTodaysEmoji.value}}</ion-label>
       <ion-label *ngIf="who === 'mate' && daysEmojisService.myMatesTodaysEmoji" class="text-8xl">{{daysEmojisService.myMatesTodaysEmoji.value}}</ion-label>
     </div>

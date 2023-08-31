@@ -10,7 +10,7 @@ export class DaysPicture {
   @Column({nullable: false, default: new Date(), type: "date"})
   date: string;
 
-  @Column({nullable: true})
+  @Column({nullable: false, default: ""})
   value: string;
 
   @ManyToOne(() => Mate, mate => mate.daysPictures)
