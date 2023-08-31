@@ -19,8 +19,6 @@ export class SocketDaysPicturesService {
   updateMatesDaysPicture() {
     return new Observable<any>(() => {
       this.socket.on("update-my-todays-picture", (todaysPicture: DaysPicture) => {
-        console.log("ml,knj")
-        console.log(todaysPicture)
         this.daysPicturesService.myMatesTodaysPicture = todaysPicture;
         this.daysPicturesService.getMyMatesTodaysPicture();
       })
