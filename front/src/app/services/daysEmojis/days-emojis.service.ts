@@ -39,7 +39,6 @@ export class DaysEmojisService {
         this.allMyMonthly.set(new Date(dayEmoji.date).getDate().toString(), dayEmoji);
       })
      })
-    console.log(this.allMyMonthly)
   }
 
 }
