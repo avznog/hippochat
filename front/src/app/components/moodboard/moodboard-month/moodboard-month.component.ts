@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/auth/auth.service';
+import { CouplesService } from 'src/app/services/couples/couples.service';
 
 @Component({
   selector: 'app-moodboard-month',
@@ -7,8 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MoodboardMonthComponent  implements OnInit {
 
-  constructor() { }
+  calendarDate: Date = new Date();
+  constructor(
+    public readonly authService: AuthService,
+    public readonly coupleService: CouplesService
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.coupleService.getMyMate()
+  }
+
+  onChangeDate(event: any) {
+    this.calendarDate = new Date(event.detail.value);
+  }
 
 }

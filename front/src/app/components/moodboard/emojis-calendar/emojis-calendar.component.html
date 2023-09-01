@@ -1,0 +1,26 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>
+      Les emojis de {{mate?.publicProfile?.nickname}}
+    </ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <img class="absolute {{location === 'top' ? 'right-0' : 'left-0' }} w-1/2 opacity-20 " [src]="mate?.publicProfile?.sex === 0 ?( location === 'top' ? boyReversedImage : boyImage ): (location === 'top' ? girlReversedImage : girlImage)"/>
+    <ion-grid [fixed]="true">
+      <ion-row>
+        <ion-col size="1.7" class="text-center">Mo</ion-col>
+        <ion-col size="1.7" class="text-center">Tu</ion-col>
+        <ion-col size="1.7" class="text-center">We</ion-col>
+        <ion-col size="1.7" class="text-center">Th</ion-col>
+        <ion-col size="1.7" class="text-center">Fr</ion-col>
+        <ion-col size="1.7" class="text-center">Sa</ion-col>
+        <ion-col size="1.7" class="text-center">Su</ion-col>
+      </ion-row>
+      <ion-row *ngFor="let week of calendar | keyvalue">
+        <ion-col size="1.7" class="text-center" *ngFor="let day of week.value | keyvalue">
+          {{day.value ? (myMate ? daysEmojisService.allMatesMonthly.get(day.value)?.value : daysEmojisService.allMyMonthly.get(day.value)?.value) ?? day.value : ''}}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
+</ion-card>

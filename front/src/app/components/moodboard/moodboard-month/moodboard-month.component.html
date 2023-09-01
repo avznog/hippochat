@@ -1,3 +1,8 @@
-<p>
-  moodboard-month works!
-</p>
+<app-emojis-calendar [myMate]="false" [location]="'top'" [mate]="authService.currentUserSubject.getValue()" [date]="calendarDate"></app-emojis-calendar>
+<ion-modal [keepContentsMounted]="true">
+  <ng-template>
+    <ion-datetime id="datetime" size="fixed" presentation="month-year" (ionChange)="onChangeDate($event)"></ion-datetime>
+  </ng-template>
+</ion-modal>
+<ion-datetime-button datetime="datetime"></ion-datetime-button>
+<app-emojis-calendar [myMate]="true" [location]="'bottom'" [mate]="coupleService.myMate" [date]="calendarDate"></app-emojis-calendar>

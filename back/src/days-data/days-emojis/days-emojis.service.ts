@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as moment from 'moment-timezone';
-import { Mate } from 'src/relational/mates/entities/mate.entity';
-import { Equal, Repository } from 'typeorm';
-import { DaysEmoji } from './entities/days-emoji.entity';
-import { CouplesService } from 'src/relational/couples/couples.service';
-import { CreateDaysEmojiDto } from './dto/create-days-emoji.dto';
 import { DaysEmojisGateway } from 'src/gateways/days-emojis/days-emojis.gateway';
+import { CouplesService } from 'src/relational/couples/couples.service';
+import { Mate } from 'src/relational/mates/entities/mate.entity';
+import { Between, Equal, Repository } from 'typeorm';
+import { CreateDaysEmojiDto } from './dto/create-days-emoji.dto';
+import { DaysEmoji } from './entities/days-emoji.entity';
 
 @Injectable()
 export class DaysEmojisService {
@@ -46,5 +46,27 @@ export class DaysEmojisService {
     const dayEmoji = await this.daysEmojiRepository.save(createDaysEmojiDto);
     this.daysEmojisGateway.updateTodaysDayEmoji(createDaysEmojiDto.mate, dayEmoji);
     return dayEmoji;
+  }
+
+  async getMyAllMonthly(mate: Mate, date: Date) {
+    return await this.daysEmojiRepository.find({
+      where: {
+        mate: {
+          id: mate.id
+        },
+        date: Between(moment(date).tz(mate.timezone).startOf("month").format("YYYY-MM-DD"), moment(date).tz(mate.timezone).endOf("month").format("YYYY-MM-DD"))
+      }
+    })
+  }
+
+  async getMatesAllMonthly(mate: Mate, date: Date) {
+    return await this.daysEmojiRepository.find({
+      where: {
+        mate: {
+          id: mate.couple.mates.find(m => m.id !== mate.id).id
+        },
+        date: Between(moment(date).tz(mate.timezone).startOf("month").format("YYYY-MM-DD"), moment(date).tz(mate.timezone).endOf("month").format("YYYY-MM-DD"))
+      }
+    })
   }
 }

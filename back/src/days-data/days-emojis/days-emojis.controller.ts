@@ -1,9 +1,9 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
-import { DaysEmojisService } from './days-emojis.service';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import JwtAuthGuard from 'src/auth/guards/jwt-auth.guard';
 import { CurrentUser } from 'src/auth/decorators/current-user.model';
+import JwtAuthGuard from 'src/auth/guards/jwt-auth.guard';
 import { Mate } from 'src/relational/mates/entities/mate.entity';
+import { DaysEmojisService } from './days-emojis.service';
 import { CreateDaysEmojiDto } from './dto/create-days-emoji.dto';
 
 @Controller('days-emojis')
@@ -26,6 +26,16 @@ export class DaysEmojisController {
   createToday(@CurrentUser() mate: Mate, @Body() createDaysEmojiDto: CreateDaysEmojiDto) {
     createDaysEmojiDto.mate = mate;
     return this.daysEmojisService.createToday(createDaysEmojiDto);
+  }
+  
+  @Get("all-my-monthly")
+  getMyAllMonthly(@CurrentUser() mate: Mate, @Query() data: {date: string}) {
+    return this.daysEmojisService.getMyAllMonthly(mate, new Date(data.date));
+  }
+  
+  @Get("all-mates-monthly")
+  getMatesAllMonthly(@CurrentUser() mate: Mate, @Query() data: {date: string}) {
+    return this.daysEmojisService.getMatesAllMonthly(mate, new Date(data.date));
   }
 }
   

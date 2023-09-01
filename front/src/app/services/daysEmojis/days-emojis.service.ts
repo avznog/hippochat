@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { CreateDaysEmojisDto } from 'src/app/dto/daysEmojis/create-days-emojis.dto';
@@ -11,12 +11,15 @@ export class DaysEmojisService {
 
   myTodaysEmoji?: DaysEmoji;
   myMatesTodaysEmoji?: DaysEmoji;
+
+  allMyMonthly = new Map<string, DaysEmoji>();
+  allMatesMonthly = new Map<string, DaysEmoji>();
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
   ) { }
 
   async getMyTodaysEmoji() {
-    this.myTodaysEmoji = await lastValueFrom(this.http.get<DaysEmoji>(`days-emojis/my-todays-emoji`)); 
+    this.myTodaysEmoji = await lastValueFrom(this.http.get<DaysEmoji>(`days-emojis/my-todays-emoji`));
   }
 
   async getMyMatesTodaysEmoji() {
@@ -26,6 +29,28 @@ export class DaysEmojisService {
   addTodaysDayEmoji(createDaysEmojisDto: CreateDaysEmojisDto) {
     this.http.post<DaysEmoji>(`days-emojis/create-today`, createDaysEmojisDto).subscribe(todayDayEmoji => {
       this.myTodaysEmoji = todayDayEmoji;
+    })
+  }
+
+  async getAllMyMonthly(date: Date) {
+    let httpPrams = new HttpParams();
+    httpPrams = httpPrams.append("date", date.toISOString());
+    this.http.get<DaysEmoji[]>(`days-emojis/all-my-monthly`, { params: httpPrams }).subscribe(daysEmojis => {
+      this.allMyMonthly.clear();
+      daysEmojis.forEach(dayEmoji => {
+        this.allMyMonthly.set(Number(dayEmoji.date.split("-")[2]).toString(), dayEmoji);
+      })
+    })
+  }
+
+  async getAllMatesMonthly(date: Date) {
+    let httpParams = new HttpParams()
+    httpParams = httpParams.append("date", date.toISOString());
+    this.http.get<DaysEmoji[]>(`days-emojis/all-mates-monthly`, { params: httpParams }).subscribe(daysEmojis => {
+      this.allMatesMonthly.clear();
+      daysEmojis.forEach(dayEmoji => {
+        this.allMatesMonthly.set(Number(dayEmoji.date.split("-")[2]).toString(), dayEmoji);
+      })
     })
   }
 
