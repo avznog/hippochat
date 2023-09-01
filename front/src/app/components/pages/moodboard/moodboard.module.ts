@@ -9,7 +9,6 @@ import { MoodboardTodayComponent } from '../../moodboard/moodboard-today/moodboa
 import { MoodboardPageRoutingModule } from './moodboard-routing.module';
 import { MoodboardPage } from './moodboard.page';
 
-
 @NgModule({
   imports: [
     CommonModule,

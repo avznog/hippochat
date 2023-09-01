@@ -12,7 +12,7 @@ import { PublicProfileService } from 'src/app/services/publicProfile/public-prof
 export class MoodboardPage implements OnInit {
 
   who: "me" | "mate" = "me";
-  timePeriod: "today" | "month" = "month";
+  timePeriod: "today" | "month" = "today";
   constructor(
     public readonly publicProfileService: PublicProfileService,
     public readonly daysEmojisService: DaysEmojisService,
