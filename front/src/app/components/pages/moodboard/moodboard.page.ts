@@ -11,8 +11,8 @@ import { PublicProfileService } from 'src/app/services/publicProfile/public-prof
 })
 export class MoodboardPage implements OnInit {
 
-  who: "me" | "mate" = "me";
-  timePeriod: "today" | "month" = "today";
+  who: "me" | "mate" = localStorage.getItem("who") as "me" | "mate" ?? 'me';
+  timePeriod: "today" | "month" = localStorage.getItem("timePeriod") as "today" | "month" ?? "today";
   constructor(
     public readonly publicProfileService: PublicProfileService,
     public readonly daysEmojisService: DaysEmojisService,
@@ -20,15 +20,18 @@ export class MoodboardPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    
   }
 
   onChangeTimePeriod() {
+    localStorage.setItem("timePeriod", this.timePeriod)
     Haptics.notification({
       type: NotificationType.Warning
     })
   }
 
   onChangeMate() {
+    localStorage.setItem("who", this.who)
     Haptics.notification({
       type: NotificationType.Warning
     })
