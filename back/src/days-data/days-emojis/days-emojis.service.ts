@@ -58,4 +58,15 @@ export class DaysEmojisService {
       }
     })
   }
+
+  async getMatesAllMonthly(mate: Mate, date: Date) {
+    return await this.daysEmojiRepository.find({
+      where: {
+        mate: {
+          id: mate.couple.mates.find(m => m.id !== mate.id).id
+        },
+        date: Between(moment(date).tz(mate.timezone).startOf("month").format("YYYY-MM-DD"), moment(date).tz(mate.timezone).endOf("month").format("YYYY-MM-DD"))
+      }
+    })
+  }
 }

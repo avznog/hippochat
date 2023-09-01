@@ -32,5 +32,10 @@ export class DaysEmojisController {
   getMyAllMonthly(@CurrentUser() mate: Mate, @Query() data: {date: string}) {
     return this.daysEmojisService.getMyAllMonthly(mate, new Date(data.date));
   }
+  
+  @Get("all-mates-monthly")
+  getMatesAllMonthly(@CurrentUser() mate: Mate, @Query() data: {date: string}) {
+    return this.daysEmojisService.getMatesAllMonthly(mate, new Date(data.date));
+  }
 }
   

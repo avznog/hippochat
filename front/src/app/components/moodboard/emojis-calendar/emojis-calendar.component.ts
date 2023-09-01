@@ -18,22 +18,25 @@ export class EmojisCalendarComponent  implements OnInit {
   @Input() date: Date = new Date();
   @Input() mate: Mate | undefined = {} as Mate;
   @Input() location?: "bottom" | "top";
+  @Input() myMate: boolean = false;
 
-  boyImage = '../../../../assets/couple-icons/boy-iso-color';
+  boyImage = '../../../../assets/couple-icons/boy-iso-color.png';
   boyReversedImage = '../../../../assets/couple-icons/boy-iso-color-reversed.png';
   girlImage = '../../../../assets/couple-icons/girl-iso-color.png';
   girlReversedImage = '../../../../assets/couple-icons/girl-iso-color-reversed.png';
 
   ngOnInit() {
     this.daysEmojisService.getAllMyMonthly(this.date);
+    this.daysEmojisService.getAllMatesMonthly(this.date);
   }
 
   ngOnChanges(changes: any) {
     this.calendar.clear();
     this.fillCalendar(this.date);
+    this.daysEmojisService.getAllMyMonthly(this.date);
+    this.daysEmojisService.getAllMatesMonthly(this.date);
     if(changes.mate) {
       this.mate = changes.mate.currentValue;
-      this.daysEmojisService.getAllMyMonthly(this.date);
     }
   }
   

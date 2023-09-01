@@ -18,7 +18,7 @@
       </ion-row>
       <ion-row *ngFor="let week of calendar | keyvalue">
         <ion-col size="1.7" class="text-center" *ngFor="let day of week.value | keyvalue">
-          {{day.value ? daysEmojisService.allMyMonthly.get(day.value)?.value ?? day.value : ''}}
+          {{day.value ? (myMate ? daysEmojisService.allMatesMonthly.get(day.value)?.value : daysEmojisService.allMyMonthly.get(day.value)?.value) ?? day.value : ''}}
         </ion-col>
       </ion-row>
     </ion-grid>

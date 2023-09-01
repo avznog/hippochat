@@ -13,12 +13,13 @@ export class DaysEmojisService {
   myMatesTodaysEmoji?: DaysEmoji;
 
   allMyMonthly = new Map<string, DaysEmoji>();
+  allMatesMonthly = new Map<string, DaysEmoji>();
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
   ) { }
 
   async getMyTodaysEmoji() {
-    this.myTodaysEmoji = await lastValueFrom(this.http.get<DaysEmoji>(`days-emojis/my-todays-emoji`)); 
+    this.myTodaysEmoji = await lastValueFrom(this.http.get<DaysEmoji>(`days-emojis/my-todays-emoji`));
   }
 
   async getMyMatesTodaysEmoji() {
@@ -34,11 +35,23 @@ export class DaysEmojisService {
   async getAllMyMonthly(date: Date) {
     let httpPrams = new HttpParams();
     httpPrams = httpPrams.append("date", date.toISOString());
-     this.http.get<DaysEmoji[]>(`days-emojis/all-my-monthly`, { params: httpPrams }).subscribe(daysEmojis => {
+    this.http.get<DaysEmoji[]>(`days-emojis/all-my-monthly`, { params: httpPrams }).subscribe(daysEmojis => {
+      this.allMyMonthly.clear();
       daysEmojis.forEach(dayEmoji => {
-        this.allMyMonthly.set(new Date(dayEmoji.date).getDate().toString(), dayEmoji);
+        this.allMyMonthly.set(Number(dayEmoji.date.split("-")[2]).toString(), dayEmoji);
       })
-     })
+    })
+  }
+
+  async getAllMatesMonthly(date: Date) {
+    let httpParams = new HttpParams()
+    httpParams = httpParams.append("date", date.toISOString());
+    this.http.get<DaysEmoji[]>(`days-emojis/all-mates-monthly`, { params: httpParams }).subscribe(daysEmojis => {
+      this.allMatesMonthly.clear();
+      daysEmojis.forEach(dayEmoji => {
+        this.allMatesMonthly.set(Number(dayEmoji.date.split("-")[2]).toString(), dayEmoji);
+      })
+    })
   }
 
 }
