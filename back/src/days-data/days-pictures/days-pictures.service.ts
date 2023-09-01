@@ -45,7 +45,7 @@ export class DaysPicturesService {
     const path = `/users/${mate.email}/days-pictures/${file.originalname}`;
     await this.minioService.uploadFile(path, file);
     const todayDayPicture = await this.daysPicturesRepository.save({
-      date: moment(new Date()).format("YYYY-MM-DD"),
+      date: moment(new Date()).tz(mate.timezone).format("YYYY-MM-DD"),
       mate: mate,
       value: path
     });
