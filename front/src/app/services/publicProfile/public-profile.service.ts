@@ -120,8 +120,8 @@ export class PublicProfileService {
         } else {
           this.myMatesProfilePicture = await this.createProfilePicture(file);
         }
+        this.loadingMatesProfilePicture = false;
       })
-      this.loadingMatesProfilePicture = false;
     }
 
   async createProfilePicture(file: Blob) {
