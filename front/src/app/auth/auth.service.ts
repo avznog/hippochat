@@ -38,6 +38,7 @@ export class AuthService {
     delete this.accessToken;
     localStorage.removeItem("currentUser");
     localStorage.removeItem("loggedIn");
+    this.publicProfileService.onChangePrimaryColor('')
     this.loggedInSubject.next(false);
     this.currentUserSubject.next(undefined!);
     this.http.get("auth/logout").subscribe();

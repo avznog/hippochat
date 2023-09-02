@@ -17,6 +17,8 @@ export class PublicProfileService {
   myMatePublicProfile?: PublicProfile;
   myProfilePicture?: string;
   myMatesProfilePicture?: string;
+  loadingMyProfilePicture: boolean = false;
+  loadingMatesProfilePicture: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -92,6 +94,7 @@ export class PublicProfileService {
   }
 
   getMyProfilePictures() {
+    this.loadingMyProfilePicture = true;
     this.http.get(`public-profile/get-my-profile-picture`, { responseType: "blob" }).subscribe(async (file) => {
       if(file.size === 0) {
         this.myProfilePicture = this.myPublicProfile?.sex === Sex.MALE ? '../../../assets/couple-icons/boy-iso-color.png' : '../../../assets/couple-icons/girl-iso-color.png'
@@ -105,10 +108,12 @@ export class PublicProfileService {
           type: NotificationType.Success
         })
       }
+      this.loadingMyProfilePicture = false;
     })
   }
 
   getMyMatesProfilePicture() {
+    this.loadingMatesProfilePicture = true;
       this.http.get(`public-profile/get-mate-profile-picture`, { responseType: "blob" }).subscribe(async file => {
         if (file.size === 0) {
           this.myMatesProfilePicture = this.myMatePublicProfile?.sex === Sex.MALE ? '../../../assets/couple-icons/boy-iso-color-reversed.png' : '../../../assets/couple-icons/girl-iso-color-reversed.png'
@@ -116,6 +121,7 @@ export class PublicProfileService {
           this.myMatesProfilePicture = await this.createProfilePicture(file);
         }
       })
+      this.loadingMatesProfilePicture = false;
     }
 
   async createProfilePicture(file: Blob) {

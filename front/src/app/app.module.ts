@@ -6,6 +6,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouteReuseStrategy } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import player from "lottie-web";
+import { LottieModule } from 'ngx-lottie';
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,12 +22,15 @@ import { CredentialsInterceptor } from './interceptors/credentials.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { JwtInterceptorInterceptor } from './interceptors/jwt-interceptor.interceptor';
 import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
-import { SocketSadness } from './providers/socket-sadness.provider';
-import { SocketPublicProfile } from './providers/socket-public-profile.provider';
 import { SocketCouple } from './providers/socket-couple.provider';
 import { SocketDaysEmojis } from './providers/socket-days-emojis.provider';
 import { SocketDaysPictures } from './providers/socket-days-pictures.providers';
+import { SocketPublicProfile } from './providers/socket-public-profile.provider';
+import { SocketSadness } from './providers/socket-sadness.provider';
 
+export function playerFactory() {
+  return player;
+}
 
 @NgModule({
   declarations: [AppComponent, LoginComponent],
@@ -38,6 +43,7 @@ import { SocketDaysPictures } from './providers/socket-days-pictures.providers';
     PagesModule,
     FormsModule,
     BrowserAnimationsModule,
+    LottieModule.forRoot({player: playerFactory}),
     // SocketIoModule.forRoot(config),
     ServiceWorkerModule.register('ngsw-worker.js',
       {

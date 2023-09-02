@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 import { NgxColorsModule } from 'ngx-colors';
+import { LottieModule } from 'ngx-lottie';
+import { playerFactory } from 'src/app/app.module';
 import { MyCouplePageRoutingModule } from './my-couple-routing.module';
 import { MyCouplePage } from './my-couple.page';
 
@@ -15,6 +17,7 @@ import { MyCouplePage } from './my-couple.page';
     IonicModule,
     NgxColorsModule,
     MyCouplePageRoutingModule,
+    LottieModule.forRoot({player: playerFactory})
   ],
   declarations: [MyCouplePage]
 })
