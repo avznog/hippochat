@@ -26,7 +26,9 @@ export class DaysPicturesService {
           value: '../../../assets/days-pictures/user-calendar.png'
         } as DaysPicture
       } else {
-        this.myTodaysPicture && (this.myTodaysPicture.value = await this.createProfilePicture(file));
+        this.myTodaysPicture ? (this.myTodaysPicture.value = await this.createProfilePicture(file)) : this.myTodaysPicture = {
+          value: '../../../assets/days-pictures/user-calendar.png'
+        } as DaysPicture
       }
     })
   }
@@ -40,7 +42,9 @@ export class DaysPicturesService {
           value: '../../../assets/days-pictures/user-calendar.png'
         } as DaysPicture
       } else {
-        this.myMatesTodaysPicture && (this.myMatesTodaysPicture.value = await this.createProfilePicture(file))
+        this.myMatesTodaysPicture ? (this.myMatesTodaysPicture.value = await this.createProfilePicture(file)) : this.myMatesTodaysPicture = {
+          value: '../../../assets/days-pictures/user-calendar.png'
+        } as DaysPicture
       }
     })
   }

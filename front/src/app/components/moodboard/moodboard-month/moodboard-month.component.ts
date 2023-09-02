@@ -16,7 +16,7 @@ export class MoodboardMonthComponent  implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.coupleService.getMyMate()
+    this.coupleService.getMyMate();
   }
 
   onChangeDate(event: any) {
