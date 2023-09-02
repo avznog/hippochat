@@ -8,6 +8,8 @@ import { MoodboardMonthComponent } from '../../moodboard/moodboard-month/moodboa
 import { MoodboardTodayComponent } from '../../moodboard/moodboard-today/moodboard-today.component';
 import { MoodboardPageRoutingModule } from './moodboard-routing.module';
 import { MoodboardPage } from './moodboard.page';
+import { LottieModule } from 'ngx-lottie';
+import { playerFactory } from 'src/app/app.module';
 
 @NgModule({
   imports: [
@@ -15,6 +17,7 @@ import { MoodboardPage } from './moodboard.page';
     FormsModule,
     IonicModule,
     MoodboardPageRoutingModule,
+    LottieModule.forRoot({player: playerFactory})
   ],
   declarations: [MoodboardPage, MoodboardTodayComponent, MoodboardMonthComponent, EmojisCalendarComponent]
 })

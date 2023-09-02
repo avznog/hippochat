@@ -10,42 +10,42 @@ import { DaysPicture } from 'src/app/models/days-picture.model';
 })
 export class DaysPicturesService {
 
-  myTodaysPicture?: DaysPicture;
-  myMatesTodaysPicture?: DaysPicture;
+  myTodaysPicture?: DaysPicture | null;
+  myMatesTodaysPicture?: DaysPicture | null;
+
+  loadMyTodaysPicture: boolean = false;
+  loadMatesTodaysPicture: boolean = false;
+
   constructor(
     private http: HttpClient
   ) {
    }
 
   async getMyTodaysPicture() {
+    this.loadMyTodaysPicture = true;
     this.myTodaysPicture = await lastValueFrom(this.http.get<DaysPicture>(`days-pictures/get-my-todays-picture`));
     this.http.get(`days-pictures/get-my-today`, { responseType: "blob" }).subscribe(async file => {
        if (file.size === 0) {
         // TODO : mettre des images fun
-        this.myTodaysPicture ? (this.myTodaysPicture.value = '../../../assets/days-pictures/user-calendar.png') : this.myTodaysPicture = {
-          value: '../../../assets/days-pictures/user-calendar.png'
-        } as DaysPicture
+        this.myTodaysPicture  = null;
       } else {
-        this.myTodaysPicture ? (this.myTodaysPicture.value = await this.createProfilePicture(file)) : this.myTodaysPicture = {
-          value: '../../../assets/days-pictures/user-calendar.png'
-        } as DaysPicture
+        this.myTodaysPicture ? (this.myTodaysPicture.value = await this.createProfilePicture(file)) : this.myTodaysPicture = null;
       }
+      this.loadMyTodaysPicture = false;
     })
   }
 
   async getMyMatesTodaysPicture() {
+    this.loadMatesTodaysPicture = true;
     this.myMatesTodaysPicture = await lastValueFrom(this.http.get<DaysPicture>(`days-pictures/get-mates-todays-picture`));
     this.http.get(`days-pictures/get-my-mates-today`, { responseType: "blob" }).subscribe(async file => {
       if (file.size === 0) {
         // TODO : mettre des images fun
-        this.myMatesTodaysPicture ? (this.myMatesTodaysPicture.value = '../../../assets/days-pictures/user-calendar.png') : this.myMatesTodaysPicture = {
-          value: '../../../assets/days-pictures/user-calendar.png'
-        } as DaysPicture
+        this.myMatesTodaysPicture = null;
       } else {
-        this.myMatesTodaysPicture ? (this.myMatesTodaysPicture.value = await this.createProfilePicture(file)) : this.myMatesTodaysPicture = {
-          value: '../../../assets/days-pictures/user-calendar.png'
-        } as DaysPicture
+        this.myMatesTodaysPicture ? (this.myMatesTodaysPicture.value = await this.createProfilePicture(file)) : this.myMatesTodaysPicture = null;
       }
+      this.loadMatesTodaysPicture = false;
     })
   }
 

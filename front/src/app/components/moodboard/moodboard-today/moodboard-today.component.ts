@@ -116,4 +116,10 @@ export class MoodboardTodayComponent  implements OnInit {
     });
   }
 
+  onClickMatesEmoji() {
+    Haptics.notification({
+      type: NotificationType.Error
+    });
+  }
+
 }

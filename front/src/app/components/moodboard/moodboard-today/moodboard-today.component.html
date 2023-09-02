@@ -1,19 +1,47 @@
 <div class="flex justify-center w-full align-baseline">
   <div class="relative justify-center w-full p-5 pb-2">
-    <img (click)="onClickPicture()" class="object-cover rounded-lg {{who === 'me' ? 'hover:cursor-pointer' : ''}}"
-      (click)="who === 'me' && onAddDayPicture()"
+
+    <!-- ? picture of me -->
+    <img
+      *ngIf="who === 'me' ? (!daysPicturesService.loadMyTodaysPicture) : (!daysPicturesService.loadMatesTodaysPicture)"
+      (click)="onClickPicture()" class="object-cover rounded-lg {{who === 'me' ? 'hover:cursor-pointer' : ''}}"
       [src]="who === 'me' ? daysPicturesService.myTodaysPicture?.value : daysPicturesService.myMatesTodaysPicture?.value" />
-    <div (click)="onClickEmoji();"
+
+    <!-- ? loading animation -->
+    <ng-lottie [options]="{path: '../../../../assets/lotties/animation-square-loading.json'}"
+      *ngIf="who === 'me' ? daysPicturesService.loadMyTodaysPicture : daysPicturesService.loadMatesTodaysPicture"></ng-lottie>
+
+      <!-- ? animation if I have no picture -->
+    <ng-lottie
+      *ngIf="who === 'me' && (!daysPicturesService.myTodaysPicture || !daysPicturesService.myTodaysPicture.value)"
+      (click)="onAddDayPicture()" [options]="{path: '../../../../assets/lotties/animation_camera.json'}"></ng-lottie>
+
+      <!-- ? animation if my mates has no picture -->
+      <ng-lottie
+      *ngIf="who === 'mate' && (!daysPicturesService.myMatesTodaysPicture || !daysPicturesService.myMatesTodaysPicture.value)" [options]="{path: '../../../../assets/lotties/animation_portrait.json'}"
+      ></ng-lottie>
+      <!-- ? emoji -->
+    <div
       class="absolute top-0 {{who === 'me' ? 'left-0' : 'right-0'}} bg-white border-2 border-white rounded-full {{who === 'me' ? 'hover:cursor-pointer' : ''}}">
+
+      <!-- ? my emoji -->
       <ion-label *ngIf="who === 'me' && daysEmojisService.myTodaysEmoji"
         class="text-8xl">{{daysEmojisService.myTodaysEmoji.value}}</ion-label>
+
+      <!-- ? mate emoji -->
       <ion-label *ngIf="who === 'mate' && daysEmojisService.myMatesTodaysEmoji"
         class="text-8xl">{{daysEmojisService.myMatesTodaysEmoji.value}}</ion-label>
+
+      <!-- ? animation if I have no emoji -->
+      <ng-lottie id="triggerDayEmojiAlert" (click)="onClickEmoji();" class="absolute top-0 left-0 w-32 rounded-full"
+        [options]="{path: '../../../../assets/lotties/animation_add_emoji.json'}"
+        *ngIf="who === 'me' && !daysEmojisService.myTodaysEmoji"></ng-lottie>
+
+      <!-- ? animation if my mate has no emoji  -->
+      <ng-lottie (click)="onClickMatesEmoji()" class="absolute top-0 right-0 w-32 bg-white rounded-full"
+        [options]="{path: '../../../../assets/lotties/animation_question_mark.json'}"
+        *ngIf="who === 'mate' && !daysEmojisService.myMatesTodaysEmoji"></ng-lottie>
     </div>
-    <ion-label id="triggerDayEmojiAlert"
-      class="hover:cursor-pointer absolute top-0 {{who === 'me' ? 'left-0' : 'right-0'}} bg-white border-2 border-white rounded-full text-8xl"
-      *ngIf="(who === 'me' && !daysEmojisService.myTodaysEmoji) || (who === 'mate' && !daysEmojisService.myMatesTodaysEmoji)">{{who
-      === 'me' ? '➕' : '❓'}}</ion-label>
   </div>
 </div>
 

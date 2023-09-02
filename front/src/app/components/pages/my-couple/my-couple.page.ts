@@ -18,10 +18,6 @@ import { SocketSadnessService } from 'src/app/services/sockets/socket-sadness/so
 })
 export class MyCouplePage implements OnInit {
 
-  optionsLottie = {
-    path: "../../../../assets/lottie/square-loading.json"
-  }
-
   cancelHaptics = () => Haptics.notification({
     type: NotificationType.Error
   });
