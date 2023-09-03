@@ -8,7 +8,7 @@
       [src]="who === 'me' ? daysPicturesService.myTodaysPicture?.value : daysPicturesService.myMatesTodaysPicture?.value" />
 
     <!-- ? loading animation -->
-    <ng-lottie [options]="{path: '../../../../assets/lotties/animation-square-loading.json'}"
+    <ng-lottie [options]="{path: '../../../../assets/lotties/animation_square_loading.json'}"
       *ngIf="who === 'me' ? daysPicturesService.loadMyTodaysPicture : daysPicturesService.loadMatesTodaysPicture"></ng-lottie>
 
       <!-- ? animation if I have no picture -->
