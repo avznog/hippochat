@@ -60,12 +60,13 @@ export class DaysEmojisService {
   }
 
   async getMatesAllMonthly(mate: Mate, date: Date) {
+    const mymate = mate.couple.mates.find(m => m.id !== mate.id);
     return await this.daysEmojiRepository.find({
       where: {
         mate: {
-          id: mate.couple.mates.find(m => m.id !== mate.id).id
+          id: mymate.id
         },
-        date: Between(moment(date).tz(mate.timezone).startOf("month").format("YYYY-MM-DD"), moment(date).tz(mate.timezone).endOf("month").format("YYYY-MM-DD"))
+        date: Between(moment(date).tz(mymate.timezone).startOf("month").format("YYYY-MM-DD"), moment(date).tz(mymate.timezone).endOf("month").format("YYYY-MM-DD"))
       }
     })
   }

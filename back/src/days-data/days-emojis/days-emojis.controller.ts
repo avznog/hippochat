@@ -10,7 +10,9 @@ import { CreateDaysEmojiDto } from './dto/create-days-emoji.dto';
 @ApiTags("days-emojis")
 @UseGuards(JwtAuthGuard)
 export class DaysEmojisController {
-  constructor(private readonly daysEmojisService: DaysEmojisService) {}
+  constructor(
+    private readonly daysEmojisService: DaysEmojisService
+    ) {}
 
   @Get("my-todays-emoji")
   myTodaysEmoji(@CurrentUser() mate: Mate) {
