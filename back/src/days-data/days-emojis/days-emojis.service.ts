@@ -43,7 +43,7 @@ export class DaysEmojisService {
   }
 
   async createToday(createDaysEmojiDto: CreateDaysEmojiDto) {
-    const dayEmoji = await this.daysEmojiRepository.save(createDaysEmojiDto);
+    const dayEmoji = await this.daysEmojiRepository.save({...createDaysEmojiDto, date: moment(new Date()).tz(createDaysEmojiDto.mate.timezone).format("YYYY-MM-DD")});
     this.daysEmojisGateway.updateTodaysDayEmoji(createDaysEmojiDto.mate, dayEmoji);
     return dayEmoji;
   }

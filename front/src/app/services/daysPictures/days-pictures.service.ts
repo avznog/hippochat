@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Photo } from '@capacitor/camera';
 import * as moment from 'moment-timezone';
 import { lastValueFrom } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
 import { DaysPicture } from 'src/app/models/days-picture.model';
 
 @Injectable({
@@ -17,7 +18,8 @@ export class DaysPicturesService {
   loadMatesTodaysPicture: boolean = false;
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private readonly authService: AuthService
   ) {
    }
 
@@ -55,7 +57,7 @@ export class DaysPicturesService {
 
   async addTodayDayPicture(picture: Photo) {
     const formData = new FormData();
-    formData.append("file", new File([new Blob([await (await fetch(picture.dataUrl!)).blob()])], `${moment(new Date()).format("YYYY-MM-DD")}.${picture.format}`, {
+    formData.append("file", new File([new Blob([await (await fetch(picture.dataUrl!)).blob()])], `${moment(new Date()).tz(this.authService.currentUserSubject.getValue().timezone).format("YYYY-MM-DD")}.${picture.format}`, {
       lastModified: new Date().getTime(),
     }));
     this.http.post<DaysPicture>(`days-pictures/create-today`, formData).subscribe(todaysPicture => {
