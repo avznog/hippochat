@@ -1,19 +1,21 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
 
-import { MyAlbumPage } from './my-album.page';
 import { MyAlbumPageRoutingModule } from './my-album-routing.module';
+import { MyAlbumPage } from './my-album.page';
+import { SettingsComponent } from '../../settings/settings.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MyAlbumPageRoutingModule
+    MyAlbumPageRoutingModule,
+    SettingsComponent
   ],
   declarations: [MyAlbumPage]
 })

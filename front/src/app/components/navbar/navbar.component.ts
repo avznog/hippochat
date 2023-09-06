@@ -21,8 +21,8 @@ export class NavbarComponent  implements OnInit {
   calendarsOffIcon = "../../../assets/tabs-icons/calender-dynamic-premium.png";
   myCoupleOnIcon = "../../../assets/tabs-icons/heart-dynamic-color.png";
   myCoupleOffIcon = "../../../assets/tabs-icons/heart-dynamic-premium.png";
-  myAlbumOnIcon = "../../../assets/tabs-icons/crown-dynamic-color.png";
-  myAlbumOffIcon = "../../../assets/tabs-icons/crown-dynamic-premium.png";
+  myAlbumOnIcon = "../../../assets/tabs-icons/picture-dynamic-color.png";
+  myAlbumOffIcon = "../../../assets/tabs-icons/picture-dynamic-premium.png";
 
   constructor(
     public router: Router

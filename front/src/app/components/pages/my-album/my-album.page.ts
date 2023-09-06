@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import * as moment from 'moment-timezone';
-import { AuthService } from 'src/app/auth/auth.service';
-import { MatesService } from 'src/app/services/mates/mates.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IonModal } from '@ionic/angular';
 
 @Component({
   selector: 'app-my-profile',
@@ -11,23 +9,11 @@ import { MatesService } from 'src/app/services/mates/mates.service';
 export class MyAlbumPage implements OnInit {
 
   constructor(
-    public authService: AuthService,
-    private readonly matesService: MatesService
   ) { }
-
-  timezone: string = this.authService.currentUserSubject.getValue().timezone;
-  allTimezones: string[] = moment.tz.names();
+  @ViewChild(IonModal) modal?: IonModal;
+  presentingElement?: any;
 
   ngOnInit() {
-  }
-
-  logout() {
-    this.authService.logout();
-  }
-
-  onChangeTimezone(e: any) {
-    this.matesService.updateMe({
-      timezone: e.detail.value
-    })
+    this.presentingElement = document.querySelector('.content');
   }
 }
