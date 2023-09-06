@@ -5,10 +5,10 @@ import { MatesService } from 'src/app/services/mates/mates.service';
 
 @Component({
   selector: 'app-my-profile',
-  templateUrl: './my-profile.page.html',
-  styleUrls: ['./my-profile.page.scss'],
+  templateUrl: './my-album.page.html',
+  styleUrls: ['./my-album.page.scss'],
 })
-export class MyProfilePage implements OnInit {
+export class MyAlbumPage implements OnInit {
 
   constructor(
     public authService: AuthService,

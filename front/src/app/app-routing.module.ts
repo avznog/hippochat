@@ -49,8 +49,8 @@ const routes: Routes = [
         canActivate: [LoggedGuard, NoMateGuard]
       },
       {
-        path: 'my-profile',
-        loadChildren: () => import('./components/pages/my-profile/my-profile.module').then( m => m.MyProfilePageModule),
+        path: 'my-album',
+        loadChildren: () => import('./components/pages/my-album/my-album.module').then( m => m.MyAlbumPageModule),
         canActivate: [LoggedGuard, NoMateGuard]
       }
     ]
