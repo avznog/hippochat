@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import * as moment from 'moment-timezone';
+import { AuthService } from 'src/app/auth/auth.service';
 import { Mate } from 'src/app/models/mate.model';
+import { CouplesService } from 'src/app/services/couples/couples.service';
 import { DaysEmojisService } from 'src/app/services/daysEmojis/days-emojis.service';
 
 @Component({
@@ -12,11 +14,13 @@ export class EmojisCalendarComponent  implements OnInit {
 
   calendar = new Map<number, Map<number, string | null>>();
   constructor(
-    public readonly daysEmojisService: DaysEmojisService
+    public readonly daysEmojisService: DaysEmojisService,
+    private readonly couplesService: CouplesService,
+    private readonly authsService: AuthService
   ) { }
 
   @Input() date: Date = new Date();
-  @Input() mate: Mate | undefined = {} as Mate;
+  mate: Mate | undefined = {} as Mate;
   @Input() location?: "bottom" | "top";
   @Input() myMate: boolean = false;
 
@@ -26,6 +30,15 @@ export class EmojisCalendarComponent  implements OnInit {
   girlReversedImage = '../../../../assets/couple-icons/girl-iso-color-reversed.png';
 
   ngOnInit() {
+    this.setMate();
+  }
+
+  async setMate() {
+    if(this.myMate) {
+      this.mate = await this.couplesService.returnMyMate();
+    } else {
+      this.mate = this.authsService.currentUserSubject.getValue();
+    }
     this.daysEmojisService.getAllMyMonthly(this.date);
     this.daysEmojisService.getAllMatesMonthly(this.date);
   }
@@ -35,14 +48,10 @@ export class EmojisCalendarComponent  implements OnInit {
     this.fillCalendar(this.date);
     this.daysEmojisService.getAllMyMonthly(this.date);
     this.daysEmojisService.getAllMatesMonthly(this.date);
-    if(changes.mate) {
-      this.mate = changes.mate.currentValue;
-    }
   }
   
 
   fillCalendar(date: Date) {
-
     // ? getting the first day of the month & adjusting with the firstday of the week
     let firstDayOfMonth = () => {
       let d = moment(moment(date).tz(this.mate?.timezone ?? 'Europe/Paris').startOf("month").toDate()).tz(this.mate?.timezone ?? 'Europe/Paris').day();
@@ -51,8 +60,8 @@ export class EmojisCalendarComponent  implements OnInit {
     }
     
     // ? getting the last day of the month
-    const end = moment(date).tz(this.mate?.timezone ?? 'Europe/Paris').endOf("month").toDate().getDate();
-
+    const end = moment(date).daysInMonth()
+    
     // ? data for building the calendar
     let day = 1;
     let weekDay = 0;
@@ -84,6 +93,5 @@ export class EmojisCalendarComponent  implements OnInit {
       }
     }
   }
-
 
 }

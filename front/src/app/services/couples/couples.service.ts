@@ -34,5 +34,8 @@ export class CouplesService {
   getMyMate() { 
     this.http.get<Mate>(`mates/my`).subscribe(mate => this.myMate = mate);
   }
-
+  
+  async returnMyMate() { 
+    return await lastValueFrom(this.http.get<Mate>(`mates/my`));
+  }
 }
