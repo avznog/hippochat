@@ -1,4 +1,4 @@
-import { Controller, Get, HttpException, HttpStatus, Post, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, HttpException, HttpStatus, Param, Post, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
@@ -57,5 +57,33 @@ export class DaysPicturesController {
   @UseInterceptors(FileInterceptor("file"))
   async createTodayDayPicture(@CurrentUser() mate: Mate, @UploadedFile() file: Express.Multer.File) {
     return await this.daysPicturesService.createTodayDayPicture(mate, file);
+  }
+
+  @Get("get-my-for-date/:date")
+  async getMyForDate(@CurrentUser() mate: Mate, @Param("date") date: string, @Res() response: Response) {
+    try {
+      const file = await this.daysPicturesService.getMyForDate(mate, date);
+      if(!file)
+        response.send(null)
+      else
+        file.pipe(response)
+    } catch (error) {
+      console.log(error)
+      return null
+    }
+  }
+
+  @Get("get-mates-for-date/:date")
+  async getMyMatesForDate(@CurrentUser() mate: Mate, @Param("date") date: string, @Res() response: Response) {
+    try {
+      const file = await this.daysPicturesService.getMyMatesForDate(mate, date);
+      if(!file)
+        response.send(null)
+      else
+        file.pipe(response)
+    } catch (error) {
+      console.log(error)
+      return null
+    }
   }
 }

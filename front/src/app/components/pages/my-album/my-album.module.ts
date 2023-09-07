@@ -8,6 +8,8 @@ import { IonicModule } from '@ionic/angular';
 import { MyAlbumPageRoutingModule } from './my-album-routing.module';
 import { MyAlbumPage } from './my-album.page';
 import { SettingsComponent } from '../../settings/settings.component';
+import { LottieModule } from 'ngx-lottie';
+import { playerFactory } from 'src/app/app.module';
 
 @NgModule({
   imports: [
@@ -15,7 +17,8 @@ import { SettingsComponent } from '../../settings/settings.component';
     FormsModule,
     IonicModule,
     MyAlbumPageRoutingModule,
-    SettingsComponent
+    SettingsComponent,
+    LottieModule.forRoot({player: playerFactory})
   ],
   declarations: [MyAlbumPage]
 })
