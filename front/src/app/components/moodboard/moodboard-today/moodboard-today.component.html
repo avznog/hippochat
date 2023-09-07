@@ -1,7 +1,7 @@
 <div class="flex justify-center w-full align-baseline">
   <div class="relative justify-center w-full p-5 pb-2">
 
-    <!-- ? picture of me -->
+    <!-- ? picture of me or my mates-->
     <img
       *ngIf="who === 'me' ? (!daysPicturesService.loadMyTodaysPicture) : (!daysPicturesService.loadMatesTodaysPicture)"
       (click)="onClickPicture()" class="object-cover rounded-lg {{who === 'me' ? 'hover:cursor-pointer' : ''}}"

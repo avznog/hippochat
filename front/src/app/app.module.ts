@@ -27,6 +27,7 @@ import { SocketDaysEmojis } from './providers/socket-days-emojis.provider';
 import { SocketDaysPictures } from './providers/socket-days-pictures.providers';
 import { SocketPublicProfile } from './providers/socket-public-profile.provider';
 import { SocketSadness } from './providers/socket-sadness.provider';
+import { SettingsComponent } from './components/settings/settings.component';
 
 export function playerFactory() {
   return player;
@@ -43,6 +44,7 @@ export function playerFactory() {
     PagesModule,
     FormsModule,
     BrowserAnimationsModule,
+    SettingsComponent,
     LottieModule.forRoot({player: playerFactory}),
     // SocketIoModule.forRoot(config),
     ServiceWorkerModule.register('ngsw-worker.js',

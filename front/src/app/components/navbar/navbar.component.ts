@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import { IonicModule } from '@ionic/angular';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -21,11 +22,12 @@ export class NavbarComponent  implements OnInit {
   calendarsOffIcon = "../../../assets/tabs-icons/calender-dynamic-premium.png";
   myCoupleOnIcon = "../../../assets/tabs-icons/heart-dynamic-color.png";
   myCoupleOffIcon = "../../../assets/tabs-icons/heart-dynamic-premium.png";
-  myProfileOnIcon = "../../../assets/tabs-icons/crown-dynamic-color.png";
-  myProfileOffIcon = "../../../assets/tabs-icons/crown-dynamic-premium.png";
+  myAlbumOnIcon = "../../../assets/tabs-icons/picture-dynamic-color.png";
+  myAlbumOffIcon = "../../../assets/tabs-icons/picture-dynamic-premium.png";
 
   constructor(
-    public router: Router
+    public router: Router,
+    public readonly authService: AuthService
   ) { }
 
   ngOnInit() {}

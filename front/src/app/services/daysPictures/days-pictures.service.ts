@@ -17,6 +17,11 @@ export class DaysPicturesService {
   loadMyTodaysPicture: boolean = false;
   loadMatesTodaysPicture: boolean = false;
 
+  myCurrentAlbumPicture?: string | null;
+  myMatesCurrentAlbumPicture?: string | null;
+  
+  isLoadingAlbumPictures: boolean = false;
+
   constructor(
     private http: HttpClient,
     private readonly authService: AuthService
@@ -64,5 +69,28 @@ export class DaysPicturesService {
       this.myTodaysPicture = todaysPicture;
       this.getMyTodaysPicture();
     })
+  }
+
+  async loadAlbumPictures(date: Date) {
+    this.isLoadingAlbumPictures = true;
+    const myPicturePromise = await lastValueFrom(this.http.get(`days-pictures/get-my-for-date/${date}`, { responseType: 'blob' }));
+    const myMatesPicturePromise = await lastValueFrom(this.http.get(`days-pictures/get-mates-for-date/${date}`, { responseType: 'blob' }));
+
+    const [myPicture, myMatesPicture]: [PromiseSettledResult<Blob>, PromiseSettledResult<Blob>] = await Promise.allSettled([
+      myPicturePromise, myMatesPicturePromise
+    ]);
+    if(myPicture.status === "fulfilled")
+      if(myPicture.value.size === 0)
+        this.myCurrentAlbumPicture = null;
+      else
+        this.myCurrentAlbumPicture = await this.createProfilePicture(myPicture.value)
+    
+
+    if(myMatesPicture.status === "fulfilled")
+      if(myMatesPicture.value.size === 0)
+        this.myMatesCurrentAlbumPicture = null;
+      else
+        this.myMatesCurrentAlbumPicture = await this.createProfilePicture(myMatesPicture.value)
+    this.isLoadingAlbumPictures = false;
   }
 }

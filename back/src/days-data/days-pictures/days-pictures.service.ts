@@ -27,12 +27,12 @@ export class DaysPicturesService {
         date: Equal(moment(new Date()).tz(mate.timezone).format("YYYY-MM-DD"))
       }
     });
-    if(!dayPicture) return null
+    if (!dayPicture) return null
     return await this.minioService.getFile(dayPicture.value);
   }
 
   async createTodayDayPicture(mate: Mate, file: Express.Multer.File) {
-    if(await this.daysPicturesRepository.findOne({
+    if (await this.daysPicturesRepository.findOne({
       where: {
         mate: {
           id: mate.id
@@ -73,5 +73,32 @@ export class DaysPicturesService {
         date: Equal(moment(new Date()).tz(mate.timezone).format("YYYY-MM-DD"))
       }
     })
+  }
+
+  async getMyForDate(mate: Mate, date: string) {
+    const dayPicture = await this.daysPicturesRepository.findOne({
+      where: {
+        mate: {
+          id: mate.id
+        },
+        date: Equal(moment(new Date(date)).tz(mate.timezone).format("YYYY-MM-DD"))
+      }
+    });
+    if (!dayPicture) return null
+    return await this.minioService.getFile(dayPicture.value);
+  }
+
+  async getMyMatesForDate(mate: Mate, date: string) {
+
+    const dayPicture = await this.daysPicturesRepository.findOne({
+      where: {
+        mate: {
+          id: mate.couple.mates.find(m => m.id !== mate.id).id
+        },
+        date: Equal(moment(new Date(date)).tz(mate.timezone).format("YYYY-MM-DD"))
+      }
+    });
+    if (!dayPicture) return null
+    return await this.minioService.getFile(dayPicture.value);
   }
 }

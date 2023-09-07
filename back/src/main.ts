@@ -10,7 +10,7 @@ async function bootstrap() {
   app.use(cookieParser());
   app.enableCors({
     credentials: true,
-    origin: [process.env.BASE_URL, "http://localhost:8101", "http://192.168.7.191:8100", "http://192.168.7.191:8100", "http://localhost:8100","http://192.168.7.191:8100", "http://192.168.1.15:8100", "http://10.221.14.108:8100", "http://192.168.7.191:8100", "http://localhost:8102"]
+    origin: [process.env.BASE_URL, "http://localhost:8101", "http://192.168.7.191:8100", "http://192.168.7.191:8100", "http://localhost:8100","http://192.168.7.191:8100", "http://10.142.40.165:8100", "http://10.221.14.108:8100", "http://172.20.10.3:8100", "http://localhost:8102"]
     })
 
   // ? swagger configuration

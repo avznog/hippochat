@@ -4,7 +4,7 @@ import { AuthModule } from './auth/auth.module';
 import { MoodboardPageModule } from './moodboard/moodboard.module';
 import { ConversationPageModule } from './conversation/conversation.module';
 import { MyCouplePageModule } from './my-couple/my-couple.module';
-import { MyProfilePageModule } from './my-profile/my-profile.module';
+import { MyAlbumPageModule } from './my-album/my-album.module';
 
 
 
@@ -14,7 +14,7 @@ import { MyProfilePageModule } from './my-profile/my-profile.module';
     CommonModule,
     MoodboardPageModule,
     MyCouplePageModule,
-    MyProfilePageModule,
+    MyAlbumPageModule,
     ConversationPageModule,
     AuthModule,
   ]
