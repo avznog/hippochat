@@ -47,10 +47,10 @@
     </div>
 
     <!-- ? datepicker  -->
-    <ion-datetime-button datetime="datetime"></ion-datetime-button>
+    <ion-datetime-button datetime="datetime-album"></ion-datetime-button>
     <ion-modal [keepContentsMounted]="true">
       <ng-template>
-        <ion-datetime id="datetime" class="p-0" [max]="today.toISOString()" (ionChange)="onDateChange($event)"
+        <ion-datetime id="datetime-album" class="p-0" [max]="today.toISOString()" (ionChange)="onDateChange($event)"
           presentation="date" [preferWheel]="true"></ion-datetime>
       </ng-template>
     </ion-modal>
