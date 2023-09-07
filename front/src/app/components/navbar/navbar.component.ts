@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import { IonicModule } from '@ionic/angular';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -25,7 +26,8 @@ export class NavbarComponent  implements OnInit {
   myAlbumOffIcon = "../../../assets/tabs-icons/picture-dynamic-premium.png";
 
   constructor(
-    public router: Router
+    public router: Router,
+    public readonly authService: AuthService
   ) { }
 
   ngOnInit() {}

@@ -60,7 +60,6 @@ export class MatesService {
   
 
   async update(mate: Mate, updateMateDto: UpdateMateDto) {
-    console.log(updateMateDto)
     return await this.mateRepository.update(mate.id, updateMateDto);
   }
 }
