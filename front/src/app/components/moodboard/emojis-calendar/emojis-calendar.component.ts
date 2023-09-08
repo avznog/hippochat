@@ -16,7 +16,7 @@ export class EmojisCalendarComponent  implements OnInit {
   constructor(
     public readonly daysEmojisService: DaysEmojisService,
     private readonly couplesService: CouplesService,
-    private readonly authsService: AuthService
+    private readonly authService: AuthService
   ) { }
 
   @Input() date: Date = new Date();
@@ -36,11 +36,11 @@ export class EmojisCalendarComponent  implements OnInit {
   async setMate() {
     if(this.myMate) {
       this.mate = await this.couplesService.returnMyMate();
+      this.daysEmojisService.getAllMatesMonthly(this.date) 
     } else {
-      this.mate = this.authsService.currentUserSubject.getValue();
+      this.mate = this.authService.currentUserSubject.getValue();
+      this.daysEmojisService.getAllMyMonthly(this.date)
     }
-    this.daysEmojisService.getAllMyMonthly(this.date);
-    this.daysEmojisService.getAllMatesMonthly(this.date);
   }
 
   ngOnChanges(changes: any) {

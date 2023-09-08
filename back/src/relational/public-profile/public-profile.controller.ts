@@ -1,7 +1,6 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Patch, Post, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Patch, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
-import { Response } from 'express';
 import { CurrentUser } from 'src/auth/decorators/current-user.model';
 import JwtAuthGuard from 'src/auth/guards/jwt-auth.guard';
 import { MinioService } from 'src/minio/minio.service';
@@ -45,13 +44,13 @@ export class PublicProfileController {
   }
 
   @Get("get-my-profile-picture")
-  async getMyProfilePicture(@Res() response: Response, @CurrentUser() mate: Mate)  {
+  async getMyProfilePicture(@CurrentUser() mate: Mate) : Promise<string | null> {
     try {
-      const file = await this.minioService.getFile(mate.publicProfile.profilePicture);
-      if(!file)
-        response.send(null)
+      const url = await this.minioService.generateUrl(mate.publicProfile.profilePicture);
+      if(!url)
+        return null
       else 
-        file.pipe(response)
+        return JSON.stringify(url)
     } catch (error) { 
       console.log(error)
       throw new HttpException("No file found", HttpStatus.INTERNAL_SERVER_ERROR)
@@ -59,13 +58,13 @@ export class PublicProfileController {
   }
 
   @Get("get-mate-profile-picture")
-  async getMateProfilePicture(@Res() response: Response, @CurrentUser() mate: Mate) {
+  async getMateProfilePicture(@CurrentUser() mate: Mate) : Promise<string> {
     try {
-      const file = await this.publicProfileService.getMyMatesProfilePicture(mate)
-      if(!file) {
-        response.send(null)
+      const url = await this.publicProfileService.getMyMatesProfilePicture(mate)
+      if(!url) {
+       return null
       } else {
-        file.pipe(response)
+        return JSON.stringify(url)
       }
     } catch (error) {
       console.log(error)

@@ -4,7 +4,7 @@ import * as moment from 'moment';
 import { DaysPicturesGateway } from 'src/gateways/days-pictures/days-pictures.gateway';
 import { MinioService } from 'src/minio/minio.service';
 import { Mate } from 'src/relational/mates/entities/mate.entity';
-import { Equal, Repository } from 'typeorm';
+import { Between, Equal, Repository } from 'typeorm';
 import { DaysPicture } from './entities/days-picture.entity';
 
 @Injectable()
@@ -28,7 +28,7 @@ export class DaysPicturesService {
       }
     });
     if (!dayPicture) return null
-    return await this.minioService.getFile(dayPicture.value);
+    return await this.minioService.generateUrl(dayPicture.value);
   }
 
   async createTodayDayPicture(mate: Mate, file: Express.Multer.File) {
@@ -75,30 +75,39 @@ export class DaysPicturesService {
     })
   }
 
-  async getMyForDate(mate: Mate, date: string) {
-    const dayPicture = await this.daysPicturesRepository.findOne({
-      where: {
-        mate: {
-          id: mate.id
-        },
-        date: Equal(moment(new Date(date)).tz(mate.timezone).format("YYYY-MM-DD"))
-      }
-    });
-    if (!dayPicture) return null
-    return await this.minioService.getFile(dayPicture.value);
+  async getMyMonth(mate: Mate, date: string) {
+    try {
+      const daysPictures = await this.daysPicturesRepository.find({
+        where: {
+          mate: {
+            id: mate.id
+          },
+          date: Between(moment(new Date(date)).tz(mate.timezone).startOf("month").format("YYYY-MM-DD"), moment(new Date(moment(new Date(date)).tz(mate.timezone).startOf("month").toDate().setDate(moment(new Date(date)).tz(mate.timezone).startOf("month").daysInMonth()))).format("YYYYY-MM-DD"))
+        }
+      });
+      return await Promise.all([daysPictures.map(async daysPicture => {return {date: daysPicture.date, value: await this.minioService.generateUrl(daysPicture.value)}})].map(async inner => {
+        return await Promise.all(inner);
+      }))
+    } catch (error) {
+      console.log(error)
+    }
   }
 
-  async getMyMatesForDate(mate: Mate, date: string) {
-
-    const dayPicture = await this.daysPicturesRepository.findOne({
-      where: {
-        mate: {
-          id: mate.couple.mates.find(m => m.id !== mate.id).id
-        },
-        date: Equal(moment(new Date(date)).tz(mate.timezone).format("YYYY-MM-DD"))
-      }
-    });
-    if (!dayPicture) return null
-    return await this.minioService.getFile(dayPicture.value);
+  async getMatesMonth(mate: Mate, date: string) {
+    try {
+      const daysPictures = await this.daysPicturesRepository.find({
+        where: {
+          mate: {
+            id: mate.couple.mates.find(m => m.id !== mate.id).id
+          },
+          date: Between(moment(new Date(date)).tz(mate.couple.mates.find(m => m.id !== mate.id).timezone).startOf("month").format("YYYY-MM-DD"), moment(new Date(moment(new Date(date)).tz(mate.couple.mates.find(m => m.id !== mate.id).timezone).startOf("month").toDate().setDate(moment(new Date(date)).tz(mate.couple.mates.find(m => m.id !== mate.id).timezone).startOf("month").daysInMonth()))).format("YYYYY-MM-DD"))
+        }
+      });
+      return await Promise.all([daysPictures.map(async daysPicture => {return {date: daysPicture.date, value: await this.minioService.generateUrl(daysPicture.value)}})].map(async inner => {
+        return await Promise.all(inner);
+      }))
+    } catch (error) {
+      console.log(error)
+    }
   }
 }

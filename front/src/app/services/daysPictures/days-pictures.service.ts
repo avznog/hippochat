@@ -17,10 +17,10 @@ export class DaysPicturesService {
   loadMyTodaysPicture: boolean = false;
   loadMatesTodaysPicture: boolean = false;
 
-  myCurrentAlbumPicture?: string | null;
-  myMatesCurrentAlbumPicture?: string | null;
-  
-  isLoadingAlbumPictures: boolean = false;
+  myMonthPictures = new Map<string, string | null>();
+  myMatesMonthPictures = new Map<string, string | null>();
+
+  selectedDate!: string;
 
   constructor(
     private http: HttpClient,
@@ -31,12 +31,11 @@ export class DaysPicturesService {
   async getMyTodaysPicture() {
     this.loadMyTodaysPicture = true;
     this.myTodaysPicture = await lastValueFrom(this.http.get<DaysPicture>(`days-pictures/get-my-todays-picture`));
-    this.http.get(`days-pictures/get-my-today`, { responseType: "blob" }).subscribe(async file => {
-       if (file.size === 0) {
-        // TODO : mettre des images fun
-        this.myTodaysPicture  = null;
+    this.http.get<string>(`days-pictures/get-my-today`).subscribe(url => {
+       if(!url) {
+        this.myTodaysPicture = null;
       } else {
-        this.myTodaysPicture ? (this.myTodaysPicture.value = await this.createProfilePicture(file)) : this.myTodaysPicture = null;
+        this.myTodaysPicture ? (this.myTodaysPicture.value = url) : this.myTodaysPicture = null;
       }
       this.loadMyTodaysPicture = false;
     })
@@ -45,12 +44,12 @@ export class DaysPicturesService {
   async getMyMatesTodaysPicture() {
     this.loadMatesTodaysPicture = true;
     this.myMatesTodaysPicture = await lastValueFrom(this.http.get<DaysPicture>(`days-pictures/get-mates-todays-picture`));
-    this.http.get(`days-pictures/get-my-mates-today`, { responseType: "blob" }).subscribe(async file => {
-      if (file.size === 0) {
+    this.http.get<string>(`days-pictures/get-my-mates-today`).subscribe(url => {
+      if (!url) {
         // TODO : mettre des images fun
         this.myMatesTodaysPicture = null;
       } else {
-        this.myMatesTodaysPicture ? (this.myMatesTodaysPicture.value = await this.createProfilePicture(file)) : this.myMatesTodaysPicture = null;
+        this.myMatesTodaysPicture ? (this.myMatesTodaysPicture.value = url) : this.myMatesTodaysPicture = null;
       }
       this.loadMatesTodaysPicture = false;
     })
@@ -71,26 +70,23 @@ export class DaysPicturesService {
     })
   }
 
-  async loadAlbumPictures(date: Date) {
-    this.isLoadingAlbumPictures = true;
-    const myPicturePromise = await lastValueFrom(this.http.get(`days-pictures/get-my-for-date/${date}`, { responseType: 'blob' }));
-    const myMatesPicturePromise = await lastValueFrom(this.http.get(`days-pictures/get-mates-for-date/${date}`, { responseType: 'blob' }));
+  async updateMyMonthPictures(date: Date) {
+    if(this.myMonthPictures.has(moment(date).format("YYYY-MM-DD"))) {
+    } else {
+      const urls = await lastValueFrom(this.http.get<{date: string, value: string}[][]>(`days-pictures/my-month/${date}`));
+      urls[0].forEach((url: {date: string, value: string}) => {
+        this.myMonthPictures.set(url.date, url.value)
+      })
+    }
+  }
 
-    const [myPicture, myMatesPicture]: [PromiseSettledResult<Blob>, PromiseSettledResult<Blob>] = await Promise.allSettled([
-      myPicturePromise, myMatesPicturePromise
-    ]);
-    if(myPicture.status === "fulfilled")
-      if(myPicture.value.size === 0)
-        this.myCurrentAlbumPicture = null;
-      else
-        this.myCurrentAlbumPicture = await this.createProfilePicture(myPicture.value)
-    
-
-    if(myMatesPicture.status === "fulfilled")
-      if(myMatesPicture.value.size === 0)
-        this.myMatesCurrentAlbumPicture = null;
-      else
-        this.myMatesCurrentAlbumPicture = await this.createProfilePicture(myMatesPicture.value)
-    this.isLoadingAlbumPictures = false;
+  async updateMatesMonthPictures(date: Date) {
+    if(this.myMatesMonthPictures.has(moment(date).format("YYYY-MM-DD"))) {
+    } else {
+      const urls = await lastValueFrom(this.http.get<{date: string, value: string}[][]>(`days-pictures/mates-month/${date}`));
+      urls[0].forEach((url: {date: string, value: string}) => {
+        this.myMatesMonthPictures.set(url.date, url.value)
+      })
+    }
   }
 }

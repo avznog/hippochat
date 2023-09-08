@@ -95,15 +95,14 @@ export class PublicProfileService {
 
   getMyProfilePictures() {
     this.loadingMyProfilePicture = true;
-    this.http.get(`public-profile/get-my-profile-picture`, { responseType: "blob" }).subscribe(async (file) => {
-      if(file.size === 0) {
+    this.http.get<string>(`public-profile/get-my-profile-picture`).subscribe(url => {
+      if (!url) {
         this.myProfilePicture = this.myPublicProfile?.sex === Sex.MALE ? '../../../assets/couple-icons/boy-iso-color.png' : '../../../assets/couple-icons/girl-iso-color.png'
         Haptics.notification({
           type: NotificationType.Error
-        }) 
-      }
-      else {
-        this.myProfilePicture = await this.createProfilePicture(file);
+        })
+      } else {
+        this.myProfilePicture = url;
         Haptics.notification({
           type: NotificationType.Success
         })
@@ -114,17 +113,13 @@ export class PublicProfileService {
 
   getMyMatesProfilePicture() {
     this.loadingMatesProfilePicture = true;
-      this.http.get(`public-profile/get-mate-profile-picture`, { responseType: "blob" }).subscribe(async file => {
-        if (file.size === 0) {
-          this.myMatesProfilePicture = this.myMatePublicProfile?.sex === Sex.MALE ? '../../../assets/couple-icons/boy-iso-color-reversed.png' : '../../../assets/couple-icons/girl-iso-color-reversed.png'
-        } else {
-          this.myMatesProfilePicture = await this.createProfilePicture(file);
-        }
-        this.loadingMatesProfilePicture = false;
-      })
-    }
-
-  async createProfilePicture(file: Blob) {
-      return URL.createObjectURL(new Blob([await file.arrayBuffer()]));
-    }
+    this.http.get<string>(`public-profile/get-mate-profile-picture`).subscribe(url => {
+      if (!url) {
+        this.myMatesProfilePicture = this.myMatePublicProfile?.sex === Sex.MALE ? '../../../assets/couple-icons/boy-iso-color-reversed.png' : '../../../assets/couple-icons/girl-iso-color-reversed.png'
+      } else {
+        this.myMatesProfilePicture = url;
+      }
+      this.loadingMatesProfilePicture = false;
+    })
   }
+}

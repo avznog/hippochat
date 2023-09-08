@@ -21,19 +21,20 @@ export class MinioService {
     })
   }
 
-  async getFile(path: string) {
-    try {
-      return await this.minioClient.getObject("hippochat", path);
-    } catch (error) {
-      return null
-    }
-  }
-
   async uploadFile(path: string, file: Express.Multer.File) {
     try {
       return await this.minioClient.putObject("hippochat", path, file.buffer);
     } catch (error) {
       
+    }
+  }
+
+  async generateUrl(path: string) : Promise<string> {
+    try {
+      return await this.minioClient.presignedGetObject("hippochat", path)
+    } catch (error) {
+      console.log(error)
+      return null;
     }
   }
 }
