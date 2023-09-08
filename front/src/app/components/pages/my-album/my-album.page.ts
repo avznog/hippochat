@@ -19,8 +19,11 @@ export class MyAlbumPage implements OnInit {
   ) { 
     this.publicProfileService.getMyMatesPublicProfile()
   }
+
   @ViewChild(IonModal) modal?: IonModal;
   presentingElement?: any;
+  today: Date = new Date()
+  date: Date = new Date();
 
   ngOnInit() {
     this.presentingElement = document.querySelector('.content');
@@ -31,6 +34,10 @@ export class MyAlbumPage implements OnInit {
     Haptics.impact({
       style: ImpactStyle.Heavy
     });
+  }
+
+  onChangeDate(event: any) {
+    this.date = new Date(event.detail.value);
   }
 
 }

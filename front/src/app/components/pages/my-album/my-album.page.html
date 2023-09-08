@@ -33,13 +33,14 @@
     </ng-template>
   </ion-modal>
 
-  <app-pictures-calendar [myMate]="false" [mate]="authService.currentUserSubject.getValue()"></app-pictures-calendar>
+  <app-pictures-calendar [date]="date" [myMate]="false" [mate]="authService.currentUserSubject.getValue()"></app-pictures-calendar>
   <ion-modal [keepContentsMounted]="true">
     <ng-template>
-      <ion-datetime id="datetime-month" size="fixed" presentation="month-year"></ion-datetime>
+      <ion-datetime id="datetime-month" size="fixed" presentation="month-year" [max]="today.toISOString()" (ionChange)="onChangeDate($event)"></ion-datetime>
     </ng-template>
   </ion-modal>
-  <app-pictures-calendar [myMate]="true" [mate]="authService.currentUserSubject.getValue()"></app-pictures-calendar>
+  <ion-datetime-button datetime="datetime-month" datetime="datetime-month"></ion-datetime-button>
+  <app-pictures-calendar [date]="date" [myMate]="true" [mate]="authService.currentUserSubject.getValue()"></app-pictures-calendar>
 </ion-content>
 
 <!-- ? fab button for modal -->

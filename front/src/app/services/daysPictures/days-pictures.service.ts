@@ -17,8 +17,10 @@ export class DaysPicturesService {
   loadMyTodaysPicture: boolean = false;
   loadMatesTodaysPicture: boolean = false;
 
-  myMonthPictures = new Map<string, DaysPicture | null>();
-  myMatesMonthPictures = new Map<string, DaysPicture | null>();
+  myMonthPictures = new Map<string, string | null>();
+  myMatesMonthPictures = new Map<string, string | null>();
+
+  selectedDate!: string;
 
   constructor(
     private http: HttpClient,
@@ -29,12 +31,11 @@ export class DaysPicturesService {
   async getMyTodaysPicture() {
     this.loadMyTodaysPicture = true;
     this.myTodaysPicture = await lastValueFrom(this.http.get<DaysPicture>(`days-pictures/get-my-todays-picture`));
-    this.http.get(`days-pictures/get-my-today`, { responseType: "blob" }).subscribe(async file => {
-       if (file.size === 0) {
-        // TODO : mettre des images fun
-        this.myTodaysPicture  = null;
+    this.http.get<string>(`days-pictures/get-my-today`).subscribe(url => {
+       if(!url) {
+        this.myTodaysPicture = null;
       } else {
-        this.myTodaysPicture ? (this.myTodaysPicture.value = await this.createProfilePicture(file)) : this.myTodaysPicture = null;
+        this.myTodaysPicture ? (this.myTodaysPicture.value = url) : this.myTodaysPicture = null;
       }
       this.loadMyTodaysPicture = false;
     })
@@ -43,12 +44,12 @@ export class DaysPicturesService {
   async getMyMatesTodaysPicture() {
     this.loadMatesTodaysPicture = true;
     this.myMatesTodaysPicture = await lastValueFrom(this.http.get<DaysPicture>(`days-pictures/get-mates-todays-picture`));
-    this.http.get(`days-pictures/get-my-mates-today`, { responseType: "blob" }).subscribe(async file => {
-      if (file.size === 0) {
+    this.http.get<string>(`days-pictures/get-my-mates-today`).subscribe(url => {
+      if (!url) {
         // TODO : mettre des images fun
         this.myMatesTodaysPicture = null;
       } else {
-        this.myMatesTodaysPicture ? (this.myMatesTodaysPicture.value = await this.createProfilePicture(file)) : this.myMatesTodaysPicture = null;
+        this.myMatesTodaysPicture ? (this.myMatesTodaysPicture.value = url) : this.myMatesTodaysPicture = null;
       }
       this.loadMatesTodaysPicture = false;
     })
@@ -69,11 +70,23 @@ export class DaysPicturesService {
     })
   }
 
-  async updateMonthPictures(date: Date) {
+  async updateMyMonthPictures(date: Date) {
     if(this.myMonthPictures.has(moment(date).format("YYYY-MM-DD"))) {
-      console.log("month already exists")
     } else {
-      console.log("month does not exists")
+      const urls = await lastValueFrom(this.http.get<{date: string, value: string}[][]>(`days-pictures/my-month/${date}`));
+      urls[0].forEach((url: {date: string, value: string}) => {
+        this.myMonthPictures.set(url.date, url.value)
+      })
+    }
+  }
+
+  async updateMatesMonthPictures(date: Date) {
+    if(this.myMatesMonthPictures.has(moment(date).format("YYYY-MM-DD"))) {
+    } else {
+      const urls = await lastValueFrom(this.http.get<{date: string, value: string}[][]>(`days-pictures/mates-month/${date}`));
+      urls[0].forEach((url: {date: string, value: string}) => {
+        this.myMatesMonthPictures.set(url.date, url.value)
+      })
     }
   }
 }

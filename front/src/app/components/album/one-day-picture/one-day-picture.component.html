@@ -1,0 +1,32 @@
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons>
+        <ion-button slot="end">
+          <ion-button (click)="onDismiss()">Retour</ion-button>
+        </ion-button>
+        <ion-title>{{daysPictureService.selectedDate| date:"dd/MM/YYYY"}}</ion-title>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+    <ion-content [fullscreen]="true">
+      <ion-card>
+        <ion-card-content class="flex flex-col justify-center">
+          <ion-card-header>
+            <ion-card-title class="text-center">{{authService.currentUserSubject.getValue().publicProfile.nickname}}</ion-card-title>
+          </ion-card-header>
+          <img *ngIf="daysPictureService.myMonthPictures.has(daysPictureService.selectedDate)" class="rounded-lg max-h-[30vh] w-4/5 self-center" [src]="daysPictureService.myMonthPictures.get(daysPictureService.selectedDate)">
+          <img *ngIf="!daysPictureService.myMonthPictures.has(daysPictureService.selectedDate)" class="rounded-lg max-h-[30vh]" src="../../../../assets/album-icons/missing-days-picture.svg">
+
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-content class="flex flex-col justify-center">
+          <ion-card-header>
+            <ion-card-title class="text-center">{{publicProfileService.myMatePublicProfile?.nickname}}</ion-card-title>
+          </ion-card-header>
+          <img *ngIf="daysPictureService.myMatesMonthPictures.has(daysPictureService.selectedDate)" class="rounded-lg max-h-[30vh] w-4/5 self-center" [src]="daysPictureService.myMatesMonthPictures.get(daysPictureService.selectedDate)">
+          <img *ngIf="!daysPictureService.myMatesMonthPictures.has(daysPictureService.selectedDate)" class="rounded-lg max-h-[30vh]" src="../../../../assets/album-icons/missing-days-picture.svg">
+        </ion-card-content>
+      </ion-card>
+    </ion-content>

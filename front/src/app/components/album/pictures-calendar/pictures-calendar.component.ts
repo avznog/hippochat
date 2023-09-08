@@ -1,9 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import * as moment from 'moment-timezone';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Mate } from 'src/app/models/mate.model';
 import { CouplesService } from 'src/app/services/couples/couples.service';
 import { DaysPicturesService } from 'src/app/services/daysPictures/days-pictures.service';
+import { OneDayPictureComponent } from '../one-day-picture/one-day-picture.component';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 
 @Component({
   selector: 'app-pictures-calendar',
@@ -11,21 +14,24 @@ import { DaysPicturesService } from 'src/app/services/daysPictures/days-pictures
   styleUrls: ['./pictures-calendar.component.scss'],
 })
 export class PicturesCalendarComponent  implements OnInit {
+
   calendar = new Map<number, Map<number, string | null>>();
 
   @Input() mate?: Mate;
   @Input() myMate: boolean = false;
+  @Input() date: Date = new Date();
 
   constructor(
     private readonly couplesService: CouplesService,
     private readonly authService: AuthService,
-    public readonly daysPicturesService: DaysPicturesService
+    public readonly daysPicturesService: DaysPicturesService,
+    private modalController: ModalController
   ) { }
 
   ngOnInit() {
     this.setMate()
     this.fillCalendar(new Date());
-    this.daysPicturesService.updateMonthPictures(new Date())
+    this.myMate ? this.daysPicturesService.updateMatesMonthPictures(new Date()) : this.daysPicturesService.updateMyMonthPictures(new Date())
   }
 
   async setMate() {
@@ -66,7 +72,7 @@ export class PicturesCalendarComponent  implements OnInit {
         continue;
       } else {
         // ? fill the calendar
-        this.calendar.get(week)?.set(weekDay, `${date.getFullYear()}-${date.getMonth()}-${day.toString()}`)
+        this.calendar.get(week)?.set(weekDay, `${date.getFullYear()}-${date.getMonth() < 10 ? '0' + Number(date.getMonth() + 1) : Number(date.getMonth() + 1)}-${day < 10 ? '0' + day.toString() : day.toString()}`)
       }
 
       day ++;
@@ -77,6 +83,28 @@ export class PicturesCalendarComponent  implements OnInit {
         weekDay ++;
       }
     }
+  }
+  
+  ngOnChanges(changes: any) {
+    this.calendar.clear();
+    this.fillCalendar(this.date);
+    this.myMate ? this.daysPicturesService.updateMatesMonthPictures(this.date) : this.daysPicturesService.updateMyMonthPictures(this.date)
+  }
+
+  toNumber = (s: string) => Number(s);
+
+  async onClickPicture(date: string) {
+    Haptics.impact({
+      style: ImpactStyle.Light
+    });
+    this.daysPicturesService.selectedDate = date;
+    const modal = await this.modalController.create({
+      component: OneDayPictureComponent,
+      animated: true,
+      canDismiss: true,
+      showBackdrop: true,
+    });
+    modal.present();
   }
 
 }

@@ -1,7 +1,7 @@
 <ion-card>
   <ion-card-header>
-    <ion-card-title>
-      Les emojis de {{mate?.publicProfile?.nickname ?? mate?.firstname + ' ' + mate?.lastname}}
+    <ion-card-title class="text-center">
+      Les photos de {{mate?.publicProfile?.nickname ?? mate?.firstname + ' ' + mate?.lastname}}
     </ion-card-title>
   </ion-card-header>
   <ion-card-content>
@@ -16,9 +16,10 @@
         <ion-col size="1.7" class="text-center">Su</ion-col>
       </ion-row>
       <ion-row *ngFor="let week of calendar | keyvalue">
-        <ion-col size="1.7" class="text-center" *ngFor="let day of week.value | keyvalue">
-          <img class="rounded-lg" src="../../../../assets/test-icons/benji.png">
-          {{day.value ? (myMate ? daysPicturesService.myMatesMonthPictures.get(day.value)?.value : daysPicturesService.myMonthPictures.get(day.value)?.value) ?? day.value : ''}}
+        <ion-col size="1.7" class="flex self-center justify-center text-center" *ngFor="let day of week.value | keyvalue">
+          <span *ngIf="day.value && !myMate && !daysPicturesService.myMonthPictures.get(day.value)">{{toNumber(day.value.split("-")[2]) < 10 ? (day.value.split("-")[2] | slice:1:2) : day.value.split("-")[2]}}</span>
+          <span *ngIf="day.value && myMate && !daysPicturesService.myMatesMonthPictures.get(day.value)">{{day.value.split("-")[2]}}</span>
+          <img *ngIf="day.value" class="rounded-lg aspect-square" src="{{myMate ? daysPicturesService.myMatesMonthPictures.get(day.value): daysPicturesService.myMonthPictures.get(day.value)}}" (click)="onClickPicture(day.value)">
         </ion-col>
       </ion-row>
     </ion-grid>
