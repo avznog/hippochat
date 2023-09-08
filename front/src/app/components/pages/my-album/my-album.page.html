@@ -33,37 +33,13 @@
     </ng-template>
   </ion-modal>
 
-  <!-- ? big div with pictures / nicknames / datepicker  -->
-  <div class="flex flex-col justify-center h-full align-baseline">
-
-    <!-- ? top div -->
-    <div class="h-[35vh] p-5 w-full flex flex-col justify-center">
-      <img *ngIf="!daysPicturesService.isLoadingAlbumPictures && daysPicturesService.myCurrentAlbumPicture" class="object-cover rounded-lg" [src]="daysPicturesService.myCurrentAlbumPicture">
-      <img *ngIf="!daysPicturesService.isLoadingAlbumPictures && !daysPicturesService.myCurrentAlbumPicture" class="rounded-lg" src="../../../../assets/album-icons/missing-days-picture.svg">
-      <ng-lottie *ngIf="daysPicturesService.isLoadingAlbumPictures" [options]="{path: '../../../../assets/lotties/animation_square_loading.json'}"></ng-lottie>
-      <ion-label
-        class="w-full p-3 pb-0 font-bold text-center">{{publicProfileService.myPublicProfile?.nickname}}</ion-label>
-
-    </div>
-
-    <!-- ? datepicker  -->
-    <ion-datetime-button datetime="datetime-album"></ion-datetime-button>
-    <ion-modal [keepContentsMounted]="true">
-      <ng-template>
-        <ion-datetime id="datetime-album" class="p-0" [max]="today.toISOString()" (ionChange)="onDateChange($event)"
-          presentation="date" [preferWheel]="true"></ion-datetime>
-      </ng-template>
-    </ion-modal>
-
-    <!-- ? bottom div -->
-    <div class="h-[35vh] p-5 w-full flex flex-col justify-center">
-      <ion-label
-        class="w-full p-3 pt-0 font-bold text-center">{{publicProfileService.myMatePublicProfile?.nickname}}</ion-label>
-      <img *ngIf="!daysPicturesService.isLoadingAlbumPictures && daysPicturesService.myMatesCurrentAlbumPicture" class="object-cover rounded-lg" [src]="daysPicturesService.myMatesCurrentAlbumPicture">
-      <img *ngIf="!daysPicturesService.isLoadingAlbumPictures && !daysPicturesService.myMatesCurrentAlbumPicture" class="rounded-lg " src="../../../../assets/album-icons/missing-days-picture.svg">
-      <ng-lottie *ngIf="daysPicturesService.isLoadingAlbumPictures" [options]="{path: '../../../../assets/lotties/animation_square_loading.json'}"></ng-lottie>
-    </div>
-  </div>
+  <app-pictures-calendar [myMate]="false" [mate]="authService.currentUserSubject.getValue()"></app-pictures-calendar>
+  <ion-modal [keepContentsMounted]="true">
+    <ng-template>
+      <ion-datetime id="datetime-month" size="fixed" presentation="month-year"></ion-datetime>
+    </ng-template>
+  </ion-modal>
+  <app-pictures-calendar [myMate]="true" [mate]="authService.currentUserSubject.getValue()"></app-pictures-calendar>
 </ion-content>
 
 <!-- ? fab button for modal -->

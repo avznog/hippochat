@@ -17,10 +17,8 @@ export class DaysPicturesService {
   loadMyTodaysPicture: boolean = false;
   loadMatesTodaysPicture: boolean = false;
 
-  myCurrentAlbumPicture?: string | null;
-  myMatesCurrentAlbumPicture?: string | null;
-  
-  isLoadingAlbumPictures: boolean = false;
+  myMonthPictures = new Map<string, DaysPicture | null>();
+  myMatesMonthPictures = new Map<string, DaysPicture | null>();
 
   constructor(
     private http: HttpClient,
@@ -71,26 +69,11 @@ export class DaysPicturesService {
     })
   }
 
-  async loadAlbumPictures(date: Date) {
-    this.isLoadingAlbumPictures = true;
-    const myPicturePromise = await lastValueFrom(this.http.get(`days-pictures/get-my-for-date/${date}`, { responseType: 'blob' }));
-    const myMatesPicturePromise = await lastValueFrom(this.http.get(`days-pictures/get-mates-for-date/${date}`, { responseType: 'blob' }));
-
-    const [myPicture, myMatesPicture]: [PromiseSettledResult<Blob>, PromiseSettledResult<Blob>] = await Promise.allSettled([
-      myPicturePromise, myMatesPicturePromise
-    ]);
-    if(myPicture.status === "fulfilled")
-      if(myPicture.value.size === 0)
-        this.myCurrentAlbumPicture = null;
-      else
-        this.myCurrentAlbumPicture = await this.createProfilePicture(myPicture.value)
-    
-
-    if(myMatesPicture.status === "fulfilled")
-      if(myMatesPicture.value.size === 0)
-        this.myMatesCurrentAlbumPicture = null;
-      else
-        this.myMatesCurrentAlbumPicture = await this.createProfilePicture(myMatesPicture.value)
-    this.isLoadingAlbumPictures = false;
+  async updateMonthPictures(date: Date) {
+    if(this.myMonthPictures.has(moment(date).format("YYYY-MM-DD"))) {
+      console.log("month already exists")
+    } else {
+      console.log("month does not exists")
+    }
   }
 }

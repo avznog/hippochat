@@ -3,53 +3,38 @@ import * as moment from 'moment-timezone';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Mate } from 'src/app/models/mate.model';
 import { CouplesService } from 'src/app/services/couples/couples.service';
-import { DaysEmojisService } from 'src/app/services/daysEmojis/days-emojis.service';
+import { DaysPicturesService } from 'src/app/services/daysPictures/days-pictures.service';
 
 @Component({
-  selector: 'app-emojis-calendar',
-  templateUrl: './emojis-calendar.component.html',
-  styleUrls: ['./emojis-calendar.component.scss'],
+  selector: 'app-pictures-calendar',
+  templateUrl: './pictures-calendar.component.html',
+  styleUrls: ['./pictures-calendar.component.scss'],
 })
-export class EmojisCalendarComponent  implements OnInit {
-
+export class PicturesCalendarComponent  implements OnInit {
   calendar = new Map<number, Map<number, string | null>>();
-  constructor(
-    public readonly daysEmojisService: DaysEmojisService,
-    private readonly couplesService: CouplesService,
-    private readonly authService: AuthService
-  ) { }
 
-  @Input() date: Date = new Date();
-  mate: Mate | undefined = {} as Mate;
-  @Input() location?: "bottom" | "top";
+  @Input() mate?: Mate;
   @Input() myMate: boolean = false;
 
-  boyImage = '../../../../assets/couple-icons/boy-iso-color.png';
-  boyReversedImage = '../../../../assets/couple-icons/boy-iso-color-reversed.png';
-  girlImage = '../../../../assets/couple-icons/girl-iso-color.png';
-  girlReversedImage = '../../../../assets/couple-icons/girl-iso-color-reversed.png';
+  constructor(
+    private readonly couplesService: CouplesService,
+    private readonly authService: AuthService,
+    public readonly daysPicturesService: DaysPicturesService
+  ) { }
 
   ngOnInit() {
-    this.setMate();
+    this.setMate()
+    this.fillCalendar(new Date());
+    this.daysPicturesService.updateMonthPictures(new Date())
   }
 
   async setMate() {
     if(this.myMate) {
       this.mate = await this.couplesService.returnMyMate();
-      this.daysEmojisService.getAllMatesMonthly(this.date) 
     } else {
       this.mate = this.authService.currentUserSubject.getValue();
-      this.daysEmojisService.getAllMyMonthly(this.date)
     }
   }
-
-  ngOnChanges(changes: any) {
-    this.calendar.clear();
-    this.fillCalendar(this.date);
-    this.daysEmojisService.getAllMyMonthly(this.date);
-    this.daysEmojisService.getAllMatesMonthly(this.date);
-  }
-  
 
   fillCalendar(date: Date) {
     // ? getting the first day of the month & adjusting with the firstday of the week
@@ -81,7 +66,7 @@ export class EmojisCalendarComponent  implements OnInit {
         continue;
       } else {
         // ? fill the calendar
-        this.calendar.get(week)?.set(weekDay, day.toString())
+        this.calendar.get(week)?.set(weekDay, `${date.getFullYear()}-${date.getMonth()}-${day.toString()}`)
       }
 
       day ++;
