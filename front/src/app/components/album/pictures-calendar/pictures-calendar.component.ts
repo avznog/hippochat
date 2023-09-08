@@ -30,8 +30,8 @@ export class PicturesCalendarComponent  implements OnInit {
 
   ngOnInit() {
     this.setMate()
-    this.fillCalendar(new Date());
-    this.myMate ? this.daysPicturesService.updateMatesMonthPictures(new Date()) : this.daysPicturesService.updateMyMonthPictures(new Date())
+    this.fillCalendar(this.date);
+    this.myMate ? this.daysPicturesService.updateMatesMonthPictures(this.date) : this.daysPicturesService.updateMyMonthPictures(this.date)
   }
 
   async setMate() {
