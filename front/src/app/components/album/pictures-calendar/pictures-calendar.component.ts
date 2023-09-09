@@ -97,6 +97,7 @@ export class PicturesCalendarComponent  implements OnInit {
     Haptics.impact({
       style: ImpactStyle.Light
     });
+    this.daysPicturesService.myMate = this.myMate!;
     this.daysPicturesService.selectedDate = date;
     const modal = await this.modalController.create({
       component: OneDayPictureComponent,

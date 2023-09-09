@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { AuthService } from 'src/app/auth/auth.service';
 import { CouplesService } from 'src/app/services/couples/couples.service';
@@ -23,6 +23,7 @@ export class OneDayPictureComponent  implements OnInit {
   ngOnInit() {
     this.couplesService.getMyMate()
   }
+
   async onDismiss() {
     const modal = await this.modalController.getTop()
     modal?.dismiss()

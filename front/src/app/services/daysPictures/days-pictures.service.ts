@@ -25,6 +25,7 @@ export class DaysPicturesService {
   daysLoaded: string[] = [];
 
   selectedDate!: string;
+  myMate: boolean = false;
 
   constructor(
     private http: HttpClient,
