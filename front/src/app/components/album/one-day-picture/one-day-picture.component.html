@@ -9,24 +9,19 @@
     </ion-toolbar>
   </ion-header>
     <ion-content [fullscreen]="true">
-      <ion-card>
-        <ion-card-content class="flex flex-col justify-center">
-          <ion-card-header>
-            <ion-card-title class="text-center">{{authService.currentUserSubject.getValue().publicProfile.nickname}}</ion-card-title>
-          </ion-card-header>
-          <img *ngIf="daysPictureService.myMonthPictures.has(daysPictureService.selectedDate)" class="rounded-lg max-h-[30vh] w-4/5 self-center" [src]="daysPictureService.myMonthPictures.get(daysPictureService.selectedDate)">
-          <img *ngIf="!daysPictureService.myMonthPictures.has(daysPictureService.selectedDate)" class="rounded-lg max-h-[30vh]" src="../../../../assets/album-icons/missing-days-picture.svg">
-
+      <ion-card class="max-h-1/2">
+        <ion-card-content class="flex flex-col justify-center max-h-fit">
+          <img loading="lazy" *ngIf="daysPictureService.myMonthPictures.has(daysPictureService.selectedDate)" class="self-center rounded-lg" [src]="daysPictureService.myMonthPictures.get(daysPictureService.selectedDate)">
+          <img loading="lazy" *ngIf="!daysPictureService.myMonthPictures.has(daysPictureService.selectedDate)" class="rounded-lg max-h-[30vh]" src="../../../../assets/album-icons/missing-days-picture.svg">
+          <ion-label class="pt-1 italic font-semibold text-center">{{publicProfileService.myPublicProfile?.nickname ?? authService.currentUserSubject.getValue().firstname}}</ion-label>
         </ion-card-content>
       </ion-card>
 
-      <ion-card>
-        <ion-card-content class="flex flex-col justify-center">
-          <ion-card-header>
-            <ion-card-title class="text-center">{{publicProfileService.myMatePublicProfile?.nickname}}</ion-card-title>
-          </ion-card-header>
-          <img *ngIf="daysPictureService.myMatesMonthPictures.has(daysPictureService.selectedDate)" class="rounded-lg max-h-[30vh] w-4/5 self-center" [src]="daysPictureService.myMatesMonthPictures.get(daysPictureService.selectedDate)">
-          <img *ngIf="!daysPictureService.myMatesMonthPictures.has(daysPictureService.selectedDate)" class="rounded-lg max-h-[30vh]" src="../../../../assets/album-icons/missing-days-picture.svg">
+      <ion-card class="max-h-1/2">
+        <ion-card-content class="flex flex-col justify-center max-h-fit">
+          <ion-label class="pb-1 italic font-semibold text-center">{{publicProfileService.myMatePublicProfile?.nickname ?? couplesService.myMate?.firstname}}</ion-label>
+          <img loading="lazy" *ngIf="daysPictureService.myMatesMonthPictures.has(daysPictureService.selectedDate)" class="self-center rounded-lg" [src]="daysPictureService.myMatesMonthPictures.get(daysPictureService.selectedDate)">
+          <img loading="lazy" *ngIf="!daysPictureService.myMatesMonthPictures.has(daysPictureService.selectedDate)" class="rounded-lg max-h-[30vh]" src="../../../../assets/album-icons/missing-days-picture.svg">
         </ion-card-content>
       </ion-card>
     </ion-content>

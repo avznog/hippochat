@@ -18,7 +18,11 @@ export class DaysPicturesService {
   loadMatesTodaysPicture: boolean = false;
 
   myMonthPictures = new Map<string, string | null>();
+  loadingMyMonthPictures: boolean = false;
+
   myMatesMonthPictures = new Map<string, string | null>();
+  loadingMatesMonthPictures: boolean = false;
+  daysLoaded: string[] = [];
 
   selectedDate!: string;
 
@@ -71,22 +75,29 @@ export class DaysPicturesService {
   }
 
   async updateMyMonthPictures(date: Date) {
-    if(this.myMonthPictures.has(moment(date).format("YYYY-MM-DD"))) {
+    
+    if(this.daysLoaded.includes(moment(date).format("YYYY-MM-DD"))) {
     } else {
+      this.loadingMyMonthPictures = true;
       const urls = await lastValueFrom(this.http.get<{date: string, value: string}[][]>(`days-pictures/my-month/${date}`));
       urls[0].forEach((url: {date: string, value: string}) => {
         this.myMonthPictures.set(url.date, url.value)
       })
+      this.loadingMyMonthPictures = false;
+      this.daysLoaded.push(moment(date).format("YYYY-MM-DD"))
     }
   }
 
   async updateMatesMonthPictures(date: Date) {
-    if(this.myMatesMonthPictures.has(moment(date).format("YYYY-MM-DD"))) {
+    if(this.daysLoaded.includes(moment(date).format("YYYY-MM-DD"))) {
     } else {
+      this.loadingMatesMonthPictures = true;
       const urls = await lastValueFrom(this.http.get<{date: string, value: string}[][]>(`days-pictures/mates-month/${date}`));
       urls[0].forEach((url: {date: string, value: string}) => {
         this.myMatesMonthPictures.set(url.date, url.value)
       })
+      this.loadingMatesMonthPictures = false;
+      this.daysLoaded.push(moment(date).format("YYYY-MM-DD"))
     }
   }
 }

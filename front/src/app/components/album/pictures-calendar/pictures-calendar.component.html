@@ -17,9 +17,10 @@
       </ion-row>
       <ion-row *ngFor="let week of calendar | keyvalue">
         <ion-col size="1.7" class="flex self-center justify-center text-center" *ngFor="let day of week.value | keyvalue">
-          <span *ngIf="day.value && !myMate && !daysPicturesService.myMonthPictures.get(day.value)">{{toNumber(day.value.split("-")[2]) < 10 ? (day.value.split("-")[2] | slice:1:2) : day.value.split("-")[2]}}</span>
-          <span *ngIf="day.value && myMate && !daysPicturesService.myMatesMonthPictures.get(day.value)">{{day.value.split("-")[2]}}</span>
-          <img *ngIf="day.value" class="rounded-lg aspect-square" src="{{myMate ? daysPicturesService.myMatesMonthPictures.get(day.value): daysPicturesService.myMonthPictures.get(day.value)}}" (click)="onClickPicture(day.value)">
+          <span *ngIf="day.value && !myMate && !daysPicturesService.loadingMyMonthPictures && !daysPicturesService.myMonthPictures.get(day.value)">{{toNumber(day.value.split("-")[2]) < 10 ? (day.value.split("-")[2] | slice:1:2) : day.value.split("-")[2]}}</span>
+          <span *ngIf="day.value && myMate && !daysPicturesService.loadingMatesMonthPictures && !daysPicturesService.myMatesMonthPictures.get(day.value)">{{day.value.split("-")[2]}}</span>
+          <img loading="lazy" *ngIf="day.value && (myMate ? !daysPicturesService.loadingMatesMonthPictures : !daysPicturesService.loadingMyMonthPictures)" class="rounded-lg" src="{{myMate ? daysPicturesService.myMatesMonthPictures.get(day.value): daysPicturesService.myMonthPictures.get(day.value)}}" (click)="onClickPicture(day.value)">
+          <ng-lottie [options]="{path: '../../../../assets/lotties/animation_square_loading.json'}" *ngIf="day.value && (myMate ? daysPicturesService.loadingMatesMonthPictures : daysPicturesService.loadingMyMonthPictures)"></ng-lottie>
         </ion-col>
       </ion-row>
     </ion-grid>

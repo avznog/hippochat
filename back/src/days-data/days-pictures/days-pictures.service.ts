@@ -98,9 +98,9 @@ export class DaysPicturesService {
       const daysPictures = await this.daysPicturesRepository.find({
         where: {
           mate: {
-            id: mate.couple.mates.find(m => m.id !== mate.id).id
+            id: mate.id
           },
-          date: Between(moment(new Date(date)).tz(mate.couple.mates.find(m => m.id !== mate.id).timezone).startOf("month").format("YYYY-MM-DD"), moment(new Date(moment(new Date(date)).tz(mate.couple.mates.find(m => m.id !== mate.id).timezone).startOf("month").toDate().setDate(moment(new Date(date)).tz(mate.couple.mates.find(m => m.id !== mate.id).timezone).startOf("month").daysInMonth()))).format("YYYYY-MM-DD"))
+          date: Between(moment(new Date(date)).tz(mate.timezone).startOf("month").format("YYYY-MM-DD"), moment(new Date(date)).tz(mate.timezone).endOf("month").format("YYYY-MM-DD"))
         }
       });
       return await Promise.all([daysPictures.map(async daysPicture => {return {date: daysPicture.date, value: await this.minioService.generateUrl(daysPicture.value)}})].map(async inner => {

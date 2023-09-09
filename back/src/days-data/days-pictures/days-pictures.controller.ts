@@ -65,6 +65,6 @@ export class DaysPicturesController {
 
   @Get("mates-month/:date")
   getMatesMonth(@CurrentUser() mate: Mate, @Param("date") date: string) {
-    return this.daysPicturesService.getMatesMonth(mate, date);
+    return this.daysPicturesService.getMatesMonth(mate.couple.mates.find(m => m.id !== mate.id), date);
   }
 }

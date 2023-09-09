@@ -18,7 +18,7 @@ export class PicturesCalendarComponent  implements OnInit {
   calendar = new Map<number, Map<number, string | null>>();
 
   @Input() mate?: Mate;
-  @Input() myMate: boolean = false;
+  @Input() myMate?: boolean;
   @Input() date: Date = new Date();
 
   constructor(
