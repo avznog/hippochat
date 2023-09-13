@@ -7,6 +7,7 @@ export interface PublicProfile {
   profileEmoji: string;
   nickname: string;
   lastBatteryPercentage: string;
+  lastLocation: string;
   profilePicture: string;
   sex: Sex;
   preferedColor: string;

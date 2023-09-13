@@ -1377,6 +1377,11 @@
   resolved "https://registry.yarnpkg.com/@capacitor/device/-/device-5.0.6.tgz#11322a9c737196f2df8f82abbe6d1a5b32e35fb7"
   integrity sha512-tmjK0H8IKbDLMcmzZzJPbV+9yLkKJ76QOdz4A7fZAOYx2GnFHsFngxldq/wKotGAJuDX/ih3ZzHNrzVguzlv2g==
 
+"@capacitor/geolocation@^5.0.6":
+  version "5.0.6"
+  resolved "https://registry.yarnpkg.com/@capacitor/geolocation/-/geolocation-5.0.6.tgz#05f7d96f4274847c4e09f443cad71a21126a679a"
+  integrity sha512-3pB3CBa38aDMk7zouGbjOMBytcaqRMBosMcqNrOQjE5LMBAPUI1cEGrUzmkj+scP0SIyYGA95Tkj0BAnzvNWag==
+
 "@capacitor/haptics@^5.0.6":
   version "5.0.6"
   resolved "https://registry.yarnpkg.com/@capacitor/haptics/-/haptics-5.0.6.tgz#c22fd6acbc62cbdff39279ded687c418f2c89a5a"

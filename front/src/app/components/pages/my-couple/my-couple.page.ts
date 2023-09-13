@@ -154,7 +154,6 @@ export class MyCouplePage implements OnInit {
     this.coupleService.getMyMate();
     this.publicProfileService.getMyPublicProfile();
     this.publicProfileService.getMyMatesPublicProfile();
-    this.publicProfileService.updateMyBatteryPercentage();
     this.presentingElement = document.querySelector('.content');
   }
 
@@ -178,9 +177,9 @@ export class MyCouplePage implements OnInit {
     return Number(battery) * 100;
   }
 
-  onChangePrimaryColor() {
+  async onChangePrimaryColor() {
     this.publicProfileService.updateMyPublicProfile({
-      preferedColor: this.color
+      preferedColor: this.color,
     })
     this.publicProfileService.onChangePrimaryColor(this.color);
   }

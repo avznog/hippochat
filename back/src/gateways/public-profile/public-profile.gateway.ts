@@ -1,6 +1,5 @@
 import { OnGatewayConnection, OnGatewayDisconnect, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server } from 'socket.io';
-import { CouplesService } from 'src/relational/couples/couples.service';
 import { Mate } from 'src/relational/mates/entities/mate.entity';
 import { PublicProfile } from 'src/relational/public-profile/entities/public-profile.entity';
 import { GatewaysService } from '../services/gateways.service';
@@ -10,7 +9,6 @@ export class PublicProfileGateway implements OnGatewayConnection, OnGatewayDisco
   
   constructor(
     private readonly gatewaysService: GatewaysService,
-    private readonly couplesService: CouplesService
   ) {}
 
   handleConnection(client: any, ...args: any[]) {
@@ -25,14 +23,14 @@ export class PublicProfileGateway implements OnGatewayConnection, OnGatewayDisco
   server: Server;
 
   async updateMatePublicProfile(mate: Mate, publicProfile: PublicProfile) {
-    this.server.to(this.gatewaysService.connectedUsers.get((await this.couplesService.getMyMate(mate)).id)).emit("update-mate-public-profile", publicProfile);
+    this.server.to(this.gatewaysService.connectedUsers.get(mate.couple.mates.find(m => m.id !== mate.id).id)).emit("update-mate-public-profile", publicProfile);
   }
 
   async updateMyPublicProfile(mate: Mate, publicProfile: PublicProfile) {
-    this.server.to(this.gatewaysService.connectedUsers.get((await this.couplesService.getMyMate(mate)).id)).emit("update-my-public-profile", publicProfile);
+    this.server.to(this.gatewaysService.connectedUsers.get(mate.couple.mates.find(m => m.id !== mate.id).id)).emit("update-my-public-profile", publicProfile);
   } 
 
   async updateMyProfilePicture(mate: Mate) {
-    this.server.to(this.gatewaysService.connectedUsers.get((await this.couplesService.getMyMate(mate)).id)).emit("update-profile-picture");
+    this.server.to(this.gatewaysService.connectedUsers.get(mate.couple.mates.find(m => m.id !== mate.id).id)).emit("update-profile-picture");
   }
 }

@@ -1,6 +1,7 @@
 import { DaysEmoji } from "src/days-data/days-emojis/entities/days-emoji.entity";
 import { DaysPicture } from "src/days-data/days-pictures/entities/days-picture.entity";
 import { Couple } from "src/relational/couples/entities/couple.entity";
+import { Message } from "src/relational/messages/entities/message.entity";
 import { PublicProfile } from "src/relational/public-profile/entities/public-profile.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
@@ -40,4 +41,7 @@ export class Mate {
 
   @OneToMany(() => DaysPicture, daysPictures => daysPictures.mate)
   daysPictures: DaysPicture[];
+
+  @OneToMany(() => Message, message => message.mate)
+  messages: Message[];
 }

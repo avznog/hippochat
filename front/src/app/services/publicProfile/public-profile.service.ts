@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Photo } from '@capacitor/camera';
-import { Device } from '@capacitor/device';
 import { Haptics, NotificationType } from '@capacitor/haptics';
 import { lastValueFrom } from 'rxjs';
 import { Sex } from 'src/app/constants/sex.type';
@@ -22,18 +21,16 @@ export class PublicProfileService {
 
   constructor(
     private http: HttpClient,
+    
   ) {
   }
 
   async updateMyPublicProfile(updatePublicProfileDto: UpdatePublicProfileDto) {
     this.getMyProfilePictures()
     try {
-      const deviceBattery = await Device.getBatteryInfo();
-      if (deviceBattery.batteryLevel)
-        updatePublicProfileDto = {
-          ...updatePublicProfileDto,
-          lastBatteryPercentage: deviceBattery.batteryLevel!.toString()
-        }
+      updatePublicProfileDto = {
+        ...updatePublicProfileDto,
+      }
       this.http.patch<PublicProfile>(`public-profile/my`, updatePublicProfileDto).subscribe(publicProfile => {
         this.myPublicProfile = publicProfile
       });
@@ -59,15 +56,6 @@ export class PublicProfileService {
       this.getMyMatesProfilePicture()
     } catch (error) {
       console.log("error")
-    }
-  }
-
-  async updateMyBatteryPercentage() {
-    const batteryLevel = (await Device.getBatteryInfo()).batteryLevel;
-    if (batteryLevel) {
-      this.updateMyPublicProfile({
-        lastBatteryPercentage: batteryLevel.toString()
-      })
     }
   }
 
@@ -121,5 +109,12 @@ export class PublicProfileService {
       }
       this.loadingMatesProfilePicture = false;
     })
+  }
+
+  changeMyLocation(location: string) {
+    const updatePublicProfileDto: UpdatePublicProfileDto = {
+      lastLocation: location
+    };
+    this.http.patch(`public-profile/my`, updatePublicProfileDto).subscribe()
   }
 }

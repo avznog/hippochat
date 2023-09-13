@@ -13,6 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
 import { PagesModule } from './components/pages/pages.module';
+import { SettingsComponent } from './components/settings/settings.component';
 import { AuthGuard } from './guards/auth.guard';
 import { HasMateGuard } from './guards/has-mate.guard';
 import { LoggedGuard } from './guards/logged.guard';
@@ -27,7 +28,6 @@ import { SocketDaysEmojis } from './providers/socket-days-emojis.provider';
 import { SocketDaysPictures } from './providers/socket-days-pictures.providers';
 import { SocketPublicProfile } from './providers/socket-public-profile.provider';
 import { SocketSadness } from './providers/socket-sadness.provider';
-import { SettingsComponent } from './components/settings/settings.component';
 
 export function playerFactory() {
   return player;

@@ -19,6 +19,9 @@ export class PublicProfile {
   @Column({ nullable: true })
   lastBatteryPercentage: string;
 
+  @Column({ nullable: true })
+  lastLocation: string;
+
   @Column({ nullable: true})
   profilePicture: string;
 

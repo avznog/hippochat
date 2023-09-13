@@ -25,6 +25,11 @@ export class CreatePublicProfileDto {
   @ApiProperty({
     required: false
   })
+  lastLocation: string;
+
+  @ApiProperty({
+    required: false
+  })
   profilePicture: string;
 
   @ApiProperty({
