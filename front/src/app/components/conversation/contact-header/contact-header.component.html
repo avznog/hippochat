@@ -1,3 +1,20 @@
-<div class="w-full bg-red-600 h-[10vh] backdrop-blur-3xl">
-  {{publicProfileService.myMatePublicProfile?.lastLocation}}
+<div class="flex pt-2 ps-2 pe-2">
+  <ion-item class="w-full shadow-md rounded-3xl drop-shadow-sm" color="translucent" [lines]="'none'">
+    <img class="self-center object-cover w-1/2 p-1 rounded-full aspect-square" loading="lazy"
+      *ngIf="!publicProfileService.loadingMyProfilePicture" [src]="publicProfileService.myProfilePicture" />
+    <div class="flex flex-col">
+      <ion-chip [outline]="true" (click)="onClickLocation()">
+        <ion-avatar>
+          <img src="../../../../assets/conversation-icons/map-pin-dynamic-color.png" />
+        </ion-avatar>
+        <ion-label class="self-center ">{{publicProfileService.myMatePublicProfile?.lastLocation}}</ion-label>
+      </ion-chip>
+      <ion-chip [outline]="true">
+        <ion-avatar>
+          <img src="../../../../assets//conversation-icons/battery-iso-color.png" />
+        </ion-avatar>
+        <ion-label class="self-center">{{publicProfileService.myMatePublicProfile?.lastBatteryPercentage}} %</ion-label>
+      </ion-chip>
+    </div>
+  </ion-item>
 </div>

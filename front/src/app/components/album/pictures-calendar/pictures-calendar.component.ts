@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import { ModalController } from '@ionic/angular';
 import * as moment from 'moment-timezone';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -6,14 +7,13 @@ import { Mate } from 'src/app/models/mate.model';
 import { CouplesService } from 'src/app/services/couples/couples.service';
 import { DaysPicturesService } from 'src/app/services/daysPictures/days-pictures.service';
 import { OneDayPictureComponent } from '../one-day-picture/one-day-picture.component';
-import { Haptics, ImpactStyle } from '@capacitor/haptics';
 
 @Component({
   selector: 'app-pictures-calendar',
   templateUrl: './pictures-calendar.component.html',
   styleUrls: ['./pictures-calendar.component.scss'],
 })
-export class PicturesCalendarComponent  implements OnInit {
+export class PicturesCalendarComponent implements OnInit {
 
   calendar = new Map<number, Map<number, string | null>>();
 
@@ -35,7 +35,7 @@ export class PicturesCalendarComponent  implements OnInit {
   }
 
   async setMate() {
-    if(this.myMate) {
+    if (this.myMate) {
       this.mate = await this.couplesService.returnMyMate();
     } else {
       this.mate = this.authService.currentUserSubject.getValue();
@@ -46,27 +46,27 @@ export class PicturesCalendarComponent  implements OnInit {
     // ? getting the first day of the month & adjusting with the firstday of the week
     let firstDayOfMonth = () => {
       let d = moment(moment(date).tz(this.mate?.timezone ?? 'Europe/Paris').startOf("month").toDate()).tz(this.mate?.timezone ?? 'Europe/Paris').day();
-      d === 0 ? (d = 6) : (d --)
+      d === 0 ? (d = 6) : (d--)
       return d
     }
-    
+
     // ? getting the last day of the month
     const end = moment(date).daysInMonth()
-    
+
     // ? data for building the calendar
     let day = 1;
     let weekDay = 0;
     let week = 0;
 
-    while(day <= end) {
+    while (day <= end) {
 
       // ? if the week has not been registred yet, create the map
-      if(!this.calendar.get(week)){
+      if (!this.calendar.get(week)) {
         this.calendar.set(week, new Map<number, string>())
       }
 
       // ? fill with null values for days of the first week before the 1 starts
-      if(week === 0 && weekDay < firstDayOfMonth()) {
+      if (week === 0 && weekDay < firstDayOfMonth()) {
         this.calendar.get(week)?.set(weekDay, null)
         weekDay++;
         continue;
@@ -75,16 +75,16 @@ export class PicturesCalendarComponent  implements OnInit {
         this.calendar.get(week)?.set(weekDay, `${date.getFullYear()}-${date.getMonth() < 10 ? '0' + Number(date.getMonth() + 1) : Number(date.getMonth() + 1)}-${day < 10 ? '0' + day.toString() : day.toString()}`)
       }
 
-      day ++;
-      if(weekDay === 6)  {
+      day++;
+      if (weekDay === 6) {
         weekDay = 0;
-        week ++;
+        week++;
       } else {
-        weekDay ++;
+        weekDay++;
       }
     }
   }
-  
+
   ngOnChanges(changes: any) {
     this.calendar.clear();
     this.fillCalendar(this.date);
