@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/auth/auth.service';
+import { Message } from 'src/app/models/message.model';
 
 @Component({
   selector: 'app-one-message',
@@ -6,10 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./one-message.component.scss'],
   standalone: true
 })
-export class OneMessageComponent  implements OnInit {
+export class OneMessageComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public readonly authService: AuthService
+  ) { }
 
-  ngOnInit() {}
+  @Input() message!: Message;
+
+  ngOnInit() { }
 
 }

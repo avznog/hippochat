@@ -1,3 +1,6 @@
-<p>
-  one-message works!
-</p>
+<div
+  class="flex w-full {{authService.currentUserSubject.getValue().id === message.mate.id ? 'justify-end' : 'justify-start'}}">
+  <div class="w-1/2 mt-5 mb-5 bg-red-400">
+    {{message.value}}
+  </div>
+</div>

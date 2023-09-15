@@ -11,7 +11,7 @@ export class NativeService {
 
   async myBattery() {
     const batteryInfo = await Device.getBatteryInfo();
-    if(batteryInfo)
+    if (batteryInfo)
       return batteryInfo.batteryLevel!.toString()
     else
       return null
@@ -19,17 +19,17 @@ export class NativeService {
   location: string | null = null;
 
   async getLocation() {
-      const geolocation = await Geolocation.getCurrentPosition({
-        enableHighAccuracy: true,
-        maximumAge: 300000
-      })
-    if(geolocation) {
-      this.location = await this.positionStackService.getAddress({latitude: geolocation.coords.latitude.toString(), longitude: geolocation.coords.longitude.toString()})
+    const geolocation = await Geolocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      maximumAge: 300000
+    })
+    if (geolocation) {
+      this.location = await this.positionStackService.getAddress({ latitude: geolocation.coords.latitude.toString(), longitude: geolocation.coords.longitude.toString() })
       this.publicProfileService.changeMyLocation(this.location);
     }
     else
       this.location = null
-    
+
   }
 
   constructor(

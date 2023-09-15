@@ -1,3 +1,6 @@
-<p>
-  list-messages works!
-</p>
+<div class="overflow-scroll h-[75vh] scroll-smooth w-full" #scroll>
+  <ion-refresher (ionRefresh)="handleRefresh($event)" slot="fixed">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <app-one-message *ngFor="let message of messagesService.messages" [message]="message"></app-one-message>
+</div>

@@ -7,11 +7,14 @@ export class Message {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({nullable: false, default: ""})
+  @Column({ nullable: false, default: "" })
   value: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   privatePictureLink: string;
+
+  @Column({ nullable: false })
+  date: Date;
 
   @ManyToOne(() => Mate, mate => mate.messages)
   mate: Mate;
