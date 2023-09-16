@@ -1,3 +1,4 @@
 export interface CreateMessageDto {
-  value: string;
+  value?: string;
+  privatePicture?: string;
 }

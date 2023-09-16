@@ -16,7 +16,7 @@ export class MinioService {
       secretKey: this.configService.get('MINIO_SECRET_KEY') || "minioadmin"
     });
     this.minioClient.bucketExists("hippochat").then(exists => {
-      if(!exists)
+      if (!exists)
         this.minioClient.makeBucket("hippochat")
     })
   }
@@ -25,16 +25,24 @@ export class MinioService {
     try {
       return await this.minioClient.putObject("hippochat", path, file.buffer);
     } catch (error) {
-      
+
     }
   }
 
-  async generateUrl(path: string) : Promise<string> {
+  async generateUrl(path: string): Promise<string> {
     try {
       return await this.minioClient.presignedGetObject("hippochat", path)
     } catch (error) {
       console.log(error)
       return null;
+    }
+  }
+
+  async destroyFile(path: string) {
+    try {
+      return await this.minioClient.removeObject("hippochat", path);
+    } catch (error) {
+      return null
     }
   }
 }

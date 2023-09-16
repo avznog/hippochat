@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-button slot="end">
+        <ion-button (click)="onDismiss()">Retour</ion-button>
+      </ion-button>
+      <ion-title>Photo cadeau</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<div class="flex h-full p-5 ">
+  <img (click)="onUnBlur()"
+    class="self-center text-center shadow-2xl drop-shadow-2xl rounded-3xl transition-all ease-in-out duration-500 {{!clicked ? 'blur-lg' : ''}}"
+    [src]="messagesService.privateMessage?.privatePicture">
+</div>

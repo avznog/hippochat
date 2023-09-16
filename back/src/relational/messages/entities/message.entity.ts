@@ -11,10 +11,13 @@ export class Message {
   value: string;
 
   @Column({ nullable: true })
-  privatePictureLink: string;
+  privatePicture: string;
 
   @Column({ nullable: false })
   date: Date;
+
+  @Column({ nullable: true })
+  privatePictureOpened: boolean;
 
   @ManyToOne(() => Mate, mate => mate.messages)
   mate: Mate;

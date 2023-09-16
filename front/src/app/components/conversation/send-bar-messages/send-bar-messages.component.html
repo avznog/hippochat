@@ -8,8 +8,8 @@
     <ion-button (click)="onSendMessage()" shape="round" size="large" fill="clear" *ngIf="message !== ''">
       <ion-icon name="paper-plane-outline"></ion-icon>
     </ion-button>
-    <ion-button class="align-baseline transition-transform ease-linear cursor-pointer" fill="clear" shape="round"
-      *ngIf="message === ''">
+    <ion-button (click)="onTakePrivatePicture()" class="align-baseline transition-transform ease-linear cursor-pointer"
+      fill="clear" shape="round" *ngIf="message === ''">
       <ion-icon size="large" src="../../../../assets/conversation-icons/no-minor.svg"></ion-icon>
     </ion-button>
   </div>

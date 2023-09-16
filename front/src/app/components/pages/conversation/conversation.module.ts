@@ -8,9 +8,9 @@ import { ConversationPageRoutingModule } from './conversation-routing.module';
 
 import { ContactHeaderComponent } from '../../conversation/contact-header/contact-header.component';
 import { ListMessagesComponent } from '../../conversation/list-messages/list-messages.component';
+import { OneMessageComponent } from '../../conversation/one-message/one-message.component';
 import { SendBarMessagesComponent } from '../../conversation/send-bar-messages/send-bar-messages.component';
 import { ConversationPage } from './conversation.page';
-import { OneMessageComponent } from '../../conversation/one-message/one-message.component';
 
 @NgModule({
   imports: [
@@ -22,7 +22,7 @@ import { OneMessageComponent } from '../../conversation/one-message/one-message.
     SendBarMessagesComponent,
     CommonModule,
     ConversationPageRoutingModule,
-    OneMessageComponent
+    OneMessageComponent,
   ],
   declarations: [ConversationPage],
 })

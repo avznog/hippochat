@@ -1,8 +1,13 @@
 <div
   class="flex w-full {{authService.currentUserSubject.getValue().id === message.mate.id ? 'justify-end' : 'justify-start'}}">
-  <div [class]="'flex w-1/2 p-2 m-5 mb-2 mt-2 align-baseline rounded-xl bg-opacity-40 '+ class"
+  <div *ngIf="!message.privatePictureOpened"
+    [class]="'flex w-1/2 p-2 m-5 mb-2 shadow-sm drop-shadow-sm mt-2 align-baseline rounded-xl bg-opacity-40 '+ class"
     [style.background-color]="message.mate.publicProfile.preferedColor">
-    <p [style.color]="getReverseColor(message.mate.publicProfile.preferedColor)"
+    <p *ngIf="!message.privatePicture" [style.color]="getReverseColor(message.mate.publicProfile.preferedColor)"
       class="w-full text-sm font-semibold leading-relaxed line-clamp-999">{{message.value}}</p>
+    <ng-lottie *ngIf="message.privatePicture" (click)="onOpenPrivatePicture()"
+      [options]="{path: '../../../../assets/lotties/animation_gift.json'}"></ng-lottie>
   </div>
+  <img class="w-12 me-5" src="../../../../assets/conversation-icons/gift-box.svg"
+    *ngIf="message.privatePicture && message.privatePictureOpened" />
 </div>

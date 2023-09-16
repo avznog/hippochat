@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MessagesGateway } from 'src/gateways/messages/messages.gateway';
+import { MinioService } from 'src/minio/minio.service';
 import { LessThan, Repository } from 'typeorm';
 import { Mate } from '../mates/entities/mate.entity';
 import { CreateMessageDto } from './dto/create-message.dto';
@@ -12,7 +13,8 @@ export class MessagesService {
     @InjectRepository(Message)
     private readonly messageRepository: Repository<Message>,
 
-    private readonly messagesGateway: MessagesGateway
+    private readonly messagesGateway: MessagesGateway,
+    private readonly minioService: MinioService
   ) { }
 
   async create(createMessageDto: CreateMessageDto) {
@@ -39,5 +41,30 @@ export class MessagesService {
       take: 20,
       relations: ["mate", "couple", "mate.publicProfile"]
     })
+  }
+
+  async createPrivatePicture(mate: Mate, file: Express.Multer.File) {
+    const path = `/users/${mate.email}/private-pictures/${file.originalname}`;
+    await this.minioService.uploadFile(path, file);
+    const message = await this.messageRepository.save({
+      couple: mate.couple,
+      mate: mate,
+      date: new Date(),
+      privatePicture: path,
+      value: ""
+    });
+    this.messagesGateway.sendMessage(mate, message);
+    return message;
+  }
+
+  async getPrivatePicture(messageId: string) {
+    const message = await this.messageRepository.findOne({ where: { id: messageId } });
+    return this.minioService.generateUrl(message.privatePicture);
+  }
+
+  async destroyPrivatePicture(id: string) {
+    const message = await this.messageRepository.findOne({ where: { id: id } });
+    await this.messageRepository.update(id, { privatePictureOpened: true });
+    return this.minioService.destroyFile(message.privatePicture)
   }
 }
