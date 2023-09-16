@@ -1,0 +1,8 @@
+<ion-content>
+  <div #scroll>
+    <ion-refresher (ionRefresh)="handleRefresh($event)" slot="fixed">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <app-one-message *ngFor="let message of messagesService.messages" [message]="message"></app-one-message>
+  </div>
+</ion-content>

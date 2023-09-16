@@ -21,6 +21,8 @@ export class SocketPublicProfileService {
   updateMatePublicProfile() {
     return new Observable<any>(() => {
       this.socket.on("update-mate-public-profile", (publicProfile: PublicProfile) => {
+        console.log("trigerred")
+
         this.publicProfileService.myPublicProfile = publicProfile;
       })
     })
@@ -29,6 +31,7 @@ export class SocketPublicProfileService {
   updateMyPublicProfile() {
     return new Observable<any>(() => {
       this.socket.on("update-my-public-profile", (publicProfile: PublicProfile) => {
+        console.log("trigerred")
         this.publicProfileService.myMatePublicProfile = publicProfile;
       })
     })

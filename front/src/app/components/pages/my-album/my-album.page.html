@@ -12,27 +12,6 @@
   </ion-header>
 
 
-  <!-- ? Modal for settings -->
-  <ion-modal #modal presentingElement="card" [presentingElement]="presentingElement" [canDismiss]="true"
-    trigger="openSettings">
-    <ng-template>
-
-      <!-- ? Modal header -->
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>Paramètres</ion-title>
-          <ion-buttons slot="start">
-            <ion-button [strong]="true" (click)="modal.dismiss()">Fermer</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      <!-- ? modal content -->
-      <ion-content class="ion-padding">
-        <app-settings (dismissLogoutEvent)="modal.dismiss()"></app-settings>
-      </ion-content>
-    </ng-template>
-  </ion-modal>
-
   <app-pictures-calendar [date]="date" [myMate]="false" [mate]="authService.currentUserSubject.getValue()"></app-pictures-calendar>
   <ion-modal [keepContentsMounted]="true">
     <ng-template>
@@ -42,10 +21,3 @@
   <ion-datetime-button datetime="datetime-month" datetime="datetime-month"></ion-datetime-button>
   <app-pictures-calendar [date]="date" [myMate]="true" [mate]="authService.currentUserSubject.getValue()"></app-pictures-calendar>
 </ion-content>
-
-<!-- ? fab button for modal -->
-<ion-fab horizontal="end" vertical="bottom" id="openSettings" (click)="onClickSettings()">
-  <ion-fab-button>
-    <ion-icon name="cog"></ion-icon>
-  </ion-fab-button>
-</ion-fab>

@@ -8,6 +8,7 @@ import { LottieModule } from 'ngx-lottie';
 import { playerFactory } from 'src/app/app.module';
 import { MyCouplePageRoutingModule } from './my-couple-routing.module';
 import { MyCouplePage } from './my-couple.page';
+import { SettingsComponent } from '../../settings/settings.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { MyCouplePage } from './my-couple.page';
     IonicModule,
     NgxColorsModule,
     MyCouplePageRoutingModule,
+    SettingsComponent,
     LottieModule.forRoot({player: playerFactory})
   ],
   declarations: [MyCouplePage]

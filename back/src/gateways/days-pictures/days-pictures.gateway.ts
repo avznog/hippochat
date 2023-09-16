@@ -1,15 +1,15 @@
-import { SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
-import { GatewaysService } from '../services/gateways.service';
+import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server } from 'socket.io';
-import { Mate } from 'src/relational/mates/entities/mate.entity';
 import { DaysPicture } from 'src/days-data/days-pictures/entities/days-picture.entity';
+import { Mate } from 'src/relational/mates/entities/mate.entity';
+import { GatewaysService } from '../services/gateways.service';
 
-@WebSocketGateway({namespace: "days-pictures", cors: { origin: "*"}, transports: ["polling", "websocket"]})
+@WebSocketGateway({ namespace: "days-pictures", cors: { origin: "*" }, transports: ["polling", "websocket"] })
 export class DaysPicturesGateway {
- 
+
   constructor(
     private readonly gatewaysService: GatewaysService,
-  ) {}
+  ) { }
 
   handleConnection(client: any, ...args: any[]) {
     this.gatewaysService.connectedUsers.set(client.handshake.query.mateId, client.id)

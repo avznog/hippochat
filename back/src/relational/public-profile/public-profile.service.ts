@@ -22,6 +22,8 @@ export class PublicProfileService {
   ) {}
 
   async updateMyPublicProfile(mate: Mate, updatePublicProfileDto: UpdatePublicProfileDto) : Promise<PublicProfile> {
+    if(!updatePublicProfileDto.lastBatteryPercentage) updatePublicProfileDto.lastBatteryPercentage = mate.publicProfile.lastBatteryPercentage;
+    if(!updatePublicProfileDto.lastLocation) updatePublicProfileDto.lastLocation = mate.publicProfile.lastLocation;
     await this.publicProfileRepostiory.update(mate.publicProfile.id, updatePublicProfileDto);
     this.publicProfileGateway.updateMyPublicProfile(mate, {
       ...mate.publicProfile,

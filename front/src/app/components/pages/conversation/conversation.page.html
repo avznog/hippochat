@@ -1,13 +1,14 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>conversation</ion-title>
+    <ion-title>Conversation</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">conversation</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [scrollY]="false" [fullscreen]="true" class="ion-padding">
+  <div class="flex flex-col h-full">
+    <app-list-messages class="flex-grow overflow-y-auto"></app-list-messages>
+    <div class="p-2">
+      <app-send-bar-messages></app-send-bar-messages>
+    </div>
+  </div>
 </ion-content>

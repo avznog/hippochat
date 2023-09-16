@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics';
 import { Toast } from '@capacitor/toast';
-import { AlertButton, AlertInput } from '@ionic/angular';
+import { AlertButton, AlertInput, IonModal } from '@ionic/angular';
 import { CouplesService } from 'src/app/services/couples/couples.service';
 import { PublicProfileService } from 'src/app/services/publicProfile/public-profile.service';
 import { SadnessService } from 'src/app/services/sadness/sadness.service';
@@ -137,6 +137,9 @@ export class MyCouplePage implements OnInit {
 
   regexEmoji = new RegExp("(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])")
 
+  presentingElement?: any;
+  @ViewChild(IonModal) modal?: IonModal;
+
   constructor(
     public readonly coupleService: CouplesService,
     public readonly publicProfileService: PublicProfileService,
@@ -151,7 +154,7 @@ export class MyCouplePage implements OnInit {
     this.coupleService.getMyMate();
     this.publicProfileService.getMyPublicProfile();
     this.publicProfileService.getMyMatesPublicProfile();
-    this.publicProfileService.updateMyBatteryPercentage();
+    this.presentingElement = document.querySelector('.content');
   }
 
   color = this.publicProfileService.myPublicProfile?.preferedColor ?? '';
@@ -174,9 +177,9 @@ export class MyCouplePage implements OnInit {
     return Number(battery) * 100;
   }
 
-  onChangePrimaryColor() {
+  async onChangePrimaryColor() {
     this.publicProfileService.updateMyPublicProfile({
-      preferedColor: this.color
+      preferedColor: this.color,
     })
     this.publicProfileService.onChangePrimaryColor(this.color);
   }

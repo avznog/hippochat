@@ -16,10 +16,12 @@ import { PublicProfile } from './public-profile/entities/public-profile.entity';
 import { CoupleGateway } from 'src/gateways/couple/couple.gateway';
 import { GatewaysService } from 'src/gateways/services/gateways.service';
 import { PublicProfileGateway } from 'src/gateways/public-profile/public-profile.gateway';
+import { MessagesModule } from './messages/messages.module';
+import { Message } from './messages/entities/message.entity';
 
 @Module({
   imports: [
-    MatesModule, PublicProfileModule, CouplesModule, TypeOrmModule.forFeature([Mate, Couple, PublicProfile]), SadnessModule
+    MatesModule, PublicProfileModule, CouplesModule, TypeOrmModule.forFeature([Mate, Couple, PublicProfile, Message]), SadnessModule, MessagesModule
   ],
   controllers: [MatesController],
   providers: [MatesService, CouplesService, MinioService, ConfigService, PublicProfileService, CoupleGateway, GatewaysService, PublicProfileGateway]

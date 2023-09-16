@@ -9,6 +9,7 @@ import { GatewaysModule } from './gateways/gateways.module';
 import { RelationalModule } from './relational/relational.module';
 import { MinioService } from './minio/minio.service';
 import { DaysDataModule } from './days-data/days-data.module';
+import { ApisModule } from './apis/apis.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { DaysDataModule } from './days-data/days-data.module';
     AuthModule,
     GatewaysModule,
     DaysDataModule,
+    ApisModule,
     ],
   controllers: [AppController],
   providers: [AppService, MinioService],
