@@ -1,6 +1,8 @@
 <div
   class="flex w-full {{authService.currentUserSubject.getValue().id === message.mate.id ? 'justify-end' : 'justify-start'}}">
-  <div class="w-1/2 mt-5 mb-5 bg-red-400">
-    {{message.value}}
+  <div [class]="'flex w-1/2 p-2 m-5 mb-2 mt-2 align-baseline rounded-xl bg-opacity-40 '+ class"
+    [style.background-color]="message.mate.publicProfile.preferedColor">
+    <p [style.color]="getReverseColor(message.mate.publicProfile.preferedColor)"
+      class="w-full text-sm font-semibold leading-relaxed line-clamp-999">{{message.value}}</p>
   </div>
 </div>

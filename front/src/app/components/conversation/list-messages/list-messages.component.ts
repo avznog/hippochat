@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { IonContent, IonicModule } from '@ionic/angular';
 import { MessagesService } from 'src/app/services/messages/messages.service';
 import { OneMessageComponent } from '../one-message/one-message.component';
+import { Haptics, NotificationType } from '@capacitor/haptics';
 
 @Component({
   selector: 'app-list-messages',
@@ -17,16 +18,27 @@ export class ListMessagesComponent implements OnInit {
     public readonly messagesService: MessagesService,
   ) {
   }
-
-  @ViewChild('scroll', { static: true }) scroll: any;
-
+  @ViewChild(IonContent, { static: false }) content?: IonContent;
   ngOnInit(): void {
-    this.messagesService.scroll = this.scroll;
     this.messagesService.load();
-    this.messagesService.scroll.nativeElement.scrollTop = this.messagesService.scroll.nativeElement.scrollHeight
   }
 
-  handleRefresh(event: any) {
+  async handleRefresh(event: any) {
     this.messagesService.load(event)
   }
+
+  ngAfterViewInit() {
+    this.scrollToBottom()
+  }
+
+  scrollToBottom() {
+    this.content?.getScrollElement().then(scrollEl => {
+      const height = scrollEl.scrollHeight;
+      this.content?.scrollByPoint(0, height, 300);
+      Haptics.notification({
+        type: NotificationType.Success
+      });
+    });
+  }
+
 }

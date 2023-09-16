@@ -4,12 +4,12 @@ import { Couple } from 'src/relational/couples/entities/couple.entity';
 import { Mate } from 'src/relational/mates/entities/mate.entity';
 import { GatewaysService } from '../services/gateways.service';
 
-@WebSocketGateway({namespace: "couple", cors: { origin: "*"}, transports: ["polling", "websocket"]})
+@WebSocketGateway({ namespace: "couple", cors: { origin: "*" }, transports: ["polling", "websocket"] })
 export class CoupleGateway implements OnGatewayConnection, OnGatewayDisconnect {
-  
+
   constructor(
     private readonly gatewaysService: GatewaysService
-  ) {}
+  ) { }
 
   handleConnection(client: any, ...args: any[]) {
     this.gatewaysService.connectedUsers.set(client.handshake.query.mateId, client.id)

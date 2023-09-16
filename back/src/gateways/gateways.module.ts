@@ -1,16 +1,17 @@
 import { Module } from '@nestjs/common';
-import { SadnessGateway } from './sadness/sadness.gateway';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { CouplesService } from 'src/relational/couples/couples.service';
 import { Couple } from 'src/relational/couples/entities/couple.entity';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { Mate } from 'src/relational/mates/entities/mate.entity';
-import { GatewaysService } from './services/gateways.service';
-import { PublicProfileGateway } from './public-profile/public-profile.gateway';
 import { CoupleGateway } from './couple/couple.gateway';
 import { DaysEmojisGateway } from './days-emojis/days-emojis.gateway';
 import { DaysPicturesGateway } from './days-pictures/days-pictures.gateway';
+import { MessagesGateway } from './messages/messages.gateway';
+import { PublicProfileGateway } from './public-profile/public-profile.gateway';
+import { SadnessGateway } from './sadness/sadness.gateway';
+import { GatewaysService } from './services/gateways.service';
 @Module({
   imports: [TypeOrmModule.forFeature([Couple, Mate])],
-  providers: [SadnessGateway, CouplesService, GatewaysService, PublicProfileGateway, CoupleGateway, DaysEmojisGateway, DaysPicturesGateway]
+  providers: [SadnessGateway, CouplesService, GatewaysService, PublicProfileGateway, CoupleGateway, DaysEmojisGateway, DaysPicturesGateway, MessagesGateway]
 })
-export class GatewaysModule {}
+export class GatewaysModule { }

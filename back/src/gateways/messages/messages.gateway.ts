@@ -1,11 +1,11 @@
 import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server } from 'socket.io';
-import { DaysPicture } from 'src/days-data/days-pictures/entities/days-picture.entity';
 import { Mate } from 'src/relational/mates/entities/mate.entity';
+import { Message } from 'src/relational/messages/entities/message.entity';
 import { GatewaysService } from '../services/gateways.service';
 
-@WebSocketGateway({ namespace: "days-pictures", cors: { origin: "*" }, transports: ["polling", "websocket"] })
-export class DaysPicturesGateway {
+@WebSocketGateway({ namespace: "messages", cors: { origin: "*" }, transports: ["polling", "websocket"] })
+export class MessagesGateway {
 
   constructor(
     private readonly gatewaysService: GatewaysService,
@@ -22,7 +22,7 @@ export class DaysPicturesGateway {
   @WebSocketServer()
   server: Server;
 
-  async updateMyTodaysPicture(mate: Mate, todaysPicture: DaysPicture) {
-    this.server.to(this.gatewaysService.connectedUsers.get(mate.couple.mates.find(m => m.id !== mate.id).id)).emit("update-my-todays-picture", todaysPicture);
+  async sendMessage(mate: Mate, message: Message) {
+    this.server.to(this.gatewaysService.connectedUsers.get(mate.couple.mates.find(m => m.id !== mate.id).id)).emit("send", message);
   }
 }

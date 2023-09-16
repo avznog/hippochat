@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as moment from 'moment-timezone';
+import { MessagesGateway } from 'src/gateways/messages/messages.gateway';
 import { LessThan, Repository } from 'typeorm';
 import { Mate } from '../mates/entities/mate.entity';
 import { CreateMessageDto } from './dto/create-message.dto';
@@ -11,14 +11,18 @@ export class MessagesService {
   constructor(
     @InjectRepository(Message)
     private readonly messageRepository: Repository<Message>,
+
+    private readonly messagesGateway: MessagesGateway
   ) { }
 
   async create(createMessageDto: CreateMessageDto) {
-    return await this.messageRepository.save({
+    const message = await this.messageRepository.save({
       ...createMessageDto,
       couple: createMessageDto.mate.couple,
       date: new Date()
-    })
+    });
+    this.messagesGateway.sendMessage(createMessageDto.mate, message);
+    return message;
   }
 
   async load(mate: Mate, date: string | false) {
@@ -33,7 +37,7 @@ export class MessagesService {
         date: "desc"
       },
       take: 20,
-      relations: ["mate", "couple"]
+      relations: ["mate", "couple", "mate.publicProfile"]
     })
   }
 }

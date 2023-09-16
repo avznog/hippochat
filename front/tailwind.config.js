@@ -2,7 +2,11 @@
 module.exports = {
   content: ["./src/**/*.{html,ts}"],
   theme: {
-    extend: {},
+    extend: {
+      lineClamp: {
+        999: "999"
+      }
+    },
   },
   plugins: [],
 }

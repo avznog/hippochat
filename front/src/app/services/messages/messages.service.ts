@@ -34,6 +34,7 @@ export class MessagesService {
         date: new Date(message.date)
       });
       this.sortMessages();
+      this.scroll.nativeElement.scrollTop = this.scroll.nativeElement.scrollHeight
     })
   }
 

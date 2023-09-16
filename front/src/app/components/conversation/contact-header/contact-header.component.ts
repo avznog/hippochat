@@ -11,17 +11,17 @@ import { PublicProfileService } from 'src/app/services/publicProfile/public-prof
   standalone: true,
   imports: [CommonModule, IonicModule]
 })
-export class ContactHeaderComponent  implements OnInit {
+export class ContactHeaderComponent implements OnInit {
 
   constructor(
     public readonly nativeService: NativeService,
-    public readonly publicProfileService: PublicProfileService
-  ) { 
+    public readonly publicProfileService: PublicProfileService,
+  ) {
     this.publicProfileService.getMyMatesPublicProfile()
     this.nativeService.getLocation();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   onClickLocation() {
     window.open(`https://www.google.com/maps/search/${this.publicProfileService.myMatePublicProfile?.lastLocation.split(" ").join("+")}`, "_blank")

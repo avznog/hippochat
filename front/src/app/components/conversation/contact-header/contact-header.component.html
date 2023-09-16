@@ -1,5 +1,7 @@
 <div class="flex pt-2 ps-2 pe-2">
-  <ion-item class="w-full shadow-md backdrop-blur-3xl rounded-3xl drop-shadow-sm" color="translucent" [lines]="'none'">
+  <ion-item [style.border-color]="publicProfileService.myMatePublicProfile?.preferedColor"
+    class="w-full border shadow-md backdrop-blur-3xl bg-opacity-10 rounded-3xl drop-shadow-sm" color="translucent"
+    [lines]="'none'">
     <img class="self-center object-cover w-1/2 p-1 rounded-full aspect-square" loading="lazy"
       *ngIf="!publicProfileService.loadingMyProfilePicture" [src]="publicProfileService.myProfilePicture" />
     <div class="flex flex-col">

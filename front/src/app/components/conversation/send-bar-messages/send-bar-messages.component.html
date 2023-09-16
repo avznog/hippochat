@@ -1,12 +1,16 @@
-<ion-item>
-  <ion-input inputmode="text" type="text" (keydown.enter)="onSendMessage()" placeholder="Message"
-    [(ngModel)]="message"></ion-input>
-  <ion-fab horizontal="end">
+<div class="flex h-full">
+  <div class="w-4/5 h-full">
+    <ion-textarea [autocapitalize]="true" [cols]="true" [autofocus]="true"
+      class="h-full p-2 align-baseline border rounded-lg" (keydown.enter)="onSendMessage()" placeholder="Message"
+      [(ngModel)]="message"></ion-textarea>
+  </div>
+  <div class="flex justify-center w-1/5">
     <ion-button (click)="onSendMessage()" shape="round" size="large" fill="clear" *ngIf="message !== ''">
       <ion-icon name="paper-plane-outline"></ion-icon>
     </ion-button>
-    <ion-button class="cursor-pointer" fill="clear" shape="round" *ngIf="message === ''">
-      <label class="text-3xl hover:cursor-pointer">🔞</label>
+    <ion-button class="align-baseline transition-transform ease-linear cursor-pointer" fill="clear" shape="round"
+      *ngIf="message === ''">
+      <ion-icon size="large" src="../../../../assets/conversation-icons/no-minor.svg"></ion-icon>
     </ion-button>
-  </ion-fab>
-</ion-item>
+  </div>
+</div>

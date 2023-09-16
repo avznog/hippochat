@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { MessagesService } from 'src/app/services/messages/messages.service';
+import { PublicProfileService } from 'src/app/services/publicProfile/public-profile.service';
 
 @Component({
   selector: 'app-send-bar-messages',
@@ -15,7 +16,8 @@ export class SendBarMessagesComponent implements OnInit {
 
   message: string = "";
   constructor(
-    private readonly messageService: MessagesService
+    private readonly messageService: MessagesService,
+    public readonly publicProfileService: PublicProfileService
   ) { }
 
   ngOnInit() {
@@ -26,7 +28,6 @@ export class SendBarMessagesComponent implements OnInit {
       value: this.message
     });
     this.message = "";
-    this.messageService.scroll.nativeElement.scrollTop = this.messageService.scroll.nativeElement.scrollHeight
   }
 
 }
