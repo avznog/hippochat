@@ -34,7 +34,9 @@ export class OneMessageComponent implements OnInit {
   }
 
   onOpenPrivatePicture() {
-    this.messagesService.openPrivatePicture(this.message);
+    if (this.authService.currentUserSubject.getValue().id !== this.message.mate.id)
+      this.messagesService.openPrivatePicture(this.message);
+
   }
 
 }

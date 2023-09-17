@@ -31,13 +31,13 @@ export class DaysPicturesService {
     private http: HttpClient,
     private readonly authService: AuthService
   ) {
-   }
+  }
 
   async getMyTodaysPicture() {
     this.loadMyTodaysPicture = true;
     this.myTodaysPicture = await lastValueFrom(this.http.get<DaysPicture>(`days-pictures/get-my-todays-picture`));
     this.http.get<string>(`days-pictures/get-my-today`).subscribe(url => {
-       if(!url) {
+      if (!url) {
         this.myTodaysPicture = null;
       } else {
         this.myTodaysPicture ? (this.myTodaysPicture.value = url) : this.myTodaysPicture = null;
@@ -76,12 +76,11 @@ export class DaysPicturesService {
   }
 
   async updateMyMonthPictures(date: Date) {
-    
-    if(this.daysLoaded.includes(moment(date).format("YYYY-MM-DD"))) {
+    if (this.daysLoaded.includes(moment(date).format("YYYY-MM-DD"))) {
     } else {
       this.loadingMyMonthPictures = true;
-      const urls = await lastValueFrom(this.http.get<{date: string, value: string}[][]>(`days-pictures/my-month/${date}`));
-      urls[0].forEach((url: {date: string, value: string}) => {
+      const urls = await lastValueFrom(this.http.get<{ date: string, value: string }[][]>(`days-pictures/my-month/${date}`));
+      urls[0].forEach((url: { date: string, value: string }) => {
         this.myMonthPictures.set(url.date, url.value)
       })
       this.loadingMyMonthPictures = false;
@@ -90,11 +89,11 @@ export class DaysPicturesService {
   }
 
   async updateMatesMonthPictures(date: Date) {
-    if(this.daysLoaded.includes(moment(date).format("YYYY-MM-DD"))) {
+    if (this.daysLoaded.includes(moment(date).format("YYYY-MM-DD"))) {
     } else {
       this.loadingMatesMonthPictures = true;
-      const urls = await lastValueFrom(this.http.get<{date: string, value: string}[][]>(`days-pictures/mates-month/${date}`));
-      urls[0].forEach((url: {date: string, value: string}) => {
+      const urls = await lastValueFrom(this.http.get<{ date: string, value: string }[][]>(`days-pictures/mates-month/${date}`));
+      urls[0].forEach((url: { date: string, value: string }) => {
         this.myMatesMonthPictures.set(url.date, url.value)
       })
       this.loadingMatesMonthPictures = false;

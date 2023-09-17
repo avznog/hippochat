@@ -9,14 +9,14 @@ import { DaysPicture } from './entities/days-picture.entity';
 
 @Injectable()
 export class DaysPicturesService {
-  
+
   constructor(
     @InjectRepository(DaysPicture)
     private readonly daysPicturesRepository: Repository<DaysPicture>,
 
     private readonly minioService: MinioService,
     private readonly daysPicturesGateway: DaysPicturesGateway
-  ) {}
+  ) { }
 
   async getTodayDaysPicture(mate: Mate) {
     const dayPicture = await this.daysPicturesRepository.findOne({
@@ -82,10 +82,10 @@ export class DaysPicturesService {
           mate: {
             id: mate.id
           },
-          date: Between(moment(new Date(date)).tz(mate.timezone).startOf("month").format("YYYY-MM-DD"), moment(new Date(moment(new Date(date)).tz(mate.timezone).startOf("month").toDate().setDate(moment(new Date(date)).tz(mate.timezone).startOf("month").daysInMonth()))).format("YYYYY-MM-DD"))
+          date: Between(moment(new Date(date)).tz(mate.timezone).startOf("month").format("YYYY-MM-DD"), moment(new Date(date)).tz("Europe/Paris").endOf("month").format("YYYY-MM-DD"))
         }
       });
-      return await Promise.all([daysPictures.map(async daysPicture => {return {date: daysPicture.date, value: await this.minioService.generateUrl(daysPicture.value)}})].map(async inner => {
+      return await Promise.all([daysPictures.map(async daysPicture => { return { date: daysPicture.date, value: await this.minioService.generateUrl(daysPicture.value) } })].map(async inner => {
         return await Promise.all(inner);
       }))
     } catch (error) {
@@ -103,7 +103,7 @@ export class DaysPicturesService {
           date: Between(moment(new Date(date)).tz(mate.timezone).startOf("month").format("YYYY-MM-DD"), moment(new Date(date)).tz(mate.timezone).endOf("month").format("YYYY-MM-DD"))
         }
       });
-      return await Promise.all([daysPictures.map(async daysPicture => {return {date: daysPicture.date, value: await this.minioService.generateUrl(daysPicture.value)}})].map(async inner => {
+      return await Promise.all([daysPictures.map(async daysPicture => { return { date: daysPicture.date, value: await this.minioService.generateUrl(daysPicture.value) } })].map(async inner => {
         return await Promise.all(inner);
       }))
     } catch (error) {
