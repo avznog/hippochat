@@ -59,7 +59,7 @@ export class PublicProfileService {
   }
 
   async updateProfilePicture(mate: Mate, file: Express.Multer.File) {
-    const path = `/users/${mate.email}/profile-pictures/original/${file.originalname}`;
+    const path = `/users/${mate.email}/profile-pictures/original/${file.originalname.split(".")[0] + '.webp'}`;
     await this.minioService.uploadFile(path, file);
     this.updateMyPublicProfile(mate, {
       profilePicture: path

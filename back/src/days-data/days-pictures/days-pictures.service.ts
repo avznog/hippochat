@@ -42,7 +42,7 @@ export class DaysPicturesService {
     })) {
       return new HttpException("Vous avez déjà pris une photo aujourd'hui", HttpStatus.AMBIGUOUS)
     }
-    const path = `/users/${mate.email}/days-pictures/${file.originalname}`;
+    const path = `/users/${mate.email}/days-pictures/original/${file.originalname.split(".")[0] + '.webp'}`;
     await this.minioService.uploadFile(path, file);
     const todayDayPicture = await this.daysPicturesRepository.save({
       date: moment(new Date()).tz(mate.timezone).format("YYYY-MM-DD"),

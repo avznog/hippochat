@@ -44,7 +44,7 @@ export class MessagesService {
   }
 
   async createPrivatePicture(mate: Mate, file: Express.Multer.File) {
-    const path = `/users/${mate.email}/private-pictures/${file.originalname}`;
+    const path = `/users/${mate.email}/private-pictures/original/${file.originalname.split(".")[0] + '.webp'}`;
     await this.minioService.uploadFile(path, file);
     const message = await this.messageRepository.save({
       couple: mate.couple,

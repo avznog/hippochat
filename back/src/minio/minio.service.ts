@@ -33,13 +33,14 @@ export class MinioService {
       // ! and behind that load the original, and display it on top when it is loaded
 
       // ? resizing
-      const smallFile = await sharp(file.buffer).resize(80, 100, { fit: 'inside' });
-      const mediumFile = await sharp(file.buffer).resize(320, 320, { fit: 'inside' });
+      const smallFile = sharp(file.buffer).resize(80, 100, { fit: 'inside' }).webp({ quality: 80 });
+      const mediumFile = sharp(file.buffer).resize(320, 320, { fit: 'inside' }).webp({ quality: 85 });;
+      const originalFile = sharp(file.buffer).webp({ quality: 93 });
 
       // ? puting on minio
       this.minioClient.putObject("hippochat", `${arrayPath.join("/")}/80x100/${filename}`, smallFile);
       this.minioClient.putObject("hippochat", `${arrayPath.join("/")}/320x320/${filename}`, mediumFile);
-      return await this.minioClient.putObject("hippochat", path, file.buffer);
+      return await this.minioClient.putObject("hippochat", path, originalFile);
     } catch (error) {
 
     }
