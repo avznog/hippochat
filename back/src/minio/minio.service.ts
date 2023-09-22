@@ -49,7 +49,6 @@ export class MinioService {
   async generateUrl(path: string): Promise<string> {
     try {
       return await this.minioClient.presignedGetObject("hippochat", path)
-      // return await this.minioClient.presignedGetObject("hippochat", path.replace("original", "80x120"))
     } catch (error) {
       console.log(error)
       return null;

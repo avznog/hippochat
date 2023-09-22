@@ -21,12 +21,12 @@ export class PublicProfileService {
 
   constructor(
     private http: HttpClient,
-    
+
   ) {
   }
 
   async updateMyPublicProfile(updatePublicProfileDto: UpdatePublicProfileDto) {
-    this.getMyProfilePictures()
+    this.getMySmallProfilePicture()
     try {
       updatePublicProfileDto = {
         ...updatePublicProfileDto,
@@ -47,13 +47,13 @@ export class PublicProfileService {
 
   async getMyPublicProfile() {
     this.myPublicProfile = { ...(await lastValueFrom(this.http.get<PublicProfile>(`public-profile/my`))), profilePicture: this.myPublicProfile?.profilePicture ?? '' }
-    this.getMyProfilePictures()
+    this.getMySmallProfilePicture()
   }
 
   async getMyMatesPublicProfile() {
     this.myMatePublicProfile = { ...await lastValueFrom(this.http.get<PublicProfile>(`public-profile/my-mate`)), profilePicture: this.myMatePublicProfile?.profilePicture ?? '' }
     try {
-      this.getMyMatesProfilePicture()
+      this.getMatesSmallProfilePicture()
     } catch (error) {
       console.log("error")
     }
@@ -77,12 +77,11 @@ export class PublicProfileService {
       lastModified: new Date().getTime(),
     }));
     this.http.post(`public-profile/update-profile-picture`, formData).subscribe(res => {
-      this.getMyProfilePictures();
+      this.getMySmallProfilePicture();
     })
   }
 
   getMyProfilePictures() {
-    this.loadingMyProfilePicture = true;
     this.http.get<string>(`public-profile/get-my-profile-picture`).subscribe(url => {
       if (!url) {
         this.myProfilePicture = this.myPublicProfile?.sex === Sex.MALE ? '../../../assets/couple-icons/boy-iso-color.png' : '../../../assets/couple-icons/girl-iso-color.png'
@@ -95,19 +94,54 @@ export class PublicProfileService {
           type: NotificationType.Success
         })
       }
+    })
+  }
+
+  getMySmallProfilePicture() {
+    this.loadingMyProfilePicture = true;
+    this.http.get<string>(`public-profile/get-my-small-profile-picture`).subscribe(url => {
+      if (!url) {
+        this.myProfilePicture = this.myPublicProfile?.sex === Sex.MALE ? '../../../assets/couple-icons/boy-iso-color.png' : '../../../assets/couple-icons/girl-iso-color.png'
+        Haptics.notification({
+          type: NotificationType.Error
+        })
+      } else {
+        this.myProfilePicture = url;
+        Haptics.notification({
+          type: NotificationType.Success
+        })
+      }
       this.loadingMyProfilePicture = false;
+      this.getMyProfilePictures()
+    })
+  }
+
+  getMatesSmallProfilePicture() {
+    this.loadingMatesProfilePicture = true;
+    this.http.get<string>(`public-profile/get-mate-small-profile-picture`).subscribe(url => {
+      if (!url) {
+        this.myMatesProfilePicture = this.myMatePublicProfile?.sex === Sex.MALE ? '../../../assets/couple-icons/boy-iso-color.png' : '../../../assets/couple-icons/girl-iso-color.png'
+        Haptics.notification({
+          type: NotificationType.Error
+        })
+      } else {
+        this.myMatesProfilePicture = url;
+        Haptics.notification({
+          type: NotificationType.Success
+        })
+      }
+      this.loadingMatesProfilePicture = false;
+      this.getMyMatesProfilePicture();
     })
   }
 
   getMyMatesProfilePicture() {
-    this.loadingMatesProfilePicture = true;
     this.http.get<string>(`public-profile/get-mate-profile-picture`).subscribe(url => {
       if (!url) {
         this.myMatesProfilePicture = this.myMatePublicProfile?.sex === Sex.MALE ? '../../../assets/couple-icons/boy-iso-color-reversed.png' : '../../../assets/couple-icons/girl-iso-color-reversed.png'
       } else {
         this.myMatesProfilePicture = url;
       }
-      this.loadingMatesProfilePicture = false;
     })
   }
 

@@ -68,8 +68,9 @@ export class PublicProfileService {
     return await this.publicProfileRepostiory.findOne({ where: { id: mate.publicProfile.id }, relations: ["sadness"] });
   }
 
-  async getMyMatesProfilePicture(mate: Mate): Promise<string> {
+  async getMyMatesProfilePicture(mate: Mate, format: string): Promise<string> {
     const myMate = await this.couplesService.getMyMate(mate);
-    return this.minioService.generateUrl(myMate.publicProfile.profilePicture);
+    const url = await this.minioService.generateUrl(myMate.publicProfile.profilePicture.replace("original", format));
+    return url
   }
 }
