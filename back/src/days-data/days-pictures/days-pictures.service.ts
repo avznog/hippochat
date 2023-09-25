@@ -85,7 +85,7 @@ export class DaysPicturesService {
           date: Between(moment(new Date(date)).tz(mate.timezone).startOf("month").format("YYYY-MM-DD"), moment(new Date(date)).tz("Europe/Paris").endOf("month").format("YYYY-MM-DD"))
         }
       });
-      return await Promise.all([daysPictures.map(async daysPicture => { return { date: daysPicture.date, value: await this.minioService.generateUrl(daysPicture.value) } })].map(async inner => {
+      return await Promise.all([daysPictures.map(async daysPicture => { return { date: daysPicture.date, value: await this.minioService.generateUrl(daysPicture.value.replace("original", "80x100")) } })].map(async inner => {
         return await Promise.all(inner);
       }))
     } catch (error) {
@@ -103,11 +103,29 @@ export class DaysPicturesService {
           date: Between(moment(new Date(date)).tz(mate.timezone).startOf("month").format("YYYY-MM-DD"), moment(new Date(date)).tz(mate.timezone).endOf("month").format("YYYY-MM-DD"))
         }
       });
-      return await Promise.all([daysPictures.map(async daysPicture => { return { date: daysPicture.date, value: await this.minioService.generateUrl(daysPicture.value) } })].map(async inner => {
+      return await Promise.all([daysPictures.map(async daysPicture => { return { date: daysPicture.date, value: await this.minioService.generateUrl(daysPicture.value.replace("original", "80x100")) } })].map(async inner => {
         return await Promise.all(inner);
       }))
     } catch (error) {
       console.log(error)
+    }
+  }
+
+  async getOnePicture(mate: Mate, date: string) {
+    try {
+      const dayPicture = await this.daysPicturesRepository.findOne({
+        where: {
+          mate: {
+            id: mate.id
+          },
+          date: Equal(date)
+        }
+      });
+      if (!dayPicture) return null;
+      return await this.minioService.generateUrl(dayPicture.value);
+    } catch (error) {
+      console.log(error)
+      return null
     }
   }
 }

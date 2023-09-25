@@ -12,13 +12,13 @@ import { DaysPicturesService } from './days-pictures.service';
 export class DaysPicturesController {
   constructor(
     private readonly daysPicturesService: DaysPicturesService,
-    ) {}
+  ) { }
 
   @Get("get-my-mates-today")
   async getMyMatesToday(@CurrentUser() mate: Mate) {
     try {
       const url = await this.daysPicturesService.getTodayDaysPicture(mate.couple.mates.find(m => m.id !== mate.id));
-      if(!url)
+      if (!url)
         return null;
       else
         return JSON.stringify(url);
@@ -32,7 +32,7 @@ export class DaysPicturesController {
   async getMyToday(@CurrentUser() mate: Mate) {
     try {
       const url = await this.daysPicturesService.getTodayDaysPicture(mate);
-      if(!url)
+      if (!url)
         return null;
       else
         return JSON.stringify(url);
@@ -66,5 +66,15 @@ export class DaysPicturesController {
   @Get("mates-month/:date")
   getMatesMonth(@CurrentUser() mate: Mate, @Param("date") date: string) {
     return this.daysPicturesService.getMatesMonth(mate.couple.mates.find(m => m.id !== mate.id), date);
+  }
+
+  @Get("my-one-picture/:date")
+  async getMyOnePicture(@Param("date") date: string, @CurrentUser() mate: Mate) {
+    return JSON.stringify(await this.daysPicturesService.getOnePicture(mate, date));
+  }
+
+  @Get("mate-one-picture/:date")
+  async getMateOnePicture(@Param("date") date: string, @CurrentUser() mate: Mate) {
+    return JSON.stringify(await this.daysPicturesService.getOnePicture(mate.couple.mates.find(m => m.id !== mate.id), date));
   }
 }
