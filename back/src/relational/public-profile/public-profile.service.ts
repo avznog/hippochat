@@ -17,13 +17,13 @@ export class PublicProfileService {
 
     private readonly couplesService: CouplesService,
     private readonly minioService: MinioService,
-    private readonly publicProfileGateway: PublicProfileGateway
+    private readonly publicProfileGateway: PublicProfileGateway,
 
-  ) {}
+  ) { }
 
-  async updateMyPublicProfile(mate: Mate, updatePublicProfileDto: UpdatePublicProfileDto) : Promise<PublicProfile> {
-    if(!updatePublicProfileDto.lastBatteryPercentage) updatePublicProfileDto.lastBatteryPercentage = mate.publicProfile.lastBatteryPercentage;
-    if(!updatePublicProfileDto.lastLocation) updatePublicProfileDto.lastLocation = mate.publicProfile.lastLocation;
+  async updateMyPublicProfile(mate: Mate, updatePublicProfileDto: UpdatePublicProfileDto): Promise<PublicProfile> {
+    if (!updatePublicProfileDto.lastBatteryPercentage) updatePublicProfileDto.lastBatteryPercentage = mate.publicProfile.lastBatteryPercentage;
+    if (!updatePublicProfileDto.lastLocation) updatePublicProfileDto.lastLocation = mate.publicProfile.lastLocation;
     await this.publicProfileRepostiory.update(mate.publicProfile.id, updatePublicProfileDto);
     this.publicProfileGateway.updateMyPublicProfile(mate, {
       ...mate.publicProfile,
@@ -35,7 +35,7 @@ export class PublicProfileService {
     }
   }
 
-  async updateMyMatesPublicProfile(mate: Mate, updatePublicProfileDto: UpdatePublicProfileDto) : Promise<PublicProfile> {
+  async updateMyMatesPublicProfile(mate: Mate, updatePublicProfileDto: UpdatePublicProfileDto): Promise<PublicProfile> {
     const myMatesPublicProfile = (await this.couplesService.getMyMate(mate)).publicProfile;
     await this.publicProfileRepostiory.update(myMatesPublicProfile.id, updatePublicProfileDto);
     this.publicProfileGateway.updateMatePublicProfile(mate, {
@@ -59,17 +59,18 @@ export class PublicProfileService {
   }
 
   async updateProfilePicture(mate: Mate, file: Express.Multer.File) {
-    const path = `/users/${mate.email}/profile-pictures/${file.originalname}`;
+    const path = `/users/${mate.email}/profile-pictures/original/${file.originalname.split(".")[0] + '.webp'}`;
     await this.minioService.uploadFile(path, file);
     this.updateMyPublicProfile(mate, {
       profilePicture: path
     });
     this.publicProfileGateway.updateMyProfilePicture(mate);
-    return await this.publicProfileRepostiory.findOne({where: {id: mate.publicProfile.id}, relations: ["sadness"]});
+    return await this.publicProfileRepostiory.findOne({ where: { id: mate.publicProfile.id }, relations: ["sadness"] });
   }
 
-  async getMyMatesProfilePicture(mate: Mate) : Promise<string> {
+  async getMyMatesProfilePicture(mate: Mate, format: string): Promise<string> {
     const myMate = await this.couplesService.getMyMate(mate);
-    return this.minioService.generateUrl(myMate.publicProfile.profilePicture);
+    const url = await this.minioService.generateUrl(myMate.publicProfile.profilePicture.replace("original", format));
+    return url
   }
 }

@@ -16,6 +16,7 @@ export class MessagesService {
   scroll: any;
   privateMessage?: Message;
   privateMessageModal?: HTMLIonModalElement;
+  isLoadingPrivatePicture: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -64,6 +65,7 @@ export class MessagesService {
   }
 
   async openPrivatePicture(message: Message) {
+    this.isLoadingPrivatePicture = true
     this.http.get<string>(`messages/get-private-picture/${message.id}`).subscribe(async url => {
       if (!url) {
         this.messages[this.messages.indexOf(message)] = { ...message, privatePictureOpened: true }
@@ -77,6 +79,7 @@ export class MessagesService {
         this.privateMessageModal = modal;
         modal.present();
       }
+      this.isLoadingPrivatePicture = false;
     })
   }
 

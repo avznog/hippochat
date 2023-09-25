@@ -30,8 +30,7 @@ export class DaysPicturesService {
   constructor(
     private http: HttpClient,
     private readonly authService: AuthService
-  ) {
-  }
+  ) { }
 
   async getMyTodaysPicture() {
     this.loadMyTodaysPicture = true;
@@ -99,5 +98,14 @@ export class DaysPicturesService {
       this.loadingMatesMonthPictures = false;
       this.daysLoaded.push(moment(date).format("YYYY-MM-DD"))
     }
+  }
+
+  async loadHighQualityPictures(date: string) {
+    this.http.get<string>(`days-pictures/my-one-picture/${date}`).subscribe(url => {
+      url && this.myMonthPictures.set(date, url);
+    });
+    this.http.get<string>(`days-pictures/mate-one-picture/${date}`).subscribe(url => {
+      url && this.myMatesMonthPictures.set(date, url);
+    })
   }
 }

@@ -99,6 +99,7 @@ export class PicturesCalendarComponent implements OnInit {
     });
     this.daysPicturesService.myMate = this.myMate!;
     this.daysPicturesService.selectedDate = date;
+    this.daysPicturesService.loadHighQualityPictures(moment(date).format("YYYY-MM-DD"));
     const modal = await this.modalController.create({
       component: OneDayPictureComponent,
       animated: true,

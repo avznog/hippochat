@@ -16,7 +16,7 @@ export class SocketPublicProfileService {
     this.updateMatePublicProfile().subscribe();
     this.updateMyPublicProfile().subscribe();
     this.updateMyProfilePicture().subscribe();
-   }
+  }
 
   updateMatePublicProfile() {
     return new Observable<any>(() => {
@@ -40,7 +40,7 @@ export class SocketPublicProfileService {
   updateMyProfilePicture() {
     return new Observable<any>(() => {
       this.socket.on("update-profile-picture", () => {
-        this.publicProfileService.getMyMatesProfilePicture();
+        this.publicProfileService.getMatesSmallProfilePicture();
       })
     })
   }

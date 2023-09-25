@@ -15,7 +15,7 @@ export class PublicProfileController {
   constructor(
     private readonly publicProfileService: PublicProfileService,
     private readonly minioService: MinioService,
-    ) {}
+  ) { }
 
   @Patch("my")
   updateMyPublicProfile(@CurrentUser() mate: Mate, @Body() updatePublicProfileDto: UpdatePublicProfileDto) {
@@ -44,31 +44,55 @@ export class PublicProfileController {
   }
 
   @Get("get-my-profile-picture")
-  async getMyProfilePicture(@CurrentUser() mate: Mate) : Promise<string | null> {
+  async getMyProfilePicture(@CurrentUser() mate: Mate): Promise<string | null> {
+    return await this.getProfilePicture(mate, "original");
+  }
+
+  @Get("get-my-small-profile-picture")
+  async getSmallMyProfilePicture(@CurrentUser() mate: Mate) {
+    return await this.getProfilePicture(mate, "80x100");
+  }
+
+  @Get("get-mate-profile-picture")
+  async getMateProfilePicture(@CurrentUser() mate: Mate): Promise<string> {
     try {
-      const url = await this.minioService.generateUrl(mate.publicProfile.profilePicture);
-      if(!url)
+      const url = await this.publicProfileService.getMyMatesProfilePicture(mate, "original")
+      if (!url) {
         return null
-      else 
-        return JSON.stringify(url)
-    } catch (error) { 
+      } else {
+        return JSON.stringify(url);
+      }
+    } catch (error) {
       console.log(error)
       throw new HttpException("No file found", HttpStatus.INTERNAL_SERVER_ERROR)
     }
   }
 
-  @Get("get-mate-profile-picture")
-  async getMateProfilePicture(@CurrentUser() mate: Mate) : Promise<string> {
+  @Get("get-mate-small-profile-picture")
+  async getMateSmallProfilePicture(@CurrentUser() mate: Mate): Promise<string> {
     try {
-      const url = await this.publicProfileService.getMyMatesProfilePicture(mate)
-      if(!url) {
-       return null
+      const url = await this.publicProfileService.getMyMatesProfilePicture(mate, "80x100")
+      if (!url) {
+        return null
       } else {
         return JSON.stringify(url)
       }
     } catch (error) {
       console.log(error)
       throw new HttpException("No file found", HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  async getProfilePicture(mate: Mate, format: string) {
+    try {
+      const url = await this.minioService.generateUrl(mate.publicProfile.profilePicture.replace("original", format));
+      if (!url)
+        return null;
+      else
+        return JSON.stringify(url);
+    } catch (error) {
+      console.log(error)
+      throw new HttpException("No file found", HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }
