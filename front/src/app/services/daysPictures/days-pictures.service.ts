@@ -40,6 +40,7 @@ export class DaysPicturesService {
         this.myTodaysPicture = null;
       } else {
         this.myTodaysPicture ? (this.myTodaysPicture.value = url) : this.myTodaysPicture = null;
+        this.myTodaysPicture && this.myMonthPictures.set(this.myTodaysPicture.date, url);
       }
       this.loadMyTodaysPicture = false;
     })
