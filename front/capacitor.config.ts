@@ -2,7 +2,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 import { KeyboardResize } from '@capacitor/keyboard';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
+  appId: 'com.bgonzva.hippochat',
   appName: 'Hippochat',
   webDir: 'www',
   server: {
@@ -13,7 +13,8 @@ const config: CapacitorConfig = {
     // url: "http://10.221.14.108:8100",
     // url: "http://10.142.40.165:8100",
     url: "http://192.168.7.191:8100",
-    cleartext: true
+    cleartext: true,
+    // hostname: "bgonzva.com"
   },
   plugins: {
     Keyboard: {

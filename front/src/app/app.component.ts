@@ -9,7 +9,7 @@ import { PublicProfileService } from './services/publicProfile/public-profile.se
 export class AppComponent {
   constructor(
     private readonly publicProfileService: PublicProfileService,
-    ) { 
-      this.publicProfileService.setPrimaryColorOnLogin();
-    }
+  ) {
+    this.publicProfileService.setPrimaryColorOnLogin();
+  }
 }

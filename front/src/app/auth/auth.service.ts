@@ -1,16 +1,18 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Capacitor } from '@capacitor/core';
 import { Haptics, NotificationType } from '@capacitor/haptics';
+import { Preferences } from '@capacitor/preferences';
 import { Toast } from '@capacitor/toast';
 import jwtDecode from 'jwt-decode';
 import { BehaviorSubject, Observable, lastValueFrom } from 'rxjs';
+import { Sex } from '../constants/sex.type';
 import { RegisterDto } from '../dto/register/register.dto';
 import { Mate } from '../models/mate.model';
+import { PublicProfileService } from '../services/publicProfile/public-profile.service';
 import LoginResponseDTO from './dto/login-response.dto';
 import AccessToken from './models/access-token.model';
-import { Sex } from '../constants/sex.type';
-import { PublicProfileService } from '../services/publicProfile/public-profile.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +21,7 @@ export class AuthService {
 
   public readonly currentUserSubject: BehaviorSubject<Mate>;
   public readonly loggedInSubject: BehaviorSubject<boolean>;
-  public readonly currentUser: Observable<Mate>;
+  public currentUser: Observable<Mate>;
   private accessToken?: string;
 
   constructor(
@@ -30,14 +32,26 @@ export class AuthService {
     this.currentUserSubject = new BehaviorSubject<Mate>(JSON.parse(localStorage.getItem("currentUser")!));
     this.loggedInSubject = new BehaviorSubject(localStorage.getItem("loggedIn") === "true");
     this.currentUser = this.currentUserSubject.asObservable();
+    if (Capacitor.isNativePlatform())
+      this.setCapacitorAuth();
+  }
+
+  async setCapacitorAuth() {
+    // this.currentUserSubject.next(JSON.parse((await Preferences.get({ key: "currentUser" })).value!));
+    // this.loggedInSubject.next((await Preferences.get({ key: "loggedIn" })).value === "true");
+    // this.currentUser = this.currentUserSubject.asObservable();
   }
 
   private tokenWaiter?: Promise<string>;
 
-  logout() {
+  async logout() {
     delete this.accessToken;
     localStorage.removeItem("currentUser");
     localStorage.removeItem("loggedIn");
+    if (Capacitor.isNativePlatform()) {
+      await Preferences.remove({ key: "currentUser" });
+      await Preferences.remove({ key: "loggedIn" })
+    }
     this.publicProfileService.onChangePrimaryColor('')
     this.loggedInSubject.next(false);
     this.currentUserSubject.next(undefined!);
@@ -81,6 +95,10 @@ export class AuthService {
   async setLoggedIn() {
     this.loggedInSubject.next(true);
     localStorage.setItem("loggedIn", "true");
+    await Preferences.set({
+      key: "loggedIn",
+      value: "true"
+    });
 
     if (!this.currentUserSubject.value)
       await this.refreshUser();
@@ -89,6 +107,10 @@ export class AuthService {
   async refreshUser() {
     this.currentUserSubject.next(await lastValueFrom(this.http.get<Mate>("mates/me")));
     localStorage.setItem("currentUser", JSON.stringify(this.currentUserSubject.value));
+    await Preferences.set({
+      key: "currentUser",
+      value: JSON.stringify(this.currentUserSubject.value)
+    });
   }
 
   async login(username: string, password: string) {
@@ -102,24 +124,24 @@ export class AuthService {
   async register(registerDto: RegisterDto, gender: Sex) {
     let queryParams = new HttpParams().append("gender", gender);
     await lastValueFrom(this.http.post("auth/register", registerDto, { params: queryParams }))
-    .then(mate => {
-      this.router.navigate(["/login"]);
-      Toast.show({
-        text: "Utilisateur inscrit",
-        duration: "long"
+      .then(mate => {
+        this.router.navigate(["/login"]);
+        Toast.show({
+          text: "Utilisateur inscrit",
+          duration: "long"
+        })
+        Haptics.notification({
+          type: NotificationType.Success
+        });
       })
-      Haptics.notification({
-        type: NotificationType.Success
-      });
-    })
-    .catch(error => {
-      Toast.show({
-        text: error as string,
-        duration: "long",
-      });
-      Haptics.notification({
-        type: NotificationType.Error
-      });
-    })      
+      .catch(error => {
+        Toast.show({
+          text: error as string,
+          duration: "long",
+        });
+        Haptics.notification({
+          type: NotificationType.Error
+        });
+      })
   }
 }
