@@ -72,7 +72,7 @@ export class PicturesCalendarComponent implements OnInit {
         continue;
       } else {
         // ? fill the calendar
-        this.calendar.get(week)?.set(weekDay, `${date.getFullYear()}-${date.getMonth() < 10 ? '0' + Number(date.getMonth() + 1) : Number(date.getMonth() + 1)}-${day < 10 ? '0' + day.toString() : day.toString()}`)
+        this.calendar.get(week)?.set(weekDay, `${date.getFullYear()}-${date.getMonth() + 1 < 10 ? '0' + Number(date.getMonth() + 1) : Number(date.getMonth() + 1)}-${day < 10 ? '0' + day.toString() : day.toString()}`)
       }
 
       day++;
