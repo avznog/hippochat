@@ -18,10 +18,11 @@
   </ion-segment>
 
   <ion-searchbar [debounce]="1000" [animated]="true" [autocomplete]="'name'" [(ngModel)]="name"
-    [enterkeyhint]="'search'" inputmode="text" placeholder="Ex: Benjamin Gonzva"
-    (ionInput)="loadSingleMates(true)" (input)="loading = true"></ion-searchbar>
+    [enterkeyhint]="'search'" inputmode="text" placeholder="Ex: Benjamin Gonzva" (ionInput)="loadSingleMates(true)"
+    (input)="loading = true"></ion-searchbar>
 
-  <ion-card class="transition-all ease-in" *ngIf="!loading && matesService.singleMates && matesService.singleMates.length <= 0">
+  <ion-card class="transition-all ease-in"
+    *ngIf="!loading && matesService.singleMates && matesService.singleMates.length <= 0">
     <ion-card-header>
       <ion-card-title>Aucun résultat</ion-card-title>
     </ion-card-header>
@@ -29,10 +30,12 @@
       Recherchez un autre nom pour obtenir d'autres résultats
     </ion-card-content>
   </ion-card>
-  <ion-list class="transition-all ease-in-out" *ngIf="!loading && matesService.singleMates && matesService.singleMates.length > 0">
-    <ion-item [disabled]="singleMate.id === authService.currentUserSubject.getValue().id" button *ngFor="let singleMate of matesService.singleMates" (click)="onSelectItem(singleMate)">
+  <ion-list class="transition-all ease-in-out"
+    *ngIf="!loading && matesService.singleMates && matesService.singleMates.length > 0">
+    <ion-item [disabled]="singleMate.id === authService.currentUserSubject.getValue().id" button
+      *ngFor="let singleMate of matesService.singleMates" (click)="onSelectItem(singleMate)">
       <ion-avatar slot="start">
-        <img src="../../../../../assets/login-icons/home-bodies.png" />
+        <img src="../../../../../assets/login-icons/home-bodies.webp" />
       </ion-avatar>
       <ion-label>{{singleMate.firstname}} {{singleMate.lastname}}</ion-label>
     </ion-item>

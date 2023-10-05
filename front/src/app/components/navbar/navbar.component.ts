@@ -15,22 +15,22 @@ import { AuthService } from 'src/app/auth/auth.service';
     FormsModule,
     IonicModule]
 })
-export class NavbarComponent  implements OnInit {
-  conversationOnIcon = "../../../assets/tabs-icons/notify-heart-dynamic-color.png";
-  conversationOffIcon = "../../../assets/tabs-icons/notify-heart-dynamic-premium.png";
-  calendarsOnIcon = "../../../assets/tabs-icons/calender-dynamic-color.png";
-  calendarsOffIcon = "../../../assets/tabs-icons/calender-dynamic-premium.png";
-  myCoupleOnIcon = "../../../assets/tabs-icons/heart-dynamic-color.png";
-  myCoupleOffIcon = "../../../assets/tabs-icons/heart-dynamic-premium.png";
-  myAlbumOnIcon = "../../../assets/tabs-icons/picture-dynamic-color.png";
-  myAlbumOffIcon = "../../../assets/tabs-icons/picture-dynamic-premium.png";
+export class NavbarComponent implements OnInit {
+  conversationOnIcon = "../../../assets/tabs-icons/notify-heart-dynamic-color.webp";
+  conversationOffIcon = "../../../assets/tabs-icons/notify-heart-dynamic-premium.webp";
+  calendarsOnIcon = "../../../assets/tabs-icons/calender-dynamic-color.webp";
+  calendarsOffIcon = "../../../assets/tabs-icons/calender-dynamic-premium.webp";
+  myCoupleOnIcon = "../../../assets/tabs-icons/heart-dynamic-color.webp";
+  myCoupleOffIcon = "../../../assets/tabs-icons/heart-dynamic-premium.webp";
+  myAlbumOnIcon = "../../../assets/tabs-icons/picture-dynamic-color.webp";
+  myAlbumOffIcon = "../../../assets/tabs-icons/picture-dynamic-premium.webp";
 
   constructor(
     public router: Router,
     public readonly authService: AuthService
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   onClickTab() {
     Haptics.impact({

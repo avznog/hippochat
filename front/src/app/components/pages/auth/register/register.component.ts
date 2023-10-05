@@ -10,10 +10,10 @@ import { Sex } from 'src/app/constants/sex.type';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
-export class RegisterComponent  implements OnInit {
+export class RegisterComponent implements OnInit {
 
   registerForm!: UntypedFormGroup;
-  notifyImg = "../../../../../assets/register-icons/notify-heart-dynamic-color.png";
+  notifyImg = "../../../../../assets/register-icons/notify-heart-dynamic-color.webp";
   loading: boolean = false;
   gender: Sex | null = null;
   timezone: string = "";
@@ -34,9 +34,9 @@ export class RegisterComponent  implements OnInit {
       confirmPassword: ["", [Validators.required, Validators.minLength(8)]],
       timezone: ["", Validators.required]
     },
-    {
-      validators: this.ConfirmedValidator("password", "confirmPassword")
-    })
+      {
+        validators: this.ConfirmedValidator("password", "confirmPassword")
+      })
   }
 
   async onSubmit() {
@@ -44,8 +44,8 @@ export class RegisterComponent  implements OnInit {
       style: ImpactStyle.Medium
     });
 
-    if(this.registerForm.invalid)
-      return 
+    if (this.registerForm.invalid)
+      return
 
     this.loading = true;
     await this.authService.register({
@@ -56,46 +56,46 @@ export class RegisterComponent  implements OnInit {
       password: this.registerForm.value["password"],
       timezone: this.timezone
     },
-    this.gender!);
+      this.gender!);
     this.loading = false;
   }
 
   get f() { return this.registerForm.controls; }
 
 
-  ConfirmedValidator(controlName: string, matchingControlName: string){
+  ConfirmedValidator(controlName: string, matchingControlName: string) {
 
     return (formGroup: FormGroup) => {
 
-        const control = formGroup.controls[controlName];
+      const control = formGroup.controls[controlName];
 
-        const matchingControl = formGroup.controls[matchingControlName];
+      const matchingControl = formGroup.controls[matchingControlName];
 
-        if (matchingControl.errors && !matchingControl.errors['confirmedValidator']) {
+      if (matchingControl.errors && !matchingControl.errors['confirmedValidator']) {
 
-            return;
-
-        }
-
-        if (control.value !== matchingControl.value) {
-
-            matchingControl.setErrors({ confirmedValidator: true });
-
-        } else {
-
-            matchingControl.setErrors(null);
-
-        }
+        return;
 
       }
-    }
 
-    onChangeGender(e: any) {
-      this.gender = e.detail.value;
-    }
+      if (control.value !== matchingControl.value) {
 
-    onChangeTimezone(e: any) {
-      this.timezone = e.detail.value;
+        matchingControl.setErrors({ confirmedValidator: true });
+
+      } else {
+
+        matchingControl.setErrors(null);
+
+      }
+
     }
+  }
+
+  onChangeGender(e: any) {
+    this.gender = e.detail.value;
+  }
+
+  onChangeTimezone(e: any) {
+    this.timezone = e.detail.value;
+  }
 
 }

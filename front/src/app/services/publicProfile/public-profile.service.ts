@@ -84,7 +84,7 @@ export class PublicProfileService {
   getMyProfilePictures() {
     this.http.get<string>(`public-profile/get-my-profile-picture`).subscribe(url => {
       if (!url) {
-        this.myProfilePicture = this.myPublicProfile?.sex === Sex.MALE ? '../../../assets/couple-icons/boy-iso-color.png' : '../../../assets/couple-icons/girl-iso-color.png'
+        this.myProfilePicture = this.myPublicProfile?.sex === Sex.MALE ? '../../../assets/couple-icons/boy-iso-color.webp' : '../../../assets/couple-icons/girl-iso-color.webp'
         Haptics.notification({
           type: NotificationType.Error
         })
@@ -101,7 +101,7 @@ export class PublicProfileService {
     this.loadingMyProfilePicture = true;
     this.http.get<string>(`public-profile/get-my-small-profile-picture`).subscribe(url => {
       if (!url) {
-        this.myProfilePicture = this.myPublicProfile?.sex === Sex.MALE ? '../../../assets/couple-icons/boy-iso-color.png' : '../../../assets/couple-icons/girl-iso-color.png'
+        this.myProfilePicture = this.myPublicProfile?.sex === Sex.MALE ? '../../../assets/couple-icons/boy-iso-color.webp' : '../../../assets/couple-icons/girl-iso-color.webp'
         Haptics.notification({
           type: NotificationType.Error
         })
@@ -120,7 +120,7 @@ export class PublicProfileService {
     this.loadingMatesProfilePicture = true;
     this.http.get<string>(`public-profile/get-mate-small-profile-picture`).subscribe(url => {
       if (!url) {
-        this.myMatesProfilePicture = this.myMatePublicProfile?.sex === Sex.MALE ? '../../../assets/couple-icons/boy-iso-color.png' : '../../../assets/couple-icons/girl-iso-color.png'
+        this.myMatesProfilePicture = this.myMatePublicProfile?.sex === Sex.MALE ? '../../../assets/couple-icons/boy-iso-color.webp' : '../../../assets/couple-icons/girl-iso-color.webp'
         Haptics.notification({
           type: NotificationType.Error
         })
@@ -138,7 +138,7 @@ export class PublicProfileService {
   getMyMatesProfilePicture() {
     this.http.get<string>(`public-profile/get-mate-profile-picture`).subscribe(url => {
       if (!url) {
-        this.myMatesProfilePicture = this.myMatePublicProfile?.sex === Sex.MALE ? '../../../assets/couple-icons/boy-iso-color-reversed.png' : '../../../assets/couple-icons/girl-iso-color-reversed.png'
+        this.myMatesProfilePicture = this.myMatePublicProfile?.sex === Sex.MALE ? '../../../assets/couple-icons/boy-iso-color-reversed.webp' : '../../../assets/couple-icons/girl-iso-color-reversed.webp'
       } else {
         this.myMatesProfilePicture = url;
       }

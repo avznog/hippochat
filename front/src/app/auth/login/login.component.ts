@@ -14,7 +14,7 @@ import { AuthService } from '../auth.service';
 export class LoginComponent implements OnInit {
 
   loginForm!: UntypedFormGroup;
-  boyImg = "../../../assets/login-icons/home-bodies.png";
+  boyImg = "../../../assets/login-icons/home-bodies.webp";
   returnUrl!: string;
   loading: boolean = false;
   error: null | string = null;
@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
       this.loading = false;
 
       // ? success vibration on success login
-      Haptics.notification({type: NotificationType.Success})
+      Haptics.notification({ type: NotificationType.Success })
 
     } catch (error) {
       this.error = error as string;
@@ -71,13 +71,13 @@ export class LoginComponent implements OnInit {
         this.loading = false;
 
         // ? small vibration on failure login
-        Haptics.notification({type: NotificationType.Error})
+        Haptics.notification({ type: NotificationType.Error })
       });
     }
   }
-  
-    // convenience getter for easy access to form fields
-    get f() { return this.loginForm.controls; }
+
+  // convenience getter for easy access to form fields
+  get f() { return this.loginForm.controls; }
 
   onRegister() {
     Haptics.impact({

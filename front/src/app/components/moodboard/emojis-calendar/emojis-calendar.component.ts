@@ -10,7 +10,7 @@ import { DaysEmojisService } from 'src/app/services/daysEmojis/days-emojis.servi
   templateUrl: './emojis-calendar.component.html',
   styleUrls: ['./emojis-calendar.component.scss'],
 })
-export class EmojisCalendarComponent  implements OnInit {
+export class EmojisCalendarComponent implements OnInit {
 
   calendar = new Map<number, Map<number, string | null>>();
   constructor(
@@ -24,19 +24,19 @@ export class EmojisCalendarComponent  implements OnInit {
   @Input() location?: "bottom" | "top";
   @Input() myMate: boolean = false;
 
-  boyImage = '../../../../assets/couple-icons/boy-iso-color.png';
-  boyReversedImage = '../../../../assets/couple-icons/boy-iso-color-reversed.png';
-  girlImage = '../../../../assets/couple-icons/girl-iso-color.png';
-  girlReversedImage = '../../../../assets/couple-icons/girl-iso-color-reversed.png';
+  boyImage = '../../../../assets/couple-icons/boy-iso-color.webp';
+  boyReversedImage = '../../../../assets/couple-icons/boy-iso-color-reversed.webp';
+  girlImage = '../../../../assets/couple-icons/girl-iso-color.webp';
+  girlReversedImage = '../../../../assets/couple-icons/girl-iso-color-reversed.webp';
 
   ngOnInit() {
     this.setMate();
   }
 
   async setMate() {
-    if(this.myMate) {
+    if (this.myMate) {
       this.mate = await this.couplesService.returnMyMate();
-      this.daysEmojisService.getAllMatesMonthly(this.date) 
+      this.daysEmojisService.getAllMatesMonthly(this.date)
     } else {
       this.mate = this.authService.currentUserSubject.getValue();
       this.daysEmojisService.getAllMyMonthly(this.date)
@@ -49,33 +49,33 @@ export class EmojisCalendarComponent  implements OnInit {
     this.daysEmojisService.getAllMyMonthly(this.date);
     this.daysEmojisService.getAllMatesMonthly(this.date);
   }
-  
+
 
   fillCalendar(date: Date) {
     // ? getting the first day of the month & adjusting with the firstday of the week
     let firstDayOfMonth = () => {
       let d = moment(moment(date).tz(this.mate?.timezone ?? 'Europe/Paris').startOf("month").toDate()).tz(this.mate?.timezone ?? 'Europe/Paris').day();
-      d === 0 ? (d = 6) : (d --)
+      d === 0 ? (d = 6) : (d--)
       return d
     }
-    
+
     // ? getting the last day of the month
     const end = moment(date).daysInMonth()
-    
+
     // ? data for building the calendar
     let day = 1;
     let weekDay = 0;
     let week = 0;
 
-    while(day <= end) {
+    while (day <= end) {
 
       // ? if the week has not been registred yet, create the map
-      if(!this.calendar.get(week)){
+      if (!this.calendar.get(week)) {
         this.calendar.set(week, new Map<number, string>())
       }
 
       // ? fill with null values for days of the first week before the 1 starts
-      if(week === 0 && weekDay < firstDayOfMonth()) {
+      if (week === 0 && weekDay < firstDayOfMonth()) {
         this.calendar.get(week)?.set(weekDay, null)
         weekDay++;
         continue;
@@ -84,12 +84,12 @@ export class EmojisCalendarComponent  implements OnInit {
         this.calendar.get(week)?.set(weekDay, day.toString())
       }
 
-      day ++;
-      if(weekDay === 6)  {
+      day++;
+      if (weekDay === 6) {
         weekDay = 0;
-        week ++;
+        week++;
       } else {
-        weekDay ++;
+        weekDay++;
       }
     }
   }
