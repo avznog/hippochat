@@ -37,9 +37,9 @@ export class AuthService {
   }
 
   async setCapacitorAuth() {
-    // this.currentUserSubject.next(JSON.parse((await Preferences.get({ key: "currentUser" })).value!));
-    // this.loggedInSubject.next((await Preferences.get({ key: "loggedIn" })).value === "true");
-    // this.currentUser = this.currentUserSubject.asObservable();
+    this.currentUserSubject.next(JSON.parse((await Preferences.get({ key: "currentUser" })).value!));
+    this.loggedInSubject.next((await Preferences.get({ key: "loggedIn" })).value === "true");
+    this.currentUser = this.currentUserSubject.asObservable();
   }
 
   private tokenWaiter?: Promise<string>;

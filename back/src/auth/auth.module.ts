@@ -18,6 +18,7 @@ import { PublicProfileService } from 'src/relational/public-profile/public-profi
 import { CoupleGateway } from 'src/gateways/couple/couple.gateway';
 import { GatewaysService } from 'src/gateways/services/gateways.service';
 import { PublicProfileGateway } from 'src/gateways/public-profile/public-profile.gateway';
+import { BatteryGateway } from 'src/gateways/battery/battery.gateway';
 
 @Module({
   imports: [
@@ -45,7 +46,8 @@ import { PublicProfileGateway } from 'src/gateways/public-profile/public-profile
     PublicProfileService,
     CoupleGateway,
     GatewaysService,
-    PublicProfileGateway
+    PublicProfileGateway,
+    BatteryGateway
   ]
 })
-export class AuthModule {}
+export class AuthModule { }

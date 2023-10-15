@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { PublicProfileService } from './services/publicProfile/public-profile.service';
+import { SocketBatteryService } from './services/sockets/socket-battery/socket-battery.service';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,7 @@ import { PublicProfileService } from './services/publicProfile/public-profile.se
 export class AppComponent {
   constructor(
     private readonly publicProfileService: PublicProfileService,
+    private readonly socketBatteryService: SocketBatteryService
   ) {
     this.publicProfileService.setPrimaryColorOnLogin();
   }

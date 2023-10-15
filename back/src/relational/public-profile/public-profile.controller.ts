@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, Patch, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Patch, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from 'src/auth/decorators/current-user.model';
@@ -81,6 +81,11 @@ export class PublicProfileController {
       console.log(error)
       throw new HttpException("No file found", HttpStatus.INTERNAL_SERVER_ERROR)
     }
+  }
+
+  @Patch("update-my-battery")
+  updateBattery(@CurrentUser() mate: Mate, @Body() battery: any) {
+    return this.publicProfileService.updateMyBattery(mate, battery)
   }
 
   async getProfilePicture(mate: Mate, format: string) {

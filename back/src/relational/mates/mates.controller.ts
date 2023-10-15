@@ -1,20 +1,19 @@
-import { Body, Controller, Get, Param, Patch, Post, Query, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Query, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { MatesService } from './mates.service';
 import { CurrentUser } from 'src/auth/decorators/current-user.model';
-import { Mate } from './entities/mate.entity';
 import JwtAuthGuard from 'src/auth/guards/jwt-auth.guard';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { UpdateMateDto } from './dto/update-mate.dto';
+import { Mate } from './entities/mate.entity';
+import { MatesService } from './mates.service';
 
 @ApiTags("mates")
 @Controller('mates')
 @UseGuards(JwtAuthGuard)
 export class MatesController {
-  constructor(private readonly matesService: MatesService) {}
+  constructor(private readonly matesService: MatesService) { }
 
   @Get("me")
-  me(@CurrentUser() user: Mate) : Mate {
+  me(@CurrentUser() user: Mate): Mate {
     return user;
   }
 
@@ -24,7 +23,7 @@ export class MatesController {
   }
 
   @Get("find-all-single")
-  findAllSingle(@Query() params: { gender: string, name: string}) {
+  findAllSingle(@Query() params: { gender: string, name: string }) {
     return this.matesService.findAllSingle(params.gender, params.name);
   }
 

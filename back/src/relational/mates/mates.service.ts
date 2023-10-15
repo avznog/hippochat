@@ -14,9 +14,9 @@ export class MatesService {
     private readonly mateRepository: Repository<Mate>,
 
     private readonly couplesService: CouplesService,
-  ) {}
+  ) { }
 
-  async findByPayload(payload: TokenPayload) : Promise<Mate> {
+  async findByPayload(payload: TokenPayload): Promise<Mate> {
     try {
       return await this.mateRepository.findOne({
         relations: ["couple", "publicProfile", "publicProfile.sadness", "couple.mates"],
@@ -40,7 +40,7 @@ export class MatesService {
     return mate.couple ? true : false
   }
 
-  async findAllSingle(gender: string, name: string) : Promise<Mate[]> {
+  async findAllSingle(gender: string, name: string): Promise<Mate[]> {
     return await this.mateRepository.find({
       relations: ["publicProfile"],
       where: {
@@ -53,11 +53,10 @@ export class MatesService {
       }
     })
   }
-  
+
   async getMyMate(mate: Mate) {
     return (await this.couplesService.getMyCouple(mate)).mates.find(m => m.id !== mate.id);
   }
-  
 
   async update(mate: Mate, updateMateDto: UpdateMateDto) {
     return await this.mateRepository.update(mate.id, updateMateDto);

@@ -7,6 +7,7 @@ import { CouplesService } from '../couples/couples.service';
 import { Mate } from '../mates/entities/mate.entity';
 import { UpdatePublicProfileDto } from './dto/update-public-profile.dto';
 import { PublicProfile } from './entities/public-profile.entity';
+import { BatteryGateway } from 'src/gateways/battery/battery.gateway';
 
 @Injectable()
 export class PublicProfileService {
@@ -18,11 +19,11 @@ export class PublicProfileService {
     private readonly couplesService: CouplesService,
     private readonly minioService: MinioService,
     private readonly publicProfileGateway: PublicProfileGateway,
+    private readonly batteryGateway: BatteryGateway
 
   ) { }
 
   async updateMyPublicProfile(mate: Mate, updatePublicProfileDto: UpdatePublicProfileDto): Promise<PublicProfile> {
-    if (!updatePublicProfileDto.lastBatteryPercentage) updatePublicProfileDto.lastBatteryPercentage = mate.publicProfile.lastBatteryPercentage;
     if (!updatePublicProfileDto.lastLocation) updatePublicProfileDto.lastLocation = mate.publicProfile.lastLocation;
     await this.publicProfileRepostiory.update(mate.publicProfile.id, updatePublicProfileDto);
     this.publicProfileGateway.updateMyPublicProfile(mate, {
@@ -72,5 +73,14 @@ export class PublicProfileService {
     const myMate = await this.couplesService.getMyMate(mate);
     const url = await this.minioService.generateUrl(myMate.publicProfile.profilePicture.replace("original", format));
     return url
+  }
+
+  async updateMyBattery(mate: Mate, battery: { batteryLevel: number }) {
+    if (battery.batteryLevel) {
+      const updatePublicProfileDto: UpdatePublicProfileDto = {};
+      updatePublicProfileDto.lastBatteryPercentage = battery.batteryLevel.toString()
+      await this.publicProfileRepostiory.update(mate.publicProfile.id, updatePublicProfileDto)
+      this.batteryGateway.emitNewBatteryLevel(mate, battery.batteryLevel)
+    }
   }
 }

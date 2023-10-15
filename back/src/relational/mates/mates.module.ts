@@ -12,10 +12,11 @@ import { PublicProfile } from '../public-profile/entities/public-profile.entity'
 import { CoupleGateway } from 'src/gateways/couple/couple.gateway';
 import { GatewaysService } from 'src/gateways/services/gateways.service';
 import { PublicProfileGateway } from 'src/gateways/public-profile/public-profile.gateway';
+import { BatteryGateway } from 'src/gateways/battery/battery.gateway';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Mate, Couple, PublicProfile])],
   controllers: [MatesController],
-  providers: [MatesService, CouplesService, MinioService, ConfigService, PublicProfileService, CoupleGateway, GatewaysService, PublicProfileGateway]
+  providers: [MatesService, CouplesService, MinioService, ConfigService, PublicProfileService, CoupleGateway, GatewaysService, PublicProfileGateway, BatteryGateway]
 })
-export class MatesModule {}
+export class MatesModule { }

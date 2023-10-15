@@ -10,8 +10,9 @@ import { MessagesGateway } from './messages/messages.gateway';
 import { PublicProfileGateway } from './public-profile/public-profile.gateway';
 import { SadnessGateway } from './sadness/sadness.gateway';
 import { GatewaysService } from './services/gateways.service';
+import { BatteryGateway } from './battery/battery.gateway';
 @Module({
   imports: [TypeOrmModule.forFeature([Couple, Mate])],
-  providers: [SadnessGateway, CouplesService, GatewaysService, PublicProfileGateway, CoupleGateway, DaysEmojisGateway, DaysPicturesGateway, MessagesGateway]
+  providers: [SadnessGateway, CouplesService, GatewaysService, PublicProfileGateway, CoupleGateway, DaysEmojisGateway, DaysPicturesGateway, MessagesGateway, BatteryGateway]
 })
 export class GatewaysModule { }
