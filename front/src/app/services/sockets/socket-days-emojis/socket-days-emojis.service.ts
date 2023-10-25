@@ -14,7 +14,7 @@ export class SocketDaysEmojisService {
     private readonly daysEmojisService: DaysEmojisService
   ) {
     this.updateTodaysDayEmoji().subscribe()
-   }
+  }
 
   updateTodaysDayEmoji() {
     return new Observable<any>(() => {
