@@ -12,7 +12,7 @@ import { Couple } from './entities/couple.entity';
 @ApiTags("couples")
 @UseGuards(JwtAuthGuard)
 export class CouplesController {
-  constructor(private readonly couplesService: CouplesService) {}
+  constructor(private readonly couplesService: CouplesService) { }
 
   @Post()
   create(@Body() createCoupleDto: CreateCoupleDto) {
@@ -25,12 +25,17 @@ export class CouplesController {
   }
 
   @Patch("update-my-couple")
-  updateMyCouple(@CurrentUser() mate: Mate, @Body() updateCoupleDto: UpdateCoupleDto) : Promise<Couple> {
+  updateMyCouple(@CurrentUser() mate: Mate, @Body() updateCoupleDto: UpdateCoupleDto): Promise<Couple> {
     return this.couplesService.updateMyCouple(mate, updateCoupleDto);
   }
 
   @Get("my-mate")
   getMyMate(@CurrentUser() mate: Mate) {
     return this.couplesService.getMyMate(mate);
+  }
+
+  @Get("become-single")
+  becomeSingle(@CurrentUser() mate: Mate) {
+    return this.couplesService.becomeSingle(mate)
   }
 }

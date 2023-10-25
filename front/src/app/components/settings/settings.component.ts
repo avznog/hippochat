@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Toast } from '@capacitor/toast';
-import { IonModal, IonicModule, SearchbarChangeEventDetail } from '@ionic/angular';
+import { IonModal, IonicModule } from '@ionic/angular';
 import * as moment from 'moment-timezone';
 import { AuthService } from 'src/app/auth/auth.service';
+import { CouplesService } from 'src/app/services/couples/couples.service';
 import { MatesService } from 'src/app/services/mates/mates.service';
 
 @Component({
@@ -13,16 +14,17 @@ import { MatesService } from 'src/app/services/mates/mates.service';
   standalone: true,
   imports: [CommonModule, IonicModule]
 })
-export class SettingsComponent  implements OnInit {
+export class SettingsComponent implements OnInit {
 
   @Output() dismissLogoutEvent = new EventEmitter<boolean>();
   timezone: string = this.authService.currentUserSubject.getValue().timezone;
   allTimezones: string[] = moment.tz.names();
-  
+
   @ViewChild(IonModal) modal?: IonModal;
   constructor(
     public readonly authService: AuthService,
-    private readonly matesService: MatesService
+    private readonly matesService: MatesService,
+    private readonly couplesService: CouplesService
   ) { }
 
   dismissLogout(value: boolean) {
@@ -53,7 +55,7 @@ export class SettingsComponent  implements OnInit {
 
   onSearchTimezone(event: any) {
     const timezonesFiltered = this.allTimezones.filter(zone => zone.toLowerCase().includes(event.detail.value.toLowerCase()));
-    if(timezonesFiltered.length > 0 || event.detail.value === '') {
+    if (timezonesFiltered.length > 0 || event.detail.value === '') {
       this.allTimezones = timezonesFiltered;
     } else {
       Toast.show({
@@ -67,6 +69,10 @@ export class SettingsComponent  implements OnInit {
   cancelTimezone() {
     this.allTimezones = moment.tz.names()
     this.modal?.dismiss();
+  }
+
+  onBecomeSingle() {
+    this.couplesService.becomeSingle();
   }
 
 }

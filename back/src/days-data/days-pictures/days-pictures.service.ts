@@ -80,7 +80,10 @@ export class DaysPicturesService {
       const daysPictures = await this.daysPicturesRepository.find({
         where: {
           mate: {
-            id: mate.id
+            id: mate.id,
+            couple: {
+              id: mate.couple.id
+            }
           },
           date: Between(moment(new Date(date)).tz(mate.timezone).startOf("month").format("YYYY-MM-DD"), moment(new Date(date)).tz("Europe/Paris").endOf("month").format("YYYY-MM-DD"))
         }

@@ -27,7 +27,7 @@ export class CouplesService {
     })
   }
 
-  async getMyCouple(mate: Mate) : Promise<Couple> {
+  async getMyCouple(mate: Mate): Promise<Couple> {
     return await this.coupleRepository.findOne({
       relations: ["mates", "mates.publicProfile", "mates.publicProfile.sadness"],
       where: {
@@ -36,8 +36,8 @@ export class CouplesService {
     })
   }
 
-  async getMyMate(mate: Mate) : Promise<Mate> {
-    const couple =  await this.coupleRepository.findOne({
+  async getMyMate(mate: Mate): Promise<Mate> {
+    const couple = await this.coupleRepository.findOne({
       relations: ["mates", "mates.publicProfile", "mates.publicProfile.sadness"],
       where: {
         id: mate.couple.id
@@ -46,15 +46,25 @@ export class CouplesService {
     return couple.mates.find(m => m.id !== mate.id);
   }
 
-  async updateMyCouple(mate: Mate, updateCoupleDto: UpdateCoupleDto) : Promise<Couple> {
+  async updateMyCouple(mate: Mate, updateCoupleDto: UpdateCoupleDto): Promise<Couple> {
     await this.coupleRepository.update(mate.couple.id, updateCoupleDto)
     this.coupleGateway.updateMyCouple(mate, {
       ...mate.couple,
       ...updateCoupleDto
     })
     return {
-      ...mate.couple, 
+      ...mate.couple,
       ...updateCoupleDto
+    }
+  }
+
+  async becomeSingle(mate: Mate) {
+    try {
+      return await this.coupleRepository.update(mate.couple.id, {
+        mates: null
+      })
+    } catch (error) {
+      console.log(error)
     }
   }
 
