@@ -59,4 +59,14 @@ export class DaysEmojisService {
     })
   }
 
+  async addDayEmoji(createDaysEmojiDto: CreateDaysEmojisDto) {
+    try {
+      this.http.post<DaysEmoji>(`days-emojis/create-for-day`, createDaysEmojiDto).subscribe(dayEmoji => {
+        this.allMyMonthly.set(Number(dayEmoji.date.split("-")[2]).toString(), dayEmoji);
+      })
+    } catch (error) {
+
+    }
+  }
+
 }

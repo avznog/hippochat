@@ -17,7 +17,7 @@ export class DaysEmojisService {
 
     private readonly couplesService: CouplesService,
     private readonly daysEmojisGateway: DaysEmojisGateway
-  ) {}
+  ) { }
 
   async getMyTodaysEmoji(mate: Mate) {
     return await this.daysEmojiRepository.findOne({
@@ -43,7 +43,7 @@ export class DaysEmojisService {
   }
 
   async createToday(createDaysEmojiDto: CreateDaysEmojiDto) {
-    const dayEmoji = await this.daysEmojiRepository.save({...createDaysEmojiDto, date: moment(new Date()).tz(createDaysEmojiDto.mate.timezone).format("YYYY-MM-DD")});
+    const dayEmoji = await this.daysEmojiRepository.save({ ...createDaysEmojiDto, date: moment(new Date()).tz(createDaysEmojiDto.mate.timezone).format("YYYY-MM-DD") });
     this.daysEmojisGateway.updateTodaysDayEmoji(createDaysEmojiDto.mate, dayEmoji);
     return dayEmoji;
   }
@@ -69,5 +69,13 @@ export class DaysEmojisService {
         date: Between(moment(date).tz(mymate.timezone).startOf("month").format("YYYY-MM-DD"), moment(date).tz(mymate.timezone).endOf("month").format("YYYY-MM-DD"))
       }
     })
+  }
+
+  async createForDay(createDaysEmojiDto: CreateDaysEmojiDto) {
+    try {
+      return await this.daysEmojiRepository.save(createDaysEmojiDto);
+    } catch (error) {
+
+    }
   }
 }

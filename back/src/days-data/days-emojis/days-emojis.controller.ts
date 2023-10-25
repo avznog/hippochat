@@ -12,7 +12,7 @@ import { CreateDaysEmojiDto } from './dto/create-days-emoji.dto';
 export class DaysEmojisController {
   constructor(
     private readonly daysEmojisService: DaysEmojisService
-    ) {}
+  ) { }
 
   @Get("my-todays-emoji")
   myTodaysEmoji(@CurrentUser() mate: Mate) {
@@ -29,15 +29,21 @@ export class DaysEmojisController {
     createDaysEmojiDto.mate = mate;
     return this.daysEmojisService.createToday(createDaysEmojiDto);
   }
-  
+
+  @Post("create-for-day")
+  createForDay(@CurrentUser() mate: Mate, @Body() createDaysEmojiDto: CreateDaysEmojiDto) {
+    console.log(createDaysEmojiDto)
+    createDaysEmojiDto.mate = mate;
+    return this.daysEmojisService.createForDay(createDaysEmojiDto);
+  }
+
   @Get("all-my-monthly")
-  getMyAllMonthly(@CurrentUser() mate: Mate, @Query() data: {date: string}) {
+  getMyAllMonthly(@CurrentUser() mate: Mate, @Query() data: { date: string }) {
     return this.daysEmojisService.getMyAllMonthly(mate, new Date(data.date));
   }
-  
+
   @Get("all-mates-monthly")
-  getMatesAllMonthly(@CurrentUser() mate: Mate, @Query() data: {date: string}) {
+  getMatesAllMonthly(@CurrentUser() mate: Mate, @Query() data: { date: string }) {
     return this.daysEmojisService.getMatesAllMonthly(mate, new Date(data.date));
   }
 }
-  

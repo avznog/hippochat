@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Toast } from '@capacitor/toast';
+import { AlertController } from '@ionic/angular';
 import * as moment from 'moment-timezone';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Mate } from 'src/app/models/mate.model';
@@ -16,7 +18,8 @@ export class EmojisCalendarComponent implements OnInit {
   constructor(
     public readonly daysEmojisService: DaysEmojisService,
     private readonly couplesService: CouplesService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private alertController: AlertController
   ) { }
 
   @Input() date: Date = new Date();
@@ -92,6 +95,45 @@ export class EmojisCalendarComponent implements OnInit {
         weekDay++;
       }
     }
+  }
+
+  async onAddEmoji(day: string | null) {
+    const newDate = new Date()
+    if (!day) return
+    newDate.setFullYear(this.date.getFullYear())
+    newDate.setMonth(this.date.getMonth())
+    newDate.setDate(Number(day))
+    if (this.daysEmojisService.allMyMonthly.has(day) || newDate.getTime() - new Date().getTime() >= 0) return
+    const emojiAlert = await this.alertController.create({
+      inputs: [{
+        type: "text",
+        name: "emoji",
+        placeholder: `Mon émoji du ${moment(newDate).format("YYYY-MM-DD")}`,
+      }],
+      buttons: [
+        {
+          text: "Annuler",
+          role: "destructive"
+        },
+        {
+          text: "Ajouter",
+          handler: (data) => {
+            if (!new RegExp("(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])").test(data.emoji)) {
+              Toast.show({
+                text: "L'emoji n'est pas valide",
+                duration: "long",
+              })
+            } else {
+              this.daysEmojisService.addDayEmoji({
+                value: data.emoji,
+                date: `${this.date.getFullYear()}-${this.date.getMonth() < 9 ? '0' + (this.date.getMonth() + 1).toString() : this.date.getMonth() + 1}-${day.length === 1 ? '0' + day : day}`
+              });
+            }
+          }
+        }
+      ]
+    })
+    emojiAlert.present()
   }
 
 }
