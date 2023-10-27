@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Haptics, ImpactStyle } from '@capacitor/haptics';
+import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics';
 import { ModalController } from '@ionic/angular';
 import * as moment from 'moment-timezone';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -7,6 +7,8 @@ import { Mate } from 'src/app/models/mate.model';
 import { CouplesService } from 'src/app/services/couples/couples.service';
 import { DaysPicturesService } from 'src/app/services/daysPictures/days-pictures.service';
 import { OneDayPictureComponent } from '../one-day-picture/one-day-picture.component';
+import { Toast } from '@capacitor/toast';
+import { Camera, CameraResultType } from '@capacitor/camera';
 
 @Component({
   selector: 'app-pictures-calendar',
@@ -107,6 +109,43 @@ export class PicturesCalendarComponent implements OnInit {
       showBackdrop: true,
     });
     modal.present();
+  }
+
+  async onAddDayPicture(day: string | null) {
+    if (!day) return
+    const newDate = new Date(day);
+
+    if (this.daysPicturesService.myMonthPictures.has(day)) return
+    if (newDate.getTime() - new Date().getTime() >= 0) {
+      Toast.show({
+        text: "Il n'est pas possible de mettre des photos en avance",
+        duration: "long"
+      });
+      return
+    }
+
+    await Camera.getPhoto({
+      correctOrientation: true,
+      promptLabelCancel: "Annuler",
+      promptLabelPhoto: "Pellicule",
+      promptLabelHeader: `Ajoute une photo pour le ${day}`,
+      promptLabelPicture: "Prendre une photo",
+      allowEditing: false,
+      quality: 100,
+      resultType: CameraResultType.DataUrl,
+      saveToGallery: true
+    })
+      .then(picture => {
+        this.daysPicturesService.addSomeDaysPicture(picture, day);
+      }
+      )
+      .catch(() => {
+        Haptics.notification({ type: NotificationType.Error });
+        Toast.show({
+          text: "Impossible d'envoyer la photo",
+          duration: "long"
+        });
+      });
   }
 
 }
