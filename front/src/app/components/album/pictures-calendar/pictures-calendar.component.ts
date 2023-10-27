@@ -9,6 +9,7 @@ import { DaysPicturesService } from 'src/app/services/daysPictures/days-pictures
 import { OneDayPictureComponent } from '../one-day-picture/one-day-picture.component';
 import { Toast } from '@capacitor/toast';
 import { Camera, CameraResultType } from '@capacitor/camera';
+import { SocketDaysPicturesService } from 'src/app/services/sockets/socket-days-pictures/socket-days-pictures.service';
 
 @Component({
   selector: 'app-pictures-calendar',
@@ -27,7 +28,8 @@ export class PicturesCalendarComponent implements OnInit {
     private readonly couplesService: CouplesService,
     private readonly authService: AuthService,
     public readonly daysPicturesService: DaysPicturesService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private readonly socketDaysPictureService: SocketDaysPicturesService // ? do not touche, needed for socket.io
   ) { }
 
   ngOnInit() {
