@@ -115,14 +115,11 @@ export class DaysPicturesService {
 
   async addSomeDaysPicture(picture: Photo, date: string) {
     try {
-      console.log(picture)
       this.myMonthPictures.set(date, picture.dataUrl ?? null)
       const formData = new FormData();
       formData.append("file", new File([new Blob([await (await fetch(picture.dataUrl!)).blob()])], `${date}.${picture.format}`));
       const params = new HttpParams().append("date", date);
-      console.log("here")
       this.http.post<DaysPicture>(`days-pictures/create-some-day`, formData, { params: params }).subscribe(() => {
-        console.log("successed")
         Haptics.notification({
           type: NotificationType.Success
         })
