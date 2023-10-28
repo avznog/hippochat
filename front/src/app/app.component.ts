@@ -10,7 +10,7 @@ import { SocketBatteryService } from './services/sockets/socket-battery/socket-b
 export class AppComponent {
   constructor(
     private readonly publicProfileService: PublicProfileService,
-    private readonly socketBatteryService: SocketBatteryService
+    private readonly socketBatteryService: SocketBatteryService // ? do not touch for socket io to work
   ) {
     this.publicProfileService.setPrimaryColorOnLogin();
   }
