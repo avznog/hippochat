@@ -15,15 +15,16 @@ export class MatesService {
   constructor(
     private http: HttpClient,
     private readonly authService: AuthService
-  ) { }
+  ) {
+    this.findAllSingle("", true);
+  }
 
   async amInCouple() {
     return await lastValueFrom(this.http.get<boolean>("mates/am-in-couple"))
   }
 
-  async findAllSingle(gender: string, name: string, reset: boolean) {
+  async findAllSingle(name: string, reset: boolean) {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("gender", gender);
     queryParams = queryParams.append("name", name);
     this.http.get<Mate[]>(`mates/find-all-single/`, { params: queryParams }).subscribe(singleMates => {
       reset ? this.singleMates = singleMates : this.singleMates = this.singleMates.concat(singleMates);

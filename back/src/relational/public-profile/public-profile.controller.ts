@@ -90,6 +90,7 @@ export class PublicProfileController {
 
   async getProfilePicture(mate: Mate, format: string) {
     try {
+      if (!mate.publicProfile || !mate.publicProfile.profilePicture) return null
       const url = await this.minioService.generateUrl(mate.publicProfile.profilePicture.replace("original", format));
       if (!url)
         return null;

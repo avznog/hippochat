@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCoupleDto } from './dto/create-couple.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Couple } from './entities/couple.entity';
+import { CoupleGateway } from 'src/gateways/couple/couple.gateway';
 import { Repository } from 'typeorm';
 import { Mate } from '../mates/entities/mate.entity';
+import { CreateCoupleDto } from './dto/create-couple.dto';
 import { UpdateCoupleDto } from './dto/update-couple.dto';
-import { CoupleGateway } from 'src/gateways/couple/couple.gateway';
+import { Couple } from './entities/couple.entity';
 
 @Injectable()
 export class CouplesService {
@@ -27,17 +27,21 @@ export class CouplesService {
     })
   }
 
-  async getMyCouple(mate: Mate) : Promise<Couple> {
-    return await this.coupleRepository.findOne({
-      relations: ["mates", "mates.publicProfile", "mates.publicProfile.sadness"],
-      where: {
-        id: mate.couple.id
-      }
-    })
+  async getMyCouple(mate: Mate): Promise<Couple> {
+    try {
+      return await this.coupleRepository.findOne({
+        relations: ["mates", "mates.publicProfile", "mates.publicProfile.sadness"],
+        where: {
+          id: mate.couple.id
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
-  async getMyMate(mate: Mate) : Promise<Mate> {
-    const couple =  await this.coupleRepository.findOne({
+  async getMyMate(mate: Mate): Promise<Mate> {
+    const couple = await this.coupleRepository.findOne({
       relations: ["mates", "mates.publicProfile", "mates.publicProfile.sadness"],
       where: {
         id: mate.couple.id
@@ -46,14 +50,14 @@ export class CouplesService {
     return couple.mates.find(m => m.id !== mate.id);
   }
 
-  async updateMyCouple(mate: Mate, updateCoupleDto: UpdateCoupleDto) : Promise<Couple> {
+  async updateMyCouple(mate: Mate, updateCoupleDto: UpdateCoupleDto): Promise<Couple> {
     await this.coupleRepository.update(mate.couple.id, updateCoupleDto)
     this.coupleGateway.updateMyCouple(mate, {
       ...mate.couple,
       ...updateCoupleDto
     })
     return {
-      ...mate.couple, 
+      ...mate.couple,
       ...updateCoupleDto
     }
   }

@@ -23,8 +23,8 @@ export class MatesController {
   }
 
   @Get("find-all-single")
-  findAllSingle(@Query() params: { gender: string, name: string }) {
-    return this.matesService.findAllSingle(params.gender, params.name);
+  findAllSingle(@Query() params: { name: string }) {
+    return this.matesService.findAllSingle(params.name);
   }
 
   @Get("my")

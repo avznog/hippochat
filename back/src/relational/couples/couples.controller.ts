@@ -1,10 +1,9 @@
-import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
-import { CouplesService } from './couples.service';
-import JwtAuthGuard from 'src/auth/guards/jwt-auth.guard';
+import { Body, Controller, Get, Patch, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { CreateCoupleDto } from './dto/create-couple.dto';
 import { CurrentUser } from 'src/auth/decorators/current-user.model';
+import JwtAuthGuard from 'src/auth/guards/jwt-auth.guard';
 import { Mate } from '../mates/entities/mate.entity';
+import { CouplesService } from './couples.service';
 import { UpdateCoupleDto } from './dto/update-couple.dto';
 import { Couple } from './entities/couple.entity';
 
@@ -12,12 +11,7 @@ import { Couple } from './entities/couple.entity';
 @ApiTags("couples")
 @UseGuards(JwtAuthGuard)
 export class CouplesController {
-  constructor(private readonly couplesService: CouplesService) {}
-
-  @Post()
-  create(@Body() createCoupleDto: CreateCoupleDto) {
-    return this.couplesService.create(createCoupleDto);
-  }
+  constructor(private readonly couplesService: CouplesService) { }
 
   @Get("my-couple")
   getMyCouple(@CurrentUser() mate: Mate) {
@@ -25,7 +19,7 @@ export class CouplesController {
   }
 
   @Patch("update-my-couple")
-  updateMyCouple(@CurrentUser() mate: Mate, @Body() updateCoupleDto: UpdateCoupleDto) : Promise<Couple> {
+  updateMyCouple(@CurrentUser() mate: Mate, @Body() updateCoupleDto: UpdateCoupleDto): Promise<Couple> {
     return this.couplesService.updateMyCouple(mate, updateCoupleDto);
   }
 
