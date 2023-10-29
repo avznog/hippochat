@@ -1,4 +1,4 @@
-import { Controller, Get, HttpException, HttpStatus, Param, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, HttpException, HttpStatus, Param, Post, Query, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from 'src/auth/decorators/current-user.model';
@@ -56,6 +56,12 @@ export class DaysPicturesController {
   @UseInterceptors(FileInterceptor("file"))
   async createTodayDayPicture(@CurrentUser() mate: Mate, @UploadedFile() file: Express.Multer.File) {
     return await this.daysPicturesService.createTodayDayPicture(mate, file);
+  }
+
+  @Post("create-some-day")
+  @UseInterceptors(FileInterceptor("file"))
+  async createSomeDaysPicture(@CurrentUser() mate: Mate, @UploadedFile() file: Express.Multer.File, @Query() date: { date: string }) {
+    return await this.daysPicturesService.createSomeDaysPicture(mate, file, date.date);
   }
 
   @Get("my-month/:date")

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { DaysEmoji } from 'src/app/models/days-emoji.model';
 import { SocketDaysEmojis } from 'src/app/providers/socket-days-emojis.provider';
 import { DaysEmojisService } from '../../daysEmojis/days-emojis.service';
@@ -13,14 +12,12 @@ export class SocketDaysEmojisService {
     private socket: SocketDaysEmojis,
     private readonly daysEmojisService: DaysEmojisService
   ) {
-    this.updateTodaysDayEmoji().subscribe()
+    this.updateTodaysDayEmoji()
   }
 
   updateTodaysDayEmoji() {
-    return new Observable<any>(() => {
-      this.socket.on("update-day-emoji", (dayEmoji: DaysEmoji) => {
-        this.daysEmojisService.myMatesTodaysEmoji = dayEmoji;
-      })
+    this.socket.on("update-day-emoji", (dayEmoji: DaysEmoji) => {
+      this.daysEmojisService.myMatesTodaysEmoji = dayEmoji;
     })
   }
 }

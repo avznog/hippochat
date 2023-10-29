@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Device } from '@capacitor/device';
-import { Observable } from 'rxjs';
 import { Mate } from 'src/app/models/mate.model';
 import { SocketBattery } from 'src/app/providers/socket-battery.provider';
 import { PublicProfileService } from '../../publicProfile/public-profile.service';
@@ -16,24 +15,20 @@ export class SocketBatteryService {
     private http: HttpClient,
     private publicProfileService: PublicProfileService
   ) {
-    this.listenBatteryChange().subscribe()
-    this.listenMateBatteryChange().subscribe()
+    this.listenBatteryChange();
+    this.listenMateBatteryChange();
   }
 
   listenBatteryChange() {
-    return new Observable<any>(() => {
-      this.socketBattery.on("ask-battery", () => {
-        this.sendBatteryLevel()
-      })
+    this.socketBattery.on("ask-battery", () => {
+      this.sendBatteryLevel()
     })
   }
 
   listenMateBatteryChange() {
-    return new Observable<any>(() => {
-      this.socketBattery.on("new-battery-level", (batteryLevel: number) => {
-        console.log(batteryLevel)
-        this.publicProfileService.myMatePublicProfile && (this.publicProfileService.myMatePublicProfile!.lastBatteryPercentage = batteryLevel.toString())
-      })
+    this.socketBattery.on("new-battery-level", (batteryLevel: number) => {
+      console.log(batteryLevel)
+      this.publicProfileService.myMatePublicProfile && (this.publicProfileService.myMatePublicProfile!.lastBatteryPercentage = batteryLevel.toString())
     })
   }
 

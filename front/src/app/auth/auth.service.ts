@@ -117,7 +117,7 @@ export class AuthService {
     const response = await lastValueFrom(this.http.post<LoginResponseDTO>("auth/login", { username, password }));
     this.accessToken = response.accessToken;
     await this.setLoggedIn();
-    this.publicProfileService.setPrimaryColorOnLogin();
+    await this.publicProfileService.setPrimaryColorOnLogin();
     return this.accessToken;
   }
 

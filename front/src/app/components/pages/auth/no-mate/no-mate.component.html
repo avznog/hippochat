@@ -7,16 +7,16 @@
 </ion-header>
 
 <!-- ? page content -->
-<ion-content>
-  <ion-segment [(ngModel)]="gender" (ngModelChange)="loadSingleMates(true); onChangeGender()">
-    <ion-segment-button value="male">
-      <ion-label>Homme</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="female">
-      <ion-label>Femme</ion-label>
-    </ion-segment-button>
-  </ion-segment>
+<ion-segment [(ngModel)]="page">
+  <ion-segment-button value="search">
+    <ion-label>Recherche</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="invitations">
+    <ion-label>Invitations</ion-label>
+  </ion-segment-button>
+</ion-segment>
 
+<ion-content *ngIf="page === 'search'">
   <ion-searchbar [debounce]="1000" [animated]="true" [autocomplete]="'name'" [(ngModel)]="name"
     [enterkeyhint]="'search'" inputmode="text" placeholder="Ex: Benjamin Gonzva" (ionInput)="loadSingleMates(true)"
     (input)="loading = true"></ion-searchbar>
@@ -35,7 +35,8 @@
     <ion-item [disabled]="singleMate.id === authService.currentUserSubject.getValue().id" button
       *ngFor="let singleMate of matesService.singleMates" (click)="onSelectItem(singleMate)">
       <ion-avatar slot="start">
-        <img src="../../../../../assets/login-icons/home-bodies.webp" />
+        <img
+          [src]="singleMate.publicProfile.sex === 0 ? '../../../../assets/couple-icons/boy-iso-color.webp' : '../../../../../assets/couple-icons/girl-iso-color.webp'" />
       </ion-avatar>
       <ion-label>{{singleMate.firstname}} {{singleMate.lastname}}</ion-label>
     </ion-item>
@@ -43,4 +44,26 @@
   <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
+</ion-content>
+<ion-content *ngIf="page === 'invitations'">
+  <ion-list class="transition-all ease-in-out" *ngIf="authService.currentUserSubject.getValue().receivedInvitations">
+    <ion-item *ngFor="let invitation of authService.currentUserSubject.getValue().receivedInvitations">
+      <ion-avatar>
+        <img
+          [src]="invitation.asker.publicProfile.sex === 0 ? '../../../../../assets/couple-icons/boy-iso-color.webp' :  '../../../../../assets/couple-icons/girl-iso-color.webp'" />
+      </ion-avatar>
+      <ion-label class="line-clamp-999">{{invitation.asker.firstname}} {{invitation.asker.lastname}}</ion-label>
+      <ion-buttons>
+        <ion-button color="success" [fill]="true" (click)="onAcceptInvitation(invitation.id)">Accepter</ion-button>
+        <ion-button color="failure" [fill]="true" (click)="onDenyInvitation(invitation.id)">Refuser</ion-button>
+      </ion-buttons>
+    </ion-item>
+    <ion-card *ngIf="authService.currentUserSubject.getValue().receivedInvitations.length <= 0">
+      <ion-card-header>
+        <ion-card-title>
+          Vous n'avez aucune invitation de couple
+        </ion-card-title>
+      </ion-card-header>
+    </ion-card>
+  </ion-list>
 </ion-content>

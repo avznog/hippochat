@@ -16,7 +16,7 @@ import { SocketDaysPicturesService } from 'src/app/services/sockets/socket-days-
   templateUrl: './moodboard-today.component.html',
   styleUrls: ['./moodboard-today.component.scss'],
 })
-export class MoodboardTodayComponent  implements OnInit {
+export class MoodboardTodayComponent implements OnInit {
 
   @Input() who!: "me" | "mate";
   constructor(
@@ -26,7 +26,7 @@ export class MoodboardTodayComponent  implements OnInit {
     public readonly daysPicturesService: DaysPicturesService,
     private readonly socketDaysPicturesService: SocketDaysPicturesService, // ? leave for socket io listener
     private readonly socketDaysEmojisService: SocketDaysEmojisService // ? leave for socket io listener
-  ) { 
+  ) {
     this.publicProfileService.getMyMatesPublicProfile();
     this.daysEmojisService.getMyTodaysEmoji();
     this.daysEmojisService.getMyMatesTodaysEmoji();
@@ -34,7 +34,7 @@ export class MoodboardTodayComponent  implements OnInit {
     this.daysPicturesService.getMyMatesTodaysPicture();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
   dayEmojiAlertButtons: AlertButton[] = [
     {
       text: "Annuler",
@@ -43,14 +43,14 @@ export class MoodboardTodayComponent  implements OnInit {
     {
       text: "Ajouter",
       handler: (data) => {
-        if(!new RegExp("(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])").test(data.emoji)) {
+        if (!new RegExp("(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])").test(data.emoji)) {
           Toast.show({
             text: "L'emoji n'est pas valide",
             duration: "long",
           })
         } else {
           this.daysEmojisService.addTodaysDayEmoji({
-            value: data.emoji, 
+            value: data.emoji,
             date: moment(new Date()).tz(this.authService.currentUserSubject.getValue().timezone).format("YYYY-MM-DD")
           });
         }
@@ -66,18 +66,18 @@ export class MoodboardTodayComponent  implements OnInit {
   ];
 
   async onAddDayPicture() {
-    if(this.daysPicturesService.myTodaysPicture?.id) {
+    if (this.daysPicturesService.myTodaysPicture?.id) {
       Toast.show({
         text: "Tu as déjà posté ta photo du jour !!",
         duration: "long"
       });
       return
     } else {
-      Camera.getPhoto({
+      await Camera.getPhoto({
         correctOrientation: true,
         promptLabelCancel: "Annuler",
         promptLabelPhoto: "Pellicule",
-        promptLabelHeader:"Ajoute ta photo du jour !",
+        promptLabelHeader: "Ajoute ta photo du jour !",
         promptLabelPicture: "Prendre une photo",
         allowEditing: false,
         quality: 100,
@@ -85,12 +85,17 @@ export class MoodboardTodayComponent  implements OnInit {
         saveToGallery: true
       })
         .then(picture => {
-          Haptics.notification({type: NotificationType.Success})
           this.daysPicturesService.addTodayDayPicture(picture);
         }
         )
-        .catch(() => Haptics.notification({type: NotificationType.Error}));
-      
+        .catch(() => {
+          Haptics.notification({ type: NotificationType.Error });
+          Toast.show({
+            text: "Impossible d'envoyer la photo",
+            duration: "long"
+          })
+        });
+
     }
   }
 
@@ -107,13 +112,13 @@ export class MoodboardTodayComponent  implements OnInit {
   }
 
   onClickPicture() {
-    this.who === 'me' ? 
-    Haptics.impact({
-      style: ImpactStyle.Heavy
-    }) : 
-    Haptics.notification({
-      type: NotificationType.Error
-    });
+    this.who === 'me' ?
+      Haptics.impact({
+        style: ImpactStyle.Heavy
+      }) :
+      Haptics.notification({
+        type: NotificationType.Error
+      });
   }
 
   onClickMatesEmoji() {

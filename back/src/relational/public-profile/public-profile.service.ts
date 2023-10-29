@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { BatteryGateway } from 'src/gateways/battery/battery.gateway';
 import { PublicProfileGateway } from 'src/gateways/public-profile/public-profile.gateway';
 import { MinioService } from 'src/minio/minio.service';
 import { Repository } from 'typeorm';
@@ -7,7 +8,6 @@ import { CouplesService } from '../couples/couples.service';
 import { Mate } from '../mates/entities/mate.entity';
 import { UpdatePublicProfileDto } from './dto/update-public-profile.dto';
 import { PublicProfile } from './entities/public-profile.entity';
-import { BatteryGateway } from 'src/gateways/battery/battery.gateway';
 
 @Injectable()
 export class PublicProfileService {
@@ -70,9 +70,14 @@ export class PublicProfileService {
   }
 
   async getMyMatesProfilePicture(mate: Mate, format: string): Promise<string> {
-    const myMate = await this.couplesService.getMyMate(mate);
-    const url = await this.minioService.generateUrl(myMate.publicProfile.profilePicture.replace("original", format));
-    return url
+    try {
+      const myMate = await this.couplesService.getMyMate(mate);
+      const url = await this.minioService.generateUrl(myMate.publicProfile.profilePicture.replace("original", format));
+      return url
+    } catch (error) {
+      console.log(error)
+      return null
+    }
   }
 
   async updateMyBattery(mate: Mate, battery: { batteryLevel: number }) {

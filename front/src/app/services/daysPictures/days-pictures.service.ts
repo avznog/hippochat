@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Photo } from '@capacitor/camera';
+import { Haptics, NotificationType } from '@capacitor/haptics';
 import * as moment from 'moment-timezone';
 import { lastValueFrom } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -41,6 +42,7 @@ export class DaysPicturesService {
       } else {
         this.myTodaysPicture ? (this.myTodaysPicture.value = url) : this.myTodaysPicture = null;
         this.myTodaysPicture && this.myMonthPictures.set(this.myTodaysPicture.date, url);
+        Haptics.notification({ type: NotificationType.Success })
       }
       this.loadMyTodaysPicture = false;
     })
@@ -65,6 +67,7 @@ export class DaysPicturesService {
   }
 
   async addTodayDayPicture(picture: Photo) {
+    this.loadMyTodaysPicture = true;
     const formData = new FormData();
     formData.append("file", new File([new Blob([await (await fetch(picture.dataUrl!)).blob()])], `${moment(new Date()).tz(this.authService.currentUserSubject.getValue().timezone).format("YYYY-MM-DD")}.${picture.format}`, {
       lastModified: new Date().getTime(),
@@ -108,5 +111,21 @@ export class DaysPicturesService {
     this.http.get<string>(`days-pictures/mate-one-picture/${date}`).subscribe(url => {
       url && this.myMatesMonthPictures.set(date, url);
     })
+  }
+
+  async addSomeDaysPicture(picture: Photo, date: string) {
+    try {
+      this.myMonthPictures.set(date, picture.dataUrl ?? null)
+      const formData = new FormData();
+      formData.append("file", new File([new Blob([await (await fetch(picture.dataUrl!)).blob()])], `${date}.${picture.format}`));
+      const params = new HttpParams().append("date", date);
+      this.http.post<DaysPicture>(`days-pictures/create-some-day`, formData, { params: params }).subscribe(() => {
+        Haptics.notification({
+          type: NotificationType.Success
+        })
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 }

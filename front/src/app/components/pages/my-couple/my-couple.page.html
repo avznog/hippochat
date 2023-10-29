@@ -46,7 +46,8 @@
         </div>
       </div>
       <div class="pl-2 text-center">
-        <ion-label>{{publicProfileService.myMatePublicProfile?.nickname ?? 'Donne à mon mate un surnom !'}}</ion-label>
+        <ion-label>{{publicProfileService.myMatePublicProfile?.nickname ?? 'Donne à ' + coupleService.myMate?.firstname
+          + ' un surnom'}}</ion-label>
       </div>
     </div>
   </div>
@@ -55,7 +56,8 @@
   <div class="w-full">
     <ion-card>
       <ion-card-header>
-        <ion-card-title>Batterie de mon mate</ion-card-title>
+        <ion-card-title>Batterie de {{publicProfileService.myMatePublicProfile?.nickname ??
+          coupleService.myMate?.firstname}}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
         <span
@@ -64,7 +66,8 @@
           slice:0:5}} % de batterie</span>
         <span
           *ngIf="!publicProfileService.myMatePublicProfile?.lastBatteryPercentage || publicProfileService.myMatePublicProfile?.lastBatteryPercentage === ''">Batterie
-          de mon mate inconnue</span>
+          de {{publicProfileService.myMatePublicProfile?.nickname ??
+          coupleService.myMate?.firstname}} inconnue</span>
       </ion-card-content>
     </ion-card>
   </div>
@@ -96,7 +99,8 @@
   <ion-card>
     <ion-card-header>
       <ion-card-title>{{coupleService.myMate?.firstname}} {{coupleService.myMate?.lastname}}</ion-card-title>
-      <ion-card-subtitle>{{publicProfileService.myMatePublicProfile?.description}}</ion-card-subtitle>
+      <ion-card-subtitle>{{publicProfileService.myMatePublicProfile?.description ?? 'Attends que ' +
+        coupleService.myMate?.firstname + ' écrive sa description !'}}</ion-card-subtitle>
     </ion-card-header>
   </ion-card>
 </ion-content>

@@ -128,4 +128,21 @@ export class DaysPicturesService {
       return null
     }
   }
+
+  async createSomeDaysPicture(mate: Mate, file: Express.Multer.File, date: string) {
+    try {
+      const path = `/users/${mate.email}/days-pictures/original/${file.originalname.split(".")[0] + '.webp'}`;
+      await this.minioService.uploadFile(path, file);
+      const someDaysPicture = await this.daysPicturesRepository.save({
+        date: date,
+        mate: mate,
+        value: path
+      });
+      this.daysPicturesGateway.updateSomeDaysPicture(mate, { ...someDaysPicture, value: await this.minioService.generateUrl(path) });
+      return someDaysPicture;
+
+    } catch (error) {
+      throw new HttpException("Can't create the picture", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 }

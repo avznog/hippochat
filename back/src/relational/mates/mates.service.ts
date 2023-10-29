@@ -40,13 +40,10 @@ export class MatesService {
     return mate.couple ? true : false
   }
 
-  async findAllSingle(gender: string, name: string): Promise<Mate[]> {
+  async findAllSingle(name: string): Promise<Mate[]> {
     return await this.mateRepository.find({
       relations: ["publicProfile"],
       where: {
-        publicProfile: {
-          sex: gender === 'male' ? Sex.MALE : Sex.FEMALE
-        },
         couple: IsNull(),
         firstname: ILike(`%${name}%`),
         lastname: ILike(`%${name}%`)

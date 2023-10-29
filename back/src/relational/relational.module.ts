@@ -19,10 +19,11 @@ import { PublicProfileGateway } from 'src/gateways/public-profile/public-profile
 import { MessagesModule } from './messages/messages.module';
 import { Message } from './messages/entities/message.entity';
 import { BatteryGateway } from 'src/gateways/battery/battery.gateway';
+import { InvitationsModule } from './invitations/invitations.module';
 
 @Module({
   imports: [
-    MatesModule, PublicProfileModule, CouplesModule, TypeOrmModule.forFeature([Mate, Couple, PublicProfile, Message]), SadnessModule, MessagesModule
+    MatesModule, PublicProfileModule, CouplesModule, TypeOrmModule.forFeature([Mate, Couple, PublicProfile, Message]), SadnessModule, MessagesModule, InvitationsModule
   ],
   controllers: [MatesController],
   providers: [MatesService, CouplesService, MinioService, ConfigService, PublicProfileService, CoupleGateway, GatewaysService, PublicProfileGateway, BatteryGateway]

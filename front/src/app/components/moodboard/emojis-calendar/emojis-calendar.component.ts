@@ -103,7 +103,17 @@ export class EmojisCalendarComponent implements OnInit {
     newDate.setFullYear(this.date.getFullYear())
     newDate.setMonth(this.date.getMonth())
     newDate.setDate(Number(day))
-    if (this.daysEmojisService.allMyMonthly.has(day) || newDate.getTime() - new Date().getTime() >= 0) return
+    if (this.daysEmojisService.allMyMonthly.has(day)) {
+      return Toast.show({
+        text: "Il existe déjà un émoji pour cette date",
+        duration: "short"
+      })
+    } else if (newDate.getTime() - new Date().getTime() >= 0) {
+      return Toast.show({
+        text: "Il n'est pas possible de mettre des emojis en avance",
+        duration: "long"
+      })
+    }
     const emojiAlert = await this.alertController.create({
       inputs: [{
         type: "text",

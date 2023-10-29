@@ -13,15 +13,20 @@ export class SocketDaysPicturesService {
     private readonly socket: SocketDaysPictures,
     private readonly daysPicturesService: DaysPicturesService
   ) {
-    this.updateMatesDaysPicture().subscribe();
-   }
+    this.updateMatesDaysPicture();
+    this.updateMateSomeDayPicture();
+  }
 
   updateMatesDaysPicture() {
-    return new Observable<any>(() => {
-      this.socket.on("update-my-todays-picture", (todaysPicture: DaysPicture) => {
-        this.daysPicturesService.myMatesTodaysPicture = todaysPicture;
-        this.daysPicturesService.getMyMatesTodaysPicture();
-      })
+    this.socket.on("update-my-todays-picture", (todaysPicture: DaysPicture) => {
+      this.daysPicturesService.myMatesTodaysPicture = todaysPicture;
+      this.daysPicturesService.getMyMatesTodaysPicture();
+    })
+  }
+
+  updateMateSomeDayPicture() {
+    return this.socket.on("update-mate-some-day-picture", (someDaysPicture: DaysPicture) => {
+      this.daysPicturesService.myMatesMonthPictures.set(someDaysPicture.date, someDaysPicture.value)
     })
   }
 }
