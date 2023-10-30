@@ -27,7 +27,6 @@ export class DaysPicturesGateway {
   }
 
   async updateSomeDaysPicture(mate: Mate, someDaysPicture: DaysPicture) {
-    console.log("here")
     this.server.to(this.gatewaysService.connectedUsers.get(mate.couple.mates.find(m => m.id !== mate.id).id)).emit("update-mate-some-day-picture", someDaysPicture);
   }
 }
