@@ -12,12 +12,15 @@
   </ion-header>
 
 
-  <app-pictures-calendar [date]="date" [myMate]="false" [mate]="authService.currentUserSubject.getValue()"></app-pictures-calendar>
+  <app-pictures-calendar [date]="date" [myMate]="false"
+    [mate]="authService.currentUserSubject.getValue()"></app-pictures-calendar>
   <ion-modal [keepContentsMounted]="true">
     <ng-template>
-      <ion-datetime id="datetime-month" size="fixed" presentation="month-year" [max]="today.toISOString()" (ionChange)="onChangeDate($event)"></ion-datetime>
+      <ion-datetime id="datetime-album-month" size="fixed" presentation="month-year" [max]="today.toISOString()"
+        (ionChange)="onChangeDate($event)"></ion-datetime>
     </ng-template>
   </ion-modal>
-  <ion-datetime-button datetime="datetime-month" datetime="datetime-month"></ion-datetime-button>
-  <app-pictures-calendar [date]="date" [myMate]="true" [mate]="authService.currentUserSubject.getValue()"></app-pictures-calendar>
+  <ion-datetime-button datetime="datetime-album-month"></ion-datetime-button>
+  <app-pictures-calendar [date]="date" [myMate]="true"
+    [mate]="authService.currentUserSubject.getValue()"></app-pictures-calendar>
 </ion-content>

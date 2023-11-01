@@ -1,9 +1,9 @@
 <app-emojis-calendar [myMate]="false" [location]="'top'" [date]="calendarDate"></app-emojis-calendar>
 <ion-modal [keepContentsMounted]="true">
   <ng-template>
-    <ion-datetime id="datetime-month" size="fixed" presentation="month-year"
+    <ion-datetime id="datetime-moodboard-month" size="fixed" presentation="month-year"
       (ionChange)="onChangeDate($event)"></ion-datetime>
   </ng-template>
 </ion-modal>
-<ion-datetime-button datetime="datetime-month"></ion-datetime-button>
+<ion-datetime-button datetime="datetime-moodboard-month"></ion-datetime-button>
 <app-emojis-calendar [myMate]="true" [location]="'bottom'" [date]="calendarDate"></app-emojis-calendar>
