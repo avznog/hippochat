@@ -84,7 +84,7 @@ export class PublicProfileController {
   }
 
   @Patch("update-my-battery")
-  updateBattery(@CurrentUser() mate: Mate, @Body() battery: any) {
+  updateBattery(@CurrentUser() mate: Mate, @Body() battery: any | null) {
     return this.publicProfileService.updateMyBattery(mate, battery)
   }
 

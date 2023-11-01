@@ -5,6 +5,7 @@ const config: CapacitorConfig = {
   appId: 'com.bgonzva.hippochat',
   appName: 'Hippochat',
   webDir: 'www',
+  // ? to upload on xcode, need no hostname, no url, and androidScheme
   server: {
     androidScheme: 'https',
     // url: "http://192.168.1.19:8100",

@@ -38,6 +38,7 @@ export class SocketBatteryService {
         this.http.patch<Mate>(`public-profile/update-my-battery`, battery).subscribe()
       })
       .catch(error => {
+        this.http.patch<Mate>(`public-profile/update-my-battery`, null).subscribe()
       });
   }
 }
