@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Capacitor } from '@capacitor/core';
 import { Haptics, NotificationType } from '@capacitor/haptics';
-import { Preferences } from '@capacitor/preferences';
 import { DaysEmojisService } from 'src/app/services/daysEmojis/days-emojis.service';
 import { DaysPicturesService } from 'src/app/services/daysPictures/days-pictures.service';
 import { PublicProfileService } from 'src/app/services/publicProfile/public-profile.service';
@@ -22,10 +20,6 @@ export class MoodboardPage implements OnInit {
   ) { }
 
   async ngOnInit() {
-    if (Capacitor.isNativePlatform()) {
-      this.who = (await Preferences.get({ key: "who" })).value as "me" | "mate" ?? "me";
-      this.timePeriod = (await Preferences.get({ key: "timePeriod" })).value as "today" | "month" ?? "today";
-    }
   }
 
   async onChangeTimePeriod() {
@@ -33,12 +27,6 @@ export class MoodboardPage implements OnInit {
     Haptics.notification({
       type: NotificationType.Warning
     });
-    if (Capacitor.isNativePlatform()) {
-      await Preferences.set({
-        key: "timePeriod",
-        value: this.timePeriod
-      });
-    }
   }
 
   async onChangeMate() {
@@ -46,12 +34,6 @@ export class MoodboardPage implements OnInit {
     Haptics.notification({
       type: NotificationType.Warning
     });
-    if (Capacitor.isNativePlatform()) {
-      await Preferences.set({
-        key: "who",
-        value: this.who
-      });
-    }
   }
 
 }

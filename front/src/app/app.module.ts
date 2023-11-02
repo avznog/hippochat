@@ -41,7 +41,7 @@ export function playerFactory() {
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({ swipeBackEnabled: false }),
     AppRoutingModule,
     PagesModule,
     FormsModule,
