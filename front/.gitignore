@@ -69,3 +69,5 @@ Thumbs.db
 
 # Vscode counter
 .VSCodeCounter
+resources/ios/**/*
+resources/android/**/*
