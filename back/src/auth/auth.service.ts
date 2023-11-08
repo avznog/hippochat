@@ -21,37 +21,37 @@ export class AuthService {
     private readonly publicProfileRepository: Repository<PublicProfile>,
 
     private readonly jwtService: JwtService
-  ) {}
+  ) { }
 
-  async login(loginDto: LoginDto) : Promise<boolean> {
+  async login(loginDto: LoginDto): Promise<boolean> {
     try {
-      if(loginDto.username === "" || loginDto.password === "") throw 2
+      if (loginDto.username === "" || loginDto.password === "") throw 2
 
-      const mate = await this.mateRepository.findOne({ where: { email: loginDto.username }});
-      
-      if(!mate)
+      const mate = await this.mateRepository.findOne({ where: { email: loginDto.username } });
+
+      if (!mate)
         throw 0
-      
-      if(await bcrypt.compare(loginDto.password, mate.password)) {
+
+      if (await bcrypt.compare(loginDto.password, mate.password)) {
         return true
       } else {
         throw 1
       }
     } catch (error) {
-      switch(error) {
+      switch (error) {
         case 0:
           throw new HttpException("User does not exist", HttpStatus.BAD_REQUEST)
-        
+
         case 1:
           throw new HttpException("Incorrect password", HttpStatus.UNAUTHORIZED)
-        
+
         case 2:
           throw new HttpException("Empty credentials", HttpStatus.BAD_REQUEST)
       }
     }
   }
 
-  getAccessToken(username: string) : string {
+  getAccessToken(username: string): string {
     const payload: TokenPayload = { username };
     return this.jwtService.sign(payload, {
       secret: process.env.JWT_ACCESS_TOKEN_SECRET,
@@ -59,7 +59,7 @@ export class AuthService {
     });
   }
 
-  getRefreshToken(username: string) : string {
+  getRefreshToken(username: string): string {
     const payload: TokenPayload = { username };
     return this.jwtService.sign(payload, ({
       secret: process.env.JWT_REFRESH_TOKEN_SECRET,
@@ -67,22 +67,23 @@ export class AuthService {
     }))
   }
 
-  async register(registerDto: RegisterDto, gender: Sex) : Promise<boolean | Mate> {
+  async register(registerDto: RegisterDto, gender: Sex): Promise<boolean | Mate> {
     try {
-      if(await this.mateRepository.findOne({where: { email: registerDto.email }}))
+      if (await this.mateRepository.findOne({ where: { email: registerDto.email } }))
         throw 0
-      
-      if(registerDto.password === "" || registerDto.email === "")
+
+      if (registerDto.password === "" || registerDto.email === "")
         throw 1
 
       const mate = await this.mateRepository.save({
         ...registerDto,
-        password: bcrypt.hashSync(registerDto.password, await bcrypt.genSalt())
+        password: bcrypt.hashSync(registerDto.password, await bcrypt.genSalt()),
+        timezone: 'Europe/Paris'
       });
-      
-      if(!mate) 
+
+      if (!mate)
         throw 2
-    
+
       mate.publicProfile = await this.publicProfileRepository.save({
         sex: gender
       })
@@ -94,7 +95,7 @@ export class AuthService {
       switch (error) {
         case 0:
           throw new HttpException("User already exists", HttpStatus.CONFLICT);
-        
+
         case 1:
           throw new HttpException("Empty password or email", HttpStatus.BAD_REQUEST);
 
@@ -110,7 +111,7 @@ export class AuthService {
   }
 
   private decodeTokenWithSecurity<T>(token: string, secret: string) {
-    if(!this.jwtService.verify(token, { secret }))
+    if (!this.jwtService.verify(token, { secret }))
       throw new UnauthorizedException("bad refresh token")
     return this.jwtService.decode(token) as T
   }

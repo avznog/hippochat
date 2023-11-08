@@ -10,7 +10,7 @@ async function bootstrap() {
   app.use(cookieParser());
   app.enableCors({
     credentials: true,
-    origin: [process.env.BASE_URL, "https://api.positionstack.com", "capacitor://localhost", "http://localhost", "http://localhost:8101", "http://192.168.7.191:8100", "http://192.168.7.191:8100", "http://localhost:8100", "http://192.168.7.191:8100", "http://10.142.40.165:8100", "http://10.221.14.108:8100", "http://172.20.10.3:8100", "http://localhost:8102"]
+    origin: [process.env.BASE_URL, "https://api.positionstack.com", "http://localhost:8100", "http://10.41.42.6:8100", "capacitor://localhost", "http://localhost", "http://localhost:8101", "http://192.168.7.191:8100", "http://192.168.7.191:8100", "http://10.40.42.148:8100", "http://192.168.7.191:8100", "http://10.142.40.165:8100", "http://10.221.14.108:8100", "http://172.20.10.3:8100", "http://localhost:8102"]
   })
 
   // ? swagger configuration

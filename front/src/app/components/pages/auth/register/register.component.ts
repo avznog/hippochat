@@ -32,7 +32,7 @@ export class RegisterComponent implements OnInit {
       age: [0, [Validators.required, Validators.min(0)]],
       password: ["", [Validators.required, Validators.minLength(8)]],
       confirmPassword: ["", [Validators.required, Validators.minLength(8)]],
-      timezone: ["", Validators.required]
+      // timezone: ["", Validators.required]
     },
       {
         validators: this.ConfirmedValidator("password", "confirmPassword")
@@ -54,7 +54,7 @@ export class RegisterComponent implements OnInit {
       lastname: this.registerForm.value["lastname"],
       age: this.registerForm.value["age"],
       password: this.registerForm.value["password"],
-      timezone: this.timezone
+      // timezone: this.timezone
     },
       this.gender!);
     this.loading = false;

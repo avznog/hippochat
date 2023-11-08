@@ -14,22 +14,29 @@
     <form [formGroup]="registerForm">
       <ion-list lines="full">
         <ion-item>
-          <ion-input label="Prénom" type="text" labelPlacement="floating" formControlName="firstname" [clearInput]="true"></ion-input>
+          <ion-input label="Prénom" type="text" labelPlacement="floating" formControlName="firstname"
+            [clearInput]="true"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input label="Nom" type="text" labelPlacement="floating" formControlName="lastname" [clearInput]="true"></ion-input>
+          <ion-input label="Nom" type="text" labelPlacement="floating" formControlName="lastname"
+            [clearInput]="true"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input label="Email" type="email" labelPlacement="floating" formControlName="email" [clearInput]="true" [errorText]="registerForm.value['email'] && 'Email non conforme'"></ion-input>
+          <ion-input label="Email" type="email" labelPlacement="floating" formControlName="email" [clearInput]="true"
+            [errorText]="registerForm.value['email'] && 'Email non conforme'"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input label="Age" type="number" labelPlacement="floating" formControlName="age" [clearInput]="true"></ion-input>
+          <ion-input label="Age" type="number" labelPlacement="floating" formControlName="age"
+            [clearInput]="true"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input label="Mot de passe" type="password" labelPlacement="floating" formControlName="password"></ion-input>
+          <ion-input label="Mot de passe" type="password" labelPlacement="floating"
+            formControlName="password"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input label="Répéter le mot de passe" type="password" labelPlacement="floating" formControlName="confirmPassword" [errorText]="(registerForm.value['password'] !== '' && registerForm.value['confirmPassword'] !== '' && registerForm.value['password'] !== registerForm.value['confirmPassword'] ) ? 'Les mots de passe ne correspondent pas' : ''"></ion-input>
+          <ion-input label="Répéter le mot de passe" type="password" labelPlacement="floating"
+            formControlName="confirmPassword"
+            [errorText]="(registerForm.value['password'] !== '' && registerForm.value['confirmPassword'] !== '' && registerForm.value['password'] !== registerForm.value['confirmPassword'] ) ? 'Les mots de passe ne correspondent pas' : ''"></ion-input>
         </ion-item>
         <ion-item>
           <ion-select interface="popover" placeholder="Sexe" (ionChange)="onChangeGender($event)">
@@ -37,17 +44,18 @@
             <ion-select-option [value]="0">Homme</ion-select-option>
           </ion-select>
         </ion-item>
-        <ion-item>
+        <!-- <ion-item>
           <ion-select formControlName="timezone" interface="popover" placeholder="Timezone" (ionChange)="onChangeTimezone($event)">
             <ion-select-option [value]="zone" *ngFor="let zone of allTimezones">{{zone}}</ion-select-option>
           </ion-select>
-        </ion-item>
-       
+        </ion-item> -->
+
       </ion-list>
 
       <!-- ? buttons -->
       <div class="flex justify-center w-full pt-10">
-        <ion-button (click)="onSubmit()" *ngIf="!loading" [disabled]="registerForm.invalid || gender === null">Je crée mon compte</ion-button>
+        <ion-button (click)="onSubmit()" *ngIf="!loading" [disabled]="registerForm.invalid || gender === null">Je crée
+          mon compte</ion-button>
         <ion-progress-bar *ngIf="loading" type="indeterminate" class="w-11/12"></ion-progress-bar>
 
       </div>

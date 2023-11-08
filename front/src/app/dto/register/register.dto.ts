@@ -4,5 +4,5 @@ export interface RegisterDto {
   firstname: string;
   lastname: string;
   age: number;
-  timezone: string;
+  // timezone: string;
 }
