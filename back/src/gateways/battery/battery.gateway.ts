@@ -19,14 +19,14 @@ export class BatteryGateway implements OnGatewayConnection, OnGatewayDisconnect 
 
   checkBattery(id: string) {
     this.server.to(id).emit("ask-battery");
-    this.batteryInterval = setInterval(() => {
-      // ask battery to user
-      this.server.to(id).emit("ask-battery");
+    // this.batteryInterval = setInterval(() => {
+    //   // ask battery to user
+    //   this.server.to(id).emit("ask-battery");
 
-      // user returns battery leevel
+    //   // user returns battery leevel
 
-      // update battery level to mate
-    }, 60000);
+    //   // update battery level to mate
+    // }, 60000);
 
   }
 
