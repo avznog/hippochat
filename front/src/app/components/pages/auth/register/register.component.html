@@ -26,8 +26,8 @@
             [errorText]="registerForm.value['email'] && 'Email non conforme'"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input label="Age" type="number" labelPlacement="floating" formControlName="age"
-            [clearInput]="true"></ion-input>
+          <ion-input label="Age" type="number" labelPlacement="floating" formControlName="age" [clearInput]="true"
+            [errorText]="registerForm.value['age'] && 'Vous devez être majeur(e)'"></ion-input>
         </ion-item>
         <ion-item>
           <ion-input label="Mot de passe" type="password" labelPlacement="floating"
