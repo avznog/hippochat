@@ -36,4 +36,8 @@ export class MatesService {
       this.authService.refreshUser();
     })
   }
+
+  async deleteAccount() {
+    await lastValueFrom(this.http.delete(`mates`))
+  }
 }

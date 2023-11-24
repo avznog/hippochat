@@ -1,14 +1,14 @@
 import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
-import { LoginDto } from './dto/login.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Mate } from 'src/relational/mates/entities/mate.entity';
-import { Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
-import TokenPayload from './interfaces/tokenPayload.interface';
 import { JwtService } from '@nestjs/jwt';
-import { RegisterDto } from './dto/register.dto';
-import { PublicProfile } from 'src/relational/public-profile/entities/public-profile.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import * as bcrypt from 'bcrypt';
 import { Sex } from 'src/constants/sex.type';
+import { Mate } from 'src/relational/mates/entities/mate.entity';
+import { PublicProfile } from 'src/relational/public-profile/entities/public-profile.entity';
+import { Repository } from 'typeorm';
+import { LoginDto } from './dto/login.dto';
+import { RegisterDto } from './dto/register.dto';
+import TokenPayload from './interfaces/tokenPayload.interface';
 
 @Injectable()
 export class AuthService {
@@ -27,7 +27,7 @@ export class AuthService {
     try {
       if (loginDto.username === "" || loginDto.password === "") throw 2
 
-      const mate = await this.mateRepository.findOne({ where: { email: loginDto.username } });
+      const mate = await this.mateRepository.findOne({ where: { pseudo: loginDto.username } });
 
       if (!mate)
         throw 0
@@ -69,7 +69,7 @@ export class AuthService {
 
   async register(registerDto: RegisterDto, gender: Sex): Promise<boolean | Mate> {
     try {
-      if (await this.mateRepository.findOne({ where: { email: registerDto.email } }))
+      if (await this.mateRepository.findOne({ where: { pseudo: registerDto.email } }))
         throw 0
 
       if (registerDto.password === "" || registerDto.email === "")

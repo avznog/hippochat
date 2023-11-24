@@ -28,7 +28,7 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       firstname: ["", Validators.required],
       lastname: ["", Validators.required],
-      email: ["", [Validators.required, Validators.email]],
+      pseudo: ["", Validators.required],
       age: [0, [Validators.required, Validators.min(18)]],
       password: ["", [Validators.required, Validators.minLength(8)]],
       confirmPassword: ["", [Validators.required, Validators.minLength(8)]],
@@ -49,7 +49,7 @@ export class RegisterComponent implements OnInit {
 
     this.loading = true;
     await this.authService.register({
-      email: this.registerForm.value["email"],
+      pseudo: this.registerForm.value["pseudo"],
       firstname: this.registerForm.value["firstname"],
       lastname: this.registerForm.value["lastname"],
       age: this.registerForm.value["age"],

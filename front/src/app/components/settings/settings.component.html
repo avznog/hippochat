@@ -8,7 +8,7 @@
         </ion-card-title>
       </ion-card-header>
       <div class="flex justify-center">
-      <ion-button (click)="dismissLogout(true); logout()">Je me déconnecte</ion-button>
+        <ion-button (click)="dismissLogout(true); logout()">Je me déconnecte</ion-button>
 
       </div>
     </ion-card-content>
@@ -20,7 +20,7 @@
     <ion-card-content>
       <ion-card-header>
         <ion-card-title class="flex justify-center w-full">
-          Tu es décalé{{authService.currentUserSubject.getValue().publicProfile.sex === 0 ? '' : 'e'}} ? 
+          Tu es décalé{{authService.currentUserSubject.getValue().publicProfile.sex === 0 ? '' : 'e'}} ?
         </ion-card-title>
         <ion-card-subtitle class="flex justify-center w-full">
           Mon fuseau : {{authService.currentUserSubject.getValue().timezone}}
@@ -31,20 +31,36 @@
   </ion-card>
 </div>
 
+<!-- ? card for deleting account -->
+<ion-card>
+  <ion-card-content>
+    <ion-card-header>
+      <ion-card-title class="flex justify-center w-full">
+        Tu nous quittes ?
+      </ion-card-title>
+    </ion-card-header>
+    <div class="flex justify-center">
+      <ion-button color="danger" (click)="dismissLogout(true); deleteAccount()">Je supprime mon compte</ion-button>
+
+    </div>
+  </ion-card-content>
+</ion-card>
+
 <!-- ? modal for timezone change content -->
-<ion-modal trigger="open-modal" >
+<ion-modal trigger="open-modal">
   <ng-template>
     <ion-header>
-    <ion-toolbar>
+      <ion-toolbar>
         <ion-buttons>
-            <ion-button (click)="cancelTimezone()">Retour</ion-button>
+          <ion-button (click)="cancelTimezone()">Retour</ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
     <ion-content>
       <ion-searchbar placeholder="Search" [debounce]="300" (ionInput)="onSearchTimezone($event)"></ion-searchbar>
       <ion-list>
-        <ion-item class="hover:cursor-pointer" *ngFor="let timezone of allTimezones" (click)="onChangeTimezone(timezone)">
+        <ion-item class="hover:cursor-pointer" *ngFor="let timezone of allTimezones"
+          (click)="onChangeTimezone(timezone)">
           <ion-label>
             <h2>{{timezone}}</h2>
             <p>{{getSpecialTime(timezone)}}</p>

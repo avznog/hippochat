@@ -15,8 +15,8 @@ export const environment = {
   // apiURL: "http://192.168.1.15:3003",
   // apiURL: "http://10.40.42.148:3003",
   // apiURL: "http://10.142.40.165:3003",
-  // apiURL: "http://192.168.7.191:3003",
-  apiURL: 'http://10.41.42.6:3003'
+  apiURL: "http://192.168.7.191:3003",
+  // apiURL: 'http://10.41.42.6:3003'
 };
 
 /*

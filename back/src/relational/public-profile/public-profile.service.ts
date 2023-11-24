@@ -60,7 +60,7 @@ export class PublicProfileService {
   }
 
   async updateProfilePicture(mate: Mate, file: Express.Multer.File) {
-    const path = `/users/${mate.email}/profile-pictures/original/${file.originalname.split(".")[0] + '.webp'}`;
+    const path = `/users/${mate.pseudo}/profile-pictures/original/${file.originalname.split(".")[0] + '.webp'}`;
     await this.minioService.uploadFile(path, file);
     this.updateMyPublicProfile(mate, {
       profilePicture: path
@@ -85,5 +85,9 @@ export class PublicProfileService {
     updatePublicProfileDto.lastBatteryPercentage = (battery && battery.batteryLevel) ? battery.batteryLevel.toString() : null;
     await this.publicProfileRepostiory.update(mate.publicProfile.id, updatePublicProfileDto)
     this.batteryGateway.emitNewBatteryLevel(mate, battery.batteryLevel ?? null)
+  }
+
+  async deleteMyAccount(mate: Mate) {
+    return await this.publicProfileRepostiory.delete(mate.publicProfile.id)
   }
 }

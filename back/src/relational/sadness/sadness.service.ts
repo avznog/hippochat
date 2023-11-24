@@ -17,7 +17,7 @@ export class SadnessService {
     @InjectRepository(PublicProfile)
     private readonly publicProfileRepository: Repository<PublicProfile>,
     private readonly sadnessGateway: SadnessGateway
-  ) {}
+  ) { }
 
   async create(mate: Mate, createSadnessDto: CreateSadnessDto) {
     const publicProfile = await this.publicProfileRepository.findOne({
@@ -25,8 +25,17 @@ export class SadnessService {
         id: mate.publicProfile.id
       }
     })
-    const sadness = await this.sadnessRepository.save({...createSadnessDto, publicProfile: publicProfile});
+    const sadness = await this.sadnessRepository.save({ ...createSadnessDto, publicProfile: publicProfile });
     this.sadnessGateway.createMateSadness(sadness, mate);
     return sadness;
+  }
+
+  async deleteMyAccount(mate: Mate) {
+    try {
+      const sa = await this.sadnessRepository.find({ where: { publicProfile: { id: mate.publicProfile.id } } });
+      return await this.sadnessRepository.delete(sa.map(s => s.id))
+    } catch (error) {
+
+    }
   }
 }

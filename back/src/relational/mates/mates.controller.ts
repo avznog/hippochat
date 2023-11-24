@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Patch, Query, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from 'src/auth/decorators/current-user.model';
 import JwtAuthGuard from 'src/auth/guards/jwt-auth.guard';
@@ -35,5 +35,10 @@ export class MatesController {
   @Patch("me")
   update(@CurrentUser() mate: Mate, @Body() updateMateDto: UpdateMateDto) {
     return this.matesService.update(mate, updateMateDto);
+  }
+
+  @Delete()
+  deleteMyAccount(@CurrentUser() mate: Mate) {
+    return this.matesService.deleteMyAccount(mate);
   }
 }

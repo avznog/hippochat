@@ -1,28 +1,40 @@
 import { Module } from '@nestjs/common';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Mate } from 'src/relational/mates/entities/mate.entity';
+import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { LocalStrategy } from './local.strategy';
-import { JwtStrategy } from './jwt.strategy';
-import { JwtRefreshTokenStrategy } from './jwt-refresh-token.strategy';
-import { MatesService } from 'src/relational/mates/mates.service';
-import { PublicProfile } from 'src/relational/public-profile/entities/public-profile.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { DaysEmojisService } from 'src/days-data/days-emojis/days-emojis.service';
+import { DaysEmoji } from 'src/days-data/days-emojis/entities/days-emoji.entity';
+import { DaysPicturesService } from 'src/days-data/days-pictures/days-pictures.service';
+import { DaysPicture } from 'src/days-data/days-pictures/entities/days-picture.entity';
+import { BatteryGateway } from 'src/gateways/battery/battery.gateway';
+import { CoupleGateway } from 'src/gateways/couple/couple.gateway';
+import { DaysEmojisGateway } from 'src/gateways/days-emojis/days-emojis.gateway';
+import { DaysPicturesGateway } from 'src/gateways/days-pictures/days-pictures.gateway';
+import { MessagesGateway } from 'src/gateways/messages/messages.gateway';
+import { PublicProfileGateway } from 'src/gateways/public-profile/public-profile.gateway';
+import { SadnessGateway } from 'src/gateways/sadness/sadness.gateway';
+import { GatewaysService } from 'src/gateways/services/gateways.service';
+import { MinioService } from 'src/minio/minio.service';
 import { CouplesService } from 'src/relational/couples/couples.service';
 import { Couple } from 'src/relational/couples/entities/couple.entity';
-import { MinioService } from 'src/minio/minio.service';
-import { ConfigService } from '@nestjs/config';
+import { Mate } from 'src/relational/mates/entities/mate.entity';
+import { MatesService } from 'src/relational/mates/mates.service';
+import { Message } from 'src/relational/messages/entities/message.entity';
+import { MessagesService } from 'src/relational/messages/messages.service';
+import { PublicProfile } from 'src/relational/public-profile/entities/public-profile.entity';
 import { PublicProfileService } from 'src/relational/public-profile/public-profile.service';
-import { CoupleGateway } from 'src/gateways/couple/couple.gateway';
-import { GatewaysService } from 'src/gateways/services/gateways.service';
-import { PublicProfileGateway } from 'src/gateways/public-profile/public-profile.gateway';
-import { BatteryGateway } from 'src/gateways/battery/battery.gateway';
+import { Sadness } from 'src/relational/sadness/entities/sadness.entity';
+import { SadnessService } from 'src/relational/sadness/sadness.service';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
+import { JwtRefreshTokenStrategy } from './jwt-refresh-token.strategy';
+import { JwtStrategy } from './jwt.strategy';
+import { LocalStrategy } from './local.strategy';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Mate, PublicProfile, Couple, PublicProfile]),
+    TypeOrmModule.forFeature([Mate, PublicProfile, Couple, PublicProfile, Message, DaysEmoji, DaysPicture, Sadness]),
     PassportModule,
     JwtModule.registerAsync({
       useFactory: async () => ({
@@ -47,7 +59,15 @@ import { BatteryGateway } from 'src/gateways/battery/battery.gateway';
     CoupleGateway,
     GatewaysService,
     PublicProfileGateway,
-    BatteryGateway
+    BatteryGateway,
+    MessagesService,
+    MessagesGateway,
+    DaysEmojisService,
+    DaysPicturesService,
+    DaysEmojisGateway,
+    DaysPicturesGateway,
+    SadnessService,
+    SadnessGateway
   ]
 })
 export class AuthModule { }

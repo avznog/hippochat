@@ -13,7 +13,7 @@ export class Mate {
   id: string
 
   @Column({ nullable: false, default: "" })
-  email: string;
+  pseudo: string;
 
   @Column({ nullable: false })
   password: string;

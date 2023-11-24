@@ -13,12 +13,11 @@ import { MatesService } from 'src/app/services/mates/mates.service';
   standalone: true,
   imports: [CommonModule, IonicModule]
 })
-export class SettingsComponent  implements OnInit {
+export class SettingsComponent {
 
   @Output() dismissLogoutEvent = new EventEmitter<boolean>();
   timezone: string = this.authService.currentUserSubject.getValue().timezone;
   allTimezones: string[] = moment.tz.names();
-  
   @ViewChild(IonModal) modal?: IonModal;
   constructor(
     public readonly authService: AuthService,
@@ -27,9 +26,6 @@ export class SettingsComponent  implements OnInit {
 
   dismissLogout(value: boolean) {
     this.dismissLogoutEvent.emit(value);
-  }
-
-  ngOnInit() {
   }
 
   logout() {
@@ -53,7 +49,7 @@ export class SettingsComponent  implements OnInit {
 
   onSearchTimezone(event: any) {
     const timezonesFiltered = this.allTimezones.filter(zone => zone.toLowerCase().includes(event.detail.value.toLowerCase()));
-    if(timezonesFiltered.length > 0 || event.detail.value === '') {
+    if (timezonesFiltered.length > 0 || event.detail.value === '') {
       this.allTimezones = timezonesFiltered;
     } else {
       Toast.show({
@@ -67,6 +63,11 @@ export class SettingsComponent  implements OnInit {
   cancelTimezone() {
     this.allTimezones = moment.tz.names()
     this.modal?.dismiss();
+  }
+
+  async deleteAccount() {
+    await this.matesService.deleteAccount();
+    this.authService.logout();
   }
 
 }

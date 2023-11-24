@@ -44,7 +44,7 @@ export class MessagesService {
   }
 
   async createPrivatePicture(mate: Mate, file: Express.Multer.File) {
-    const path = `/users/${mate.email}/private-pictures/original/${file.originalname.split(".")[0] + '.webp'}`;
+    const path = `/users/${mate.pseudo}/private-pictures/original/${file.originalname.split(".")[0] + '.webp'}`;
     await this.minioService.uploadFile(path, file);
     const message = await this.messageRepository.save({
       couple: mate.couple,
@@ -66,5 +66,14 @@ export class MessagesService {
     const message = await this.messageRepository.findOne({ where: { id: id } });
     await this.messageRepository.update(id, { privatePictureOpened: true });
     return this.minioService.destroyFile(message.privatePicture)
+  }
+
+  async deleteMyAccount(mate: Mate) {
+    try {
+      const m = await this.messageRepository.find({ where: { mate: { id: mate.id } } });
+      return await this.messageRepository.delete(m.map(me => me.id));
+    } catch (error) {
+
+    }
   }
 }

@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      email: ["", [Validators.required, Validators.email]],
+      pseudo: ["", Validators.required],
       password: ["", Validators.required]
     });
 
@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
     this.loading = true;
 
     try {
-      await this.authService.login(this.loginForm.value["email"], this.loginForm.value["password"]);
+      await this.authService.login(this.loginForm.value["pseudo"], this.loginForm.value["password"]);
       this.router.navigate([this.returnUrl]);
       this.loading = false;
 
@@ -76,7 +76,6 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  // convenience getter for easy access to form fields
   get f() { return this.loginForm.controls; }
 
   onRegister() {

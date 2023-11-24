@@ -22,15 +22,15 @@ export class PublicProfile {
   @Column({ nullable: true })
   lastLocation: string;
 
-  @Column({ nullable: true})
+  @Column({ nullable: true })
   profilePicture: string;
 
   @Column({ nullable: true })
   sex: Sex;
 
-  @Column({nullable: false, default: "#3880ff"})
+  @Column({ nullable: false, default: "#3880ff" })
   preferedColor: string;
 
-  @OneToMany(() => Sadness, sadness => sadness.publicProfile, { onUpdate: "CASCADE"})
-  sadness: Sadness;
+  @OneToMany(() => Sadness, sadness => sadness.publicProfile, { onUpdate: "CASCADE", onDelete: "CASCADE", cascade: ["remove"] })
+  sadness: Sadness[];
 }

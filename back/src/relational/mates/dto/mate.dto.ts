@@ -1,3 +1,3 @@
 export class MateDto {
-  email: string;
+  pseudo: string;
 }

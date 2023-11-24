@@ -62,4 +62,8 @@ export class CouplesService {
     }
   }
 
+  async deleteMyAccount(mate: Mate) {
+    return await this.mateRepository.update(mate.id, { couple: null })
+  }
+
 }

@@ -7,7 +7,7 @@ import { PublicProfile } from "./public-profile.model";
 
 export interface Mate {
   id: string;
-  email: string;
+  pseudo: string;
   password: string;
   firstname: string;
   lastname: string;

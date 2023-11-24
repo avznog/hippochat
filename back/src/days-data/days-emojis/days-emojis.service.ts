@@ -78,4 +78,13 @@ export class DaysEmojisService {
 
     }
   }
+
+  async deleteMyAccount(mate: Mate) {
+    try {
+      const da = await this.daysEmojiRepository.find({ where: { mate: { id: mate.id } } });
+      return await this.daysEmojiRepository.delete(da.map(d => d.id));
+    } catch (error) {
+
+    }
+  }
 }

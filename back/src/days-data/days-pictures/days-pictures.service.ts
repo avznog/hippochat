@@ -42,7 +42,7 @@ export class DaysPicturesService {
     })) {
       return new HttpException("Vous avez déjà pris une photo aujourd'hui", HttpStatus.AMBIGUOUS)
     }
-    const path = `/users/${mate.email}/days-pictures/original/${file.originalname.split(".")[0] + '.webp'}`;
+    const path = `/users/${mate.pseudo}/days-pictures/original/${file.originalname.split(".")[0] + '.webp'}`;
     await this.minioService.uploadFile(path, file);
     const todayDayPicture = await this.daysPicturesRepository.save({
       date: moment(new Date()).tz(mate.timezone).format("YYYY-MM-DD"),
@@ -131,7 +131,7 @@ export class DaysPicturesService {
 
   async createSomeDaysPicture(mate: Mate, file: Express.Multer.File, date: string) {
     try {
-      const path = `/users/${mate.email}/days-pictures/original/${file.originalname.split(".")[0] + '.webp'}`;
+      const path = `/users/${mate.pseudo}/days-pictures/original/${file.originalname.split(".")[0] + '.webp'}`;
       await this.minioService.uploadFile(path, file);
       const someDaysPicture = await this.daysPicturesRepository.save({
         date: date,
@@ -143,6 +143,15 @@ export class DaysPicturesService {
 
     } catch (error) {
       throw new HttpException("Can't create the picture", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  async deleteMyAccount(mate: Mate) {
+    try {
+      const de = await this.daysPicturesRepository.find({ where: { mate: { id: mate.id } } });
+      return await this.daysPicturesRepository.delete(de.map(d => d.id))
+    } catch (error) {
+
     }
   }
 }
