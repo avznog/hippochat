@@ -20,7 +20,7 @@ import { ApisModule } from './apis/apis.module';
         JWT_REFRESH_TOKEN_SECRET: Joi.string().required(),
         JWT_REFRESH_TOKEN_EXPIRATION_TIME: Joi.string().required()
       })
-    }),
+    }), 
     TypeOrmModule.forRoot({
     type: "postgres",
     host: process.env.POSTGRES_HOST,
