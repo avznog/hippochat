@@ -10,6 +10,7 @@ import { PublicProfileService } from '../public-profile/public-profile.service';
 import { SadnessService } from '../sadness/sadness.service';
 import { UpdateMateDto } from './dto/update-mate.dto';
 import { Mate } from './entities/mate.entity';
+import { InvitationsService } from '../invitations/invitations.service';
 
 @Injectable()
 export class MatesService {
@@ -22,7 +23,8 @@ export class MatesService {
     private readonly messagesService: MessagesService,
     private readonly daysEmojisService: DaysEmojisService,
     private readonly daysPicturesService: DaysPicturesService,
-    private readonly sadnessService: SadnessService
+    private readonly sadnessService: SadnessService,
+    private readonly invitationsService: InvitationsService
   ) { }
 
   async findByPayload(payload: TokenPayload): Promise<Mate> {
@@ -69,6 +71,7 @@ export class MatesService {
   }
 
   async deleteMyAccount(mate: Mate) {
+    await this.invitationsService.deleteMyAccount(mate);
     await this.messagesService.deleteMyAccount(mate);
     await this.daysEmojisService.deleteMyAccount(mate);
     await this.daysPicturesService.deleteMyAccount(mate);

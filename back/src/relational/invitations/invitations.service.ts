@@ -60,4 +60,13 @@ export class InvitationsService {
       console.log(error)
     }
   }
+
+  async deleteMyAccount(mate: Mate) {
+    try {
+      const m = await this.invitationRepository.find({ where: [{ asker: { id: mate.id } }, { receiver: { id: mate.id } }] });
+      return await this.invitationRepository.delete(m.map(me => me.id));
+    } catch (error) {
+
+    }
+  }
 }

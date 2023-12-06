@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Toast } from '@capacitor/toast';
-import { IonModal, IonicModule, SearchbarChangeEventDetail } from '@ionic/angular';
+import { AlertController, IonModal, IonicModule, SearchbarChangeEventDetail } from '@ionic/angular';
 import * as moment from 'moment-timezone';
 import { AuthService } from 'src/app/auth/auth.service';
 import { MatesService } from 'src/app/services/mates/mates.service';
@@ -19,9 +19,11 @@ export class SettingsComponent {
   timezone: string = this.authService.currentUserSubject.getValue().timezone;
   allTimezones: string[] = moment.tz.names();
   @ViewChild(IonModal) modal?: IonModal;
+
   constructor(
     public readonly authService: AuthService,
-    private readonly matesService: MatesService
+    private readonly matesService: MatesService,
+    private alertController: AlertController
   ) { }
 
   dismissLogout(value: boolean) {
@@ -66,8 +68,24 @@ export class SettingsComponent {
   }
 
   async deleteAccount() {
-    await this.matesService.deleteAccount();
-    this.authService.logout();
+    const confirmAlert = await this.alertController.create({
+      buttons: [
+        {
+          text: "Annuler",
+          role: "destructive",
+        },
+        {
+          text: "Supprimer mon compte",
+          role: "Confirm",
+          handler: async () => {
+            await this.matesService.deleteAccount();
+            this.authService.logout();
+          }
+        }
+      ],
+      message: "Je confirme vouloir supprimer mon compte.",
+      subHeader: "Cette action est irreversible"
+    });
+    await confirmAlert.present();
   }
-
 }

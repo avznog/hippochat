@@ -25,10 +25,12 @@ import { SadnessService } from '../sadness/sadness.service';
 import { Mate } from './entities/mate.entity';
 import { MatesController } from './mates.controller';
 import { MatesService } from './mates.service';
+import { InvitationsService } from '../invitations/invitations.service';
+import { Invitation } from '../invitations/entities/invitation.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Mate, Couple, PublicProfile, Message, DaysEmoji, DaysPicture, Sadness])],
+  imports: [TypeOrmModule.forFeature([Mate, Couple, PublicProfile, Message, DaysEmoji, DaysPicture, Sadness, Invitation])],
   controllers: [MatesController],
-  providers: [MatesService, CouplesService, MinioService, ConfigService, PublicProfileService, CoupleGateway, GatewaysService, PublicProfileGateway, BatteryGateway, MessagesService, MessagesGateway, DaysEmojisService, DaysPicturesService, DaysEmojisGateway, DaysPicturesGateway, SadnessService, SadnessGateway]
+  providers: [MatesService, CouplesService, MinioService, ConfigService, PublicProfileService, CoupleGateway, GatewaysService, PublicProfileGateway, BatteryGateway, MessagesService, MessagesGateway, DaysEmojisService, DaysPicturesService, DaysEmojisGateway, DaysPicturesGateway, SadnessService, SadnessGateway, InvitationsService]
 })
 export class MatesModule { }

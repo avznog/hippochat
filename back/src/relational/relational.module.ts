@@ -31,13 +31,15 @@ import { PublicProfileService } from './public-profile/public-profile.service';
 import { Sadness } from './sadness/entities/sadness.entity';
 import { SadnessModule } from './sadness/sadness.module';
 import { SadnessService } from './sadness/sadness.service';
+import { InvitationsService } from './invitations/invitations.service';
+import { Invitation } from './invitations/entities/invitation.entity';
 
 @Module({
   imports: [
-    MatesModule, PublicProfileModule, CouplesModule, TypeOrmModule.forFeature([Mate, Couple, PublicProfile, Message, DaysEmoji, DaysPicture, Sadness]), SadnessModule, MessagesModule, InvitationsModule
+    MatesModule, PublicProfileModule, CouplesModule, TypeOrmModule.forFeature([Mate, Couple, PublicProfile, Message, DaysEmoji, DaysPicture, Sadness, Invitation]), SadnessModule, MessagesModule, InvitationsModule
   ],
   controllers: [MatesController],
-  providers: [MatesService, CouplesService, MinioService, ConfigService, PublicProfileService, CoupleGateway, GatewaysService, PublicProfileGateway, BatteryGateway, MessagesService, MessagesGateway, DaysEmojisService, DaysPicturesService, DaysEmojisGateway, DaysPicturesGateway, SadnessService, SadnessGateway]
+  providers: [MatesService, CouplesService, MinioService, ConfigService, PublicProfileService, CoupleGateway, GatewaysService, PublicProfileGateway, BatteryGateway, MessagesService, MessagesGateway, DaysEmojisService, DaysPicturesService, DaysEmojisGateway, DaysPicturesGateway, SadnessService, SadnessGateway, InvitationsService]
 })
 export class RelationalModule { }
 

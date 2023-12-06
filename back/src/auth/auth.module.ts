@@ -31,10 +31,12 @@ import { AuthService } from './auth.service';
 import { JwtRefreshTokenStrategy } from './jwt-refresh-token.strategy';
 import { JwtStrategy } from './jwt.strategy';
 import { LocalStrategy } from './local.strategy';
+import { InvitationsService } from 'src/relational/invitations/invitations.service';
+import { Invitation } from 'src/relational/invitations/entities/invitation.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Mate, PublicProfile, Couple, PublicProfile, Message, DaysEmoji, DaysPicture, Sadness]),
+    TypeOrmModule.forFeature([Mate, PublicProfile, Couple, PublicProfile, Message, DaysEmoji, DaysPicture, Sadness, Invitation]),
     PassportModule,
     JwtModule.registerAsync({
       useFactory: async () => ({
@@ -67,7 +69,8 @@ import { LocalStrategy } from './local.strategy';
     DaysEmojisGateway,
     DaysPicturesGateway,
     SadnessService,
-    SadnessGateway
+    SadnessGateway,
+    InvitationsService
   ]
 })
 export class AuthModule { }
