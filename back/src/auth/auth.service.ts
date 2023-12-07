@@ -69,10 +69,10 @@ export class AuthService {
 
   async register(registerDto: RegisterDto, gender: Sex): Promise<boolean | Mate> {
     try {
-      if (await this.mateRepository.findOne({ where: { pseudo: registerDto.email } }))
+      if (await this.mateRepository.findOne({ where: { pseudo: registerDto.pseudo } }))
         throw 0
 
-      if (registerDto.password === "" || registerDto.email === "")
+      if (registerDto.password === "" || registerDto.pseudo === "")
         throw 1
 
       const mate = await this.mateRepository.save({
@@ -97,7 +97,7 @@ export class AuthService {
           throw new HttpException("User already exists", HttpStatus.CONFLICT);
 
         case 1:
-          throw new HttpException("Empty password or email", HttpStatus.BAD_REQUEST);
+          throw new HttpException("Empty password or pseudo", HttpStatus.BAD_REQUEST);
 
         case 2:
           throw new HttpException("Missing credentials", HttpStatus.NOT_ACCEPTABLE)
