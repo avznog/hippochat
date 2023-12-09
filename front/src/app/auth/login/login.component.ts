@@ -28,9 +28,7 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     public readonly changelogsService: ChangelogsService,
     private readonly platform: Platform
-  ) {
-    console.log(this.getPlatform())
-  }
+  ) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -46,10 +44,6 @@ export class LoginComponent implements OnInit {
   hideKeyboard = () => Keyboard.hide();
 
   async onSubmit() {
-    // ? small vibration on click on the button
-    Haptics.impact({ style: ImpactStyle.Medium })
-
-
     // ? hiding keyboard
     this.hideKeyboard();
 
@@ -61,8 +55,7 @@ export class LoginComponent implements OnInit {
     try {
       await this.authService.login(this.loginForm.value["pseudo"], this.loginForm.value["password"]);
       this.router.navigate([this.returnUrl]);
-      this.loading = false;
-
+      // this.loading = false;
       // ? success vibration on success login
       Haptics.notification({ type: NotificationType.Success })
 

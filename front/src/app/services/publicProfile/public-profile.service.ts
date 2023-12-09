@@ -21,7 +21,6 @@ export class PublicProfileService {
 
   constructor(
     private http: HttpClient,
-
   ) {
   }
 
