@@ -4,7 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics';
 import { Keyboard } from '@capacitor/keyboard';
 import { Toast } from '@capacitor/toast';
+import { ChangelogsService } from 'src/app/services/changelogs/changelogs.service';
 import { AuthService } from '../auth.service';
+import { Platform } from "@ionic/angular";
 
 @Component({
   selector: 'app-login',
@@ -23,8 +25,12 @@ export class LoginComponent implements OnInit {
     private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService
-  ) { }
+    private authService: AuthService,
+    public readonly changelogsService: ChangelogsService,
+    private readonly platform: Platform
+  ) {
+    console.log(this.getPlatform())
+  }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -83,5 +89,11 @@ export class LoginComponent implements OnInit {
       style: ImpactStyle.Medium
     });
     this.router.navigate(["/register"])
+  }
+
+  getPlatform(): 'ios' | 'web' | 'android' {
+    if (this.platform.is("ios") || this.platform.is("ipad") || this.platform.is("iphone")) return "ios"
+    else if (this.platform.is("android")) return "android"
+    else return "web"
   }
 }

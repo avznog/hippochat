@@ -35,5 +35,15 @@
     <div class="flex justify-center w-full">
       <ion-img [src]="boyImg" class="w-[90%]"></ion-img>
     </div>
+
+    <!-- ? Version -->
+    <div class="w-full text-center">
+      <label *ngIf="getPlatform() === 'web' && changelogsService.webChangelogs.length > 0"
+        class="text-center">v{{changelogsService.webChangelogs.slice(-1)[0].version}}</label>
+      <label *ngIf="getPlatform() === 'ios' && changelogsService.iosChangelogs.length > 0"
+        class="text-center">v{{changelogsService.iosChangelogs.slice(-1)[0].version}}</label>
+      <label *ngIf="getPlatform() === 'android' && changelogsService.androidChangelogs.length > 0"
+        class="text-center">v{{changelogsService.androidChangelogs.slice(-1)[0].version}}</label>
+    </div>
   </div>
 </ion-content>

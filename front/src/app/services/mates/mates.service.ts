@@ -27,7 +27,7 @@ export class MatesService {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("name", name);
     this.http.get<Mate[]>(`mates/find-all-single/`, { params: queryParams }).subscribe(singleMates => {
-      reset ? this.singleMates = singleMates : this.singleMates = this.singleMates.concat(singleMates);
+      reset ? this.singleMates = singleMates : this.singleMates = this.singleMates.concat(singleMates).filter(mate => this.singleMates.find(el => el.id === mate.id));
     })
   }
 
