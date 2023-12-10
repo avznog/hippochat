@@ -11,6 +11,7 @@ import { SadnessService } from '../sadness/sadness.service';
 import { UpdateMateDto } from './dto/update-mate.dto';
 import { Mate } from './entities/mate.entity';
 import { InvitationsService } from '../invitations/invitations.service';
+import { ParamsFindAllSingleDto } from './dto/params-find-all-single.dto';
 
 @Injectable()
 export class MatesService {
@@ -51,14 +52,20 @@ export class MatesService {
     return mate.couple ? true : false
   }
 
-  async findAllSingle(name: string): Promise<Mate[]> {
+  async findAllSingle(params: ParamsFindAllSingleDto): Promise<Mate[]> {
     return await this.mateRepository.find({
-      relations: ["publicProfile"],
-      where: {
-        couple: IsNull(),
-        firstname: ILike(`%${name}%`),
-        lastname: ILike(`%${name}%`)
-      }
+      where: [
+        {
+          couple: IsNull(),
+          firstname: ILike(`%${params.name}%`),
+        },
+        {
+          couple: IsNull(),
+          lastname: ILike(`%${params.name}%`),
+        }
+      ],
+      take: 20,
+      skip: params.page * 20
     })
   }
 

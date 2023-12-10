@@ -2,9 +2,11 @@ import { Component } from '@angular/core';
 import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics';
 import { ActionSheetController, InfiniteScrollCustomEvent } from '@ionic/angular';
 import { AuthService } from 'src/app/auth/auth.service';
+import { Invitation } from 'src/app/models/invitation.model';
 import { Mate } from 'src/app/models/mate.model';
 import { InvitationsService } from 'src/app/services/invitations/invitations.service';
-import { MatesService } from 'src/app/services/mates/mates.service';
+import { NoMatesService } from 'src/app/services/no-mates/no-mates.service';
+import { SocketInvitationService } from 'src/app/services/sockets/socket-invitation/socket-invitation.service';
 
 @Component({
   selector: 'app-no-mate',
@@ -14,38 +16,23 @@ import { MatesService } from 'src/app/services/mates/mates.service';
 export class NoMateComponent {
 
   name: string = "";
-  page: "search" | "invitations" = "search"
-  loading: boolean = true;
+  page: "search" | "invitations" = "search";
+  pageCount: number = 0;
+
   constructor(
-    public readonly matesService: MatesService,
     private actionSheetController: ActionSheetController,
     public readonly authService: AuthService,
-    private readonly invitationsService: InvitationsService
+    public readonly noMatesService: NoMatesService,
+    private readonly invitationsService: InvitationsService,
+    private readonly socketInvitationService: SocketInvitationService // ? leave here for socket connection
   ) {
-    this.matesService.findAllSingle(this.name, true)
-      .then(() => this.loading = false)
-  }
-
-  async loadSingleMates(reset: boolean) {
-    this.loading = true;
-    await this.matesService.findAllSingle(this.name, reset)
-    if (this.matesService.singleMates.length <= 0) {
-      Haptics.notification({
-        type: NotificationType.Error
-      })
-    } else {
-      Haptics.notification({
-        type: NotificationType.Success
-      })
-    }
-    this.loading = false;
+    this.noMatesService.updateSingleMates({ name: this.name, page: this.pageCount });
   }
 
   async onIonInfinite(e: any) {
     setTimeout(() => {
       (e as InfiniteScrollCustomEvent).target.complete();
-      this.loadSingleMates(false)
-
+      this.noMatesService.updateSingleMates({ name: this.name, page: this.pageCount + 1 });
     }, 500);
   }
 
@@ -93,6 +80,12 @@ export class NoMateComponent {
   }
 
   onDenyInvitation(id: string) {
-    console.log("denied : " + id)
+    this.invitationsService.denyInvitation(id)
+  }
+
+  isAlreadyAsked(invitations: Invitation[], id: string): boolean {
+    if (invitations.find(el => el.receiver.id === id)) {
+      return true
+    } else return false
   }
 }

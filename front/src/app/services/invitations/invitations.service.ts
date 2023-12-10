@@ -24,14 +24,13 @@ export class InvitationsService {
   async refreshMyInvitations() {
     this.http.get<Invitation[]>(`invitations/my`).subscribe(invitations => {
       this.authService.currentUserSubject.next({ ...this.authService.currentUserSubject.getValue(), askedInvitations: invitations.filter(i => i.asker.id === this.authService.currentUserSubject.getValue().id), receivedInvitations: invitations.filter(i => i.receiver.id === this.authService.currentUserSubject.getValue().id) })
-      console.log(this.authService.currentUserSubject.getValue())
     })
   }
 
   create(createInvitationDto: CreateInvitationDto) {
     try {
       this.http.post<Invitation>(`invitations`, createInvitationDto).subscribe(invitation => {
-        this.authService.currentUserSubject.next({ ...this.authService.currentUserSubject.getValue(), askedInvitations: this.authService.currentUserSubject.getValue().askedInvitations.concat(invitation) })
+        this.authService.currentUserSubject.next({ ...this.authService.currentUserSubject.getValue(), askedInvitations: this.authService.currentUserSubject.getValue().askedInvitations ? this.authService.currentUserSubject.getValue().askedInvitations.concat(invitation) : [invitation] })
         Toast.show({
           text: `Invitation de couple envoyée à ${createInvitationDto.receiver.firstname} ${createInvitationDto.receiver.lastname}`
         })
@@ -50,4 +49,8 @@ export class InvitationsService {
       this.router.navigate(["/home/conversation"])
     });
   }
-}
+
+  denyInvitation(id: string) {
+    this.http.patch(`invitations/${id}`, { denied: true }).subscribe(invitation => this.authService.refreshUser())
+  }
+} 

@@ -33,6 +33,7 @@ import { JwtStrategy } from './jwt.strategy';
 import { LocalStrategy } from './local.strategy';
 import { InvitationsService } from 'src/relational/invitations/invitations.service';
 import { Invitation } from 'src/relational/invitations/entities/invitation.entity';
+import { InvitationGateway } from 'src/gateways/invitation/invitation.gateway';
 
 @Module({
   imports: [
@@ -70,7 +71,8 @@ import { Invitation } from 'src/relational/invitations/entities/invitation.entit
     DaysPicturesGateway,
     SadnessService,
     SadnessGateway,
-    InvitationsService
+    InvitationsService,
+    InvitationGateway
   ]
 })
 export class AuthModule { }

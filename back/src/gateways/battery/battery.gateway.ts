@@ -37,7 +37,8 @@ export class BatteryGateway implements OnGatewayConnection, OnGatewayDisconnect 
 
   emitNewBatteryLevel(mate: Mate, batteryLevel: number) {
     try {
-      this.server.to(this.gatewaysService.connectedUsers.get(mate.couple.mates.find(m => m.id !== mate.id).id)).emit("new-battery-level", batteryLevel);
+      if (mate.couple)
+        this.server.to(this.gatewaysService.connectedUsers.get(mate.couple.mates.find(m => m.id !== mate.id).id)).emit("new-battery-level", batteryLevel);
     } catch (error) {
       console.log(error)
     }

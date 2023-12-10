@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Patch, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Patch, Post, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from 'src/auth/decorators/current-user.model';
 import JwtAuthGuard from 'src/auth/guards/jwt-auth.guard';
+import { ParamsFindAllSingleDto } from './dto/params-find-all-single.dto';
 import { UpdateMateDto } from './dto/update-mate.dto';
 import { Mate } from './entities/mate.entity';
 import { MatesService } from './mates.service';
@@ -22,9 +23,9 @@ export class MatesController {
     return this.matesService.amInCouple(me);
   }
 
-  @Get("find-all-single")
-  findAllSingle(@Query() params: { name: string }) {
-    return this.matesService.findAllSingle(params.name);
+  @Post("find-all-single")
+  findAllSingle(@Body() params: ParamsFindAllSingleDto) {
+    return this.matesService.findAllSingle(params);
   }
 
   @Get("my")

@@ -110,6 +110,16 @@ export class ChangelogsService {
         "Modification de la purpose string (message explicatif) pour la demande d'accès aux photos pour les appareils IOS",
       ]
     },
+    {
+      version: "1.1.0(1)",
+      date: "2023-12-10T07:59:24.200Z",
+      bugs: [
+        "Résolution de nombreux bugs liés aux invitations"
+      ],
+      features: [
+        "Ajout de la réactivité en temps réel pour les invitations : une invitation envoyée, acceptée ou refusée sera actualisée en direct sur l'appareil correspondant"
+      ]
+    }
   ];
 
 
@@ -217,6 +227,16 @@ export class ChangelogsService {
         "Modification de la purpose string (message explicatif) pour la demande d'accès aux photos pour les appareils IOS",
       ]
     },
+    {
+      version: "1.1.0(1)",
+      date: "2023-12-10T07:59:24.200Z",
+      bugs: [
+        "Résolution de nombreux bugs liés aux invitations"
+      ],
+      features: [
+        "Ajout de la réactivité en temps réel pour les invitations : une invitation envoyée, acceptée ou refusée sera actualisée en direct sur l'appareil correspondant"
+      ]
+    }
   ];
 
 
@@ -255,13 +275,27 @@ export class ChangelogsService {
     },
     // ! correspond à la vIOS 1.0.0(4)
     {
-      version: "1.0.0(4)",
+      version: "0.0.6(6)",
       date: "2023-12-09T03:32:53.712",
       bugs: [
       ],
       features: [
         "Ajout d'une alerte pour confirmer la suppression du compte",
         "Ajout d'un message explicatif lors du demande d'accès aux photos pour les appareils IOS"
+      ]
+    },
+
+
+    // ! #######################################################################################################################
+    // ! on vise cette version en v1 sur le play STORE
+    {
+      version: "1.0.0(7)",
+      date: "2023-12-10T07:59:24.200Z",
+      bugs: [
+        "Résolution de nombreux bugs liés aux invitations"
+      ],
+      features: [
+        "Ajout de la réactivité en temps réel pour les invitations : une invitation envoyée, acceptée ou refusée sera actualisée en direct sur l'appareil correspondant"
       ]
     }
   ];

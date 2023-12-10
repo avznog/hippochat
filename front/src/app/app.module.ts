@@ -30,6 +30,7 @@ import { SocketMessages } from './providers/socket-messags.providers';
 import { SocketPublicProfile } from './providers/socket-public-profile.provider';
 import { SocketSadness } from './providers/socket-sadness.provider';
 import { SocketBattery } from './providers/socket-battery.provider';
+import { SocketInvitation } from './providers/socket-invitation.provider';
 
 export function playerFactory() {
   return player;
@@ -48,7 +49,6 @@ export function playerFactory() {
     BrowserAnimationsModule,
     SettingsComponent,
     LottieModule.forRoot({ player: playerFactory }),
-    // SocketIoModule.forRoot(config),
     ServiceWorkerModule.register('ngsw-worker.js',
       {
         enabled: !isDevMode(),
@@ -70,7 +70,7 @@ export function playerFactory() {
     { provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: CredentialsInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: TimeoutInterceptor, multi: true },
-    AuthGuard, LoggedGuard, NoMateGuard, HasMateGuard, SocketSadness, SocketCouple, SocketPublicProfile, SocketDaysEmojis, SocketDaysPictures, SocketMessages, SocketBattery
+    AuthGuard, LoggedGuard, NoMateGuard, HasMateGuard, SocketSadness, SocketCouple, SocketPublicProfile, SocketDaysEmojis, SocketDaysPictures, SocketMessages, SocketBattery, SocketInvitation
   ],
 })
 export class AppModule { }
