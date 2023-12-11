@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Haptics, NotificationType } from '@capacitor/haptics';
+import { AuthService } from 'src/app/auth/auth.service';
+import { CouplesService } from 'src/app/services/couples/couples.service';
 import { DaysEmojisService } from 'src/app/services/daysEmojis/days-emojis.service';
 import { DaysPicturesService } from 'src/app/services/daysPictures/days-pictures.service';
 import { PublicProfileService } from 'src/app/services/publicProfile/public-profile.service';
@@ -16,8 +18,12 @@ export class MoodboardPage implements OnInit {
   constructor(
     public readonly publicProfileService: PublicProfileService,
     public readonly daysEmojisService: DaysEmojisService,
-    public readonly daysPicturesService: DaysPicturesService
-  ) { }
+    public readonly daysPicturesService: DaysPicturesService,
+    public readonly authService: AuthService,
+    public readonly couplesService: CouplesService
+  ) {
+    this.couplesService.getMyMate()
+  }
 
   async ngOnInit() {
   }

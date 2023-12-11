@@ -114,7 +114,8 @@ export class ChangelogsService {
       version: "1.1.0(1)",
       date: "2023-12-10T07:59:24.200Z",
       bugs: [
-        "Résolution de nombreux bugs liés aux invitations"
+        "Résolution de nombreux bugs liés aux invitations",
+        "Résolution du bug qui n'affichait rien dans le segment inférieur de la page moodboard today. Elle affiche désormais les prénoms si aucun surnom n'existe"
       ],
       features: [
         "Ajout de la réactivité en temps réel pour les invitations : une invitation envoyée, acceptée ou refusée sera actualisée en direct sur l'appareil correspondant"
@@ -231,7 +232,8 @@ export class ChangelogsService {
       version: "1.1.0(1)",
       date: "2023-12-10T07:59:24.200Z",
       bugs: [
-        "Résolution de nombreux bugs liés aux invitations"
+        "Résolution de nombreux bugs liés aux invitations",
+        "Résolution du bug qui n'affichait rien dans le segment inférieur de la page moodboard today. Elle affiche désormais les prénoms si aucun surnom n'existe"
       ],
       features: [
         "Ajout de la réactivité en temps réel pour les invitations : une invitation envoyée, acceptée ou refusée sera actualisée en direct sur l'appareil correspondant"
@@ -292,7 +294,8 @@ export class ChangelogsService {
       version: "1.0.0(7)",
       date: "2023-12-10T07:59:24.200Z",
       bugs: [
-        "Résolution de nombreux bugs liés aux invitations"
+        "Résolution de nombreux bugs liés aux invitations",
+        "Résolution du bug qui n'affichait rien dans le segment inférieur de la page moodboard today. Elle affiche désormais les prénoms si aucun surnom n'existe"
       ],
       features: [
         "Ajout de la réactivité en temps réel pour les invitations : une invitation envoyée, acceptée ou refusée sera actualisée en direct sur l'appareil correspondant"
