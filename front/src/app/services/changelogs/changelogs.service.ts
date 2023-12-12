@@ -292,7 +292,7 @@ export class ChangelogsService {
     // ! #######################################################################################################################
     // ! on vise cette version en v1 sur le play STORE
     {
-      version: "1.0.0(7)",
+      version: "1.0.0(8)",
       date: "2023-12-10T07:59:24.200Z",
       bugs: [
         "Résolution de nombreux bugs liés aux invitations",
@@ -300,7 +300,8 @@ export class ChangelogsService {
         "Résolution du bug de background de l'émoji sur les photos de profil de mycouple"
       ],
       features: [
-        "Ajout de la réactivité en temps réel pour les invitations : une invitation envoyée, acceptée ou refusée sera actualisée en direct sur l'appareil correspondant"
+        "Ajout de la réactivité en temps réel pour les invitations : une invitation envoyée, acceptée ou refusée sera actualisée en direct sur l'appareil correspondant",
+        "Première version publiée sur le play store"
       ]
     }
   ];
