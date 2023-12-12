@@ -14,10 +14,6 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
 import { PagesModule } from './components/pages/pages.module';
 import { SettingsComponent } from './components/settings/settings.component';
-import { AuthGuard } from './guards/auth.guard';
-import { HasMateGuard } from './guards/has-mate.guard';
-import { LoggedGuard } from './guards/logged.guard';
-import { NoMateGuard } from './guards/no-mate.guard';
 import { BaseUrlInterceptor } from './interceptors/base-url.interceptor';
 import { CredentialsInterceptor } from './interceptors/credentials.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
@@ -70,7 +66,7 @@ export function playerFactory() {
     { provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: CredentialsInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: TimeoutInterceptor, multi: true },
-    AuthGuard, LoggedGuard, NoMateGuard, HasMateGuard, SocketSadness, SocketCouple, SocketPublicProfile, SocketDaysEmojis, SocketDaysPictures, SocketMessages, SocketBattery, SocketInvitation
+    SocketSadness, SocketCouple, SocketPublicProfile, SocketDaysEmojis, SocketDaysPictures, SocketMessages, SocketBattery, SocketInvitation
   ],
 })
 export class AppModule { }

@@ -235,7 +235,8 @@ export class ChangelogsService {
       bugs: [
         "Résolution de nombreux bugs liés aux invitations",
         "Résolution du bug qui n'affichait rien dans le segment inférieur de la page moodboard today. Elle affiche désormais les prénoms si aucun surnom n'existe",
-        "Résolution du bug de background de l'émoji sur les photos de profil de mycouple"
+        "Résolution du bug de background de l'émoji sur les photos de profil de mycouple",
+        "Résolution du bug qui déconnectait l'user lorsqu'il relançait l'application"
       ],
       features: [
         "Ajout de la réactivité en temps réel pour les invitations : une invitation envoyée, acceptée ou refusée sera actualisée en direct sur l'appareil correspondant"

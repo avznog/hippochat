@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
   returnUrl!: string;
   loading: boolean = false;
   error: null | string = null;
+  data: any;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -28,7 +29,10 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     public readonly changelogsService: ChangelogsService,
     private readonly platform: Platform
-  ) { }
+  ) {
+    this.data = localStorage.getItem("currentUser");
+    console.log("DATA : " + this.data)
+  }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({

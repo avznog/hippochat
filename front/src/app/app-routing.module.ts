@@ -2,30 +2,30 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { AuthGuard } from './guards/auth.guard';
-import { LoggedGuard } from './guards/logged.guard';
+import { LoginGuardFn } from './guards/loginFn.guard';
+import { LoggedGuardFn } from './guards/loggedFn.guard';
 import { RegisterComponent } from './components/pages/auth/register/register.component';
-import { NoMateGuard } from './guards/no-mate.guard';
 import { NoMateComponent } from './components/pages/auth/no-mate/no-mate.component';
-import { HasMateGuard } from './guards/has-mate.guard';
+import { HasMateGuardFn } from './guards/has-mateFn.guard';
+import { NoMateGuardFn } from './guards/no-mateFn.guard';
 
 const routes: Routes = [
   {
     path: "login",
     component: LoginComponent,
     pathMatch: "full",
-    canActivate: [AuthGuard]
+    canActivate: [LoginGuardFn()]
   },
   {
     path: "register",
     component: RegisterComponent,
     pathMatch: "full",
-    canActivate: [AuthGuard]
+    canActivate: [LoginGuardFn()]
   },
   {
     path: 'home',
     component: NavbarComponent,
-    canActivate: [LoggedGuard, NoMateGuard],
+    canActivate: [LoggedGuardFn(), NoMateGuardFn()],
     children: [
       {
         path: '',
@@ -34,31 +34,31 @@ const routes: Routes = [
       },
       {
         path: 'conversation',
-        loadChildren: () => import('./components/pages/conversation/conversation.module').then( m => m.ConversationPageModule),
-        canActivate: [LoggedGuard, NoMateGuard]
+        loadChildren: () => import('./components/pages/conversation/conversation.module').then(m => m.ConversationPageModule),
+        canActivate: [LoggedGuardFn(), NoMateGuardFn()]
       },
       {
         path: 'moodboard',
         pathMatch: "full",
-        loadChildren: () => import('./components/pages/moodboard/moodboard.module').then( m => m.MoodboardPageModule),
-        canActivate: [LoggedGuard, NoMateGuard]
+        loadChildren: () => import('./components/pages/moodboard/moodboard.module').then(m => m.MoodboardPageModule),
+        canActivate: [LoggedGuardFn(), NoMateGuardFn()]
       },
       {
         path: 'my-couple',
-        loadChildren: () => import('./components/pages/my-couple/my-couple.module').then( m => m.MyCouplePageModule),
-        canActivate: [LoggedGuard, NoMateGuard]
+        loadChildren: () => import('./components/pages/my-couple/my-couple.module').then(m => m.MyCouplePageModule),
+        canActivate: [LoggedGuardFn(), NoMateGuardFn()]
       },
       {
         path: 'my-album',
-        loadChildren: () => import('./components/pages/my-album/my-album.module').then( m => m.MyAlbumPageModule),
-        canActivate: [LoggedGuard, NoMateGuard]
+        loadChildren: () => import('./components/pages/my-album/my-album.module').then(m => m.MyAlbumPageModule),
+        canActivate: [LoggedGuardFn(), NoMateGuardFn()]
       }
     ]
   },
   {
     path: "no-mate",
     component: NoMateComponent,
-    canActivate: [LoggedGuard, HasMateGuard]
+    canActivate: [LoggedGuardFn(), HasMateGuardFn()]
   },
   {
     path: "",
@@ -77,4 +77,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
