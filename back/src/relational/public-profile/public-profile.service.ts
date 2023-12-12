@@ -81,10 +81,12 @@ export class PublicProfileService {
   }
 
   async updateMyBattery(mate: Mate, battery: { batteryLevel: number }) {
-    const updatePublicProfileDto: UpdatePublicProfileDto = {};
-    updatePublicProfileDto.lastBatteryPercentage = (battery && battery.batteryLevel) ? battery.batteryLevel.toString() : null;
-    await this.publicProfileRepostiory.update(mate.publicProfile.id, updatePublicProfileDto)
-    this.batteryGateway.emitNewBatteryLevel(mate, battery.batteryLevel ?? null)
+    if (mate.publicProfile) {
+      const updatePublicProfileDto: UpdatePublicProfileDto = {};
+      updatePublicProfileDto.lastBatteryPercentage = (battery && battery.batteryLevel) ? battery.batteryLevel.toString() : null;
+      await this.publicProfileRepostiory.update(mate.publicProfile.id, updatePublicProfileDto)
+      this.batteryGateway.emitNewBatteryLevel(mate, battery.batteryLevel ?? null)
+    }
   }
 
   async deleteMyAccount(mate: Mate) {

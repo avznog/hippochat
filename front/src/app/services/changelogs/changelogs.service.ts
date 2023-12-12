@@ -289,8 +289,6 @@ export class ChangelogsService {
         "Ajout d'un message explicatif lors du demande d'accès aux photos pour les appareils IOS"
       ]
     },
-
-
     // ! #######################################################################################################################
     // ! on vise cette version en v1 sur le play STORE
     {
