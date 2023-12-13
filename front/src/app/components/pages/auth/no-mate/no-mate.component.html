@@ -2,11 +2,12 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Je choisis mon mate</ion-title>
-    <ion-progress-bar class="transition-all ease-in-out" *ngIf="loading" type="indeterminate"></ion-progress-bar>
+    <ion-progress-bar class="transition-all ease-in-out" *ngIf="noMatesService.isLoadingSingleMates"
+      type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
 
-<!-- ? page content -->
+<!-- ? segment for the page selection -->
 <ion-segment [(ngModel)]="page">
   <ion-segment-button value="search">
     <ion-label>Recherche</ion-label>
@@ -16,13 +17,20 @@
   </ion-segment-button>
 </ion-segment>
 
-<ion-content *ngIf="page === 'search'">
-  <ion-searchbar [debounce]="1000" [animated]="true" [autocomplete]="'name'" [(ngModel)]="name"
-    [enterkeyhint]="'search'" inputmode="text" placeholder="Ex: Benjamin Gonzva" (ionInput)="loadSingleMates(true)"
-    (input)="loading = true"></ion-searchbar>
 
+<!-- ! search page -->
+<ion-content *ngIf="page === 'search'">
+
+  <!-- ? search bar -->
+  <ion-searchbar [debounce]="1000" [animated]="true" [autocomplete]="'name'" [(ngModel)]="name"
+    [enterkeyhint]="'search'" inputmode="text" placeholder="Ex: Benjamin Gonzva"
+    (ionInput)="pageCount = 0; noMatesService.updateSingleMates({name: name, page: 0}, true)"
+    (input)="noMatesService.isLoadingSingleMates= true"></ion-searchbar>
+
+
+  <!-- ? no result card -->
   <ion-card class="transition-all ease-in"
-    *ngIf="!loading && matesService.singleMates && matesService.singleMates.length <= 0">
+    *ngIf="!noMatesService.isLoadingSingleMates&& noMatesService.singleMates.length <= 0">
     <ion-card-header>
       <ion-card-title>Aucun résultat</ion-card-title>
     </ion-card-header>
@@ -30,40 +38,84 @@
       Recherchez un autre nom pour obtenir d'autres résultats
     </ion-card-content>
   </ion-card>
+
+  <!-- ? list of single mates -->
   <ion-list class="transition-all ease-in-out"
-    *ngIf="!loading && matesService.singleMates && matesService.singleMates.length > 0">
-    <ion-item [disabled]="singleMate.id === authService.currentUserSubject.getValue().id" button
-      *ngFor="let singleMate of matesService.singleMates" (click)="onSelectItem(singleMate)">
+    *ngIf="!noMatesService.isLoadingSingleMates && noMatesService.singleMates.length > 0">
+    <ion-item
+      [disabled]="(singleMate.id === authService.currentUserSubject.getValue().id) || (authService.currentUserSubject.getValue().askedInvitations && isAlreadyAsked(this.authService.currentUserSubject.getValue().askedInvitations, singleMate.id))"
+      button *ngFor="let singleMate of noMatesService.singleMates" (click)="onSelectItem(singleMate)">
       <ion-avatar slot="start">
-        <img
+        <img *ngIf="singleMate.publicProfile"
           [src]="singleMate.publicProfile.sex === 0 ? '../../../../assets/couple-icons/boy-iso-color.webp' : '../../../../../assets/couple-icons/girl-iso-color.webp'" />
+        <img *ngIf="!singleMate.publicProfile" [src]="'../../../../../assets/couple-icons/girl-iso-color.webp'" />
       </ion-avatar>
-      <ion-label>{{singleMate.firstname}} {{singleMate.lastname}}</ion-label>
+      <ion-label>{{singleMate.firstname}} {{singleMate.lastname}} <span
+          *ngIf="singleMate.id === authService.currentUserSubject.getValue().id">(moi)</span><span
+          *ngIf="(authService.currentUserSubject.getValue().askedInvitations && isAlreadyAsked(this.authService.currentUserSubject.getValue().askedInvitations, singleMate.id))">(invité(e))</span></ion-label>
     </ion-item>
   </ion-list>
+
   <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
+
+
+<!-- ! invitation page -->
 <ion-content *ngIf="page === 'invitations'">
-  <ion-list class="transition-all ease-in-out" *ngIf="authService.currentUserSubject.getValue().receivedInvitations">
-    <ion-item *ngFor="let invitation of authService.currentUserSubject.getValue().receivedInvitations">
-      <ion-avatar>
-        <img
-          [src]="invitation.asker.publicProfile.sex === 0 ? '../../../../../assets/couple-icons/boy-iso-color.webp' :  '../../../../../assets/couple-icons/girl-iso-color.webp'" />
-      </ion-avatar>
-      <ion-label class="line-clamp-999">{{invitation.asker.firstname}} {{invitation.asker.lastname}}</ion-label>
-      <ion-buttons>
-        <ion-button color="success" [fill]="true" (click)="onAcceptInvitation(invitation.id)">Accepter</ion-button>
-        <ion-button color="failure" [fill]="true" (click)="onDenyInvitation(invitation.id)">Refuser</ion-button>
-      </ion-buttons>
-    </ion-item>
-    <ion-card *ngIf="authService.currentUserSubject.getValue().receivedInvitations.length <= 0">
-      <ion-card-header>
-        <ion-card-title>
-          Vous n'avez aucune invitation de couple
-        </ion-card-title>
-      </ion-card-header>
-    </ion-card>
+  <ion-list class="transition-all ease-in-out">
+
+    <!-- ? invitations reçues -->
+    <ion-item-group>
+      <ion-item-divider>Invitations reçues</ion-item-divider>
+      <!-- ? aucune invitation reçue -->
+      <ion-item
+        *ngIf="!authService.currentUserSubject.getValue().receivedInvitations || authService.currentUserSubject.getValue().receivedInvitations.length <= 0">
+        <ion-label class="line-clamp-999">Aucune invitation reçue</ion-label>
+      </ion-item>
+
+      <!-- ? liste des invtations reçues -->
+      <ng-container *ngIf="authService.currentUserSubject.getValue().receivedInvitations">
+        <ion-item *ngFor="let invitation of authService.currentUserSubject.getValue().receivedInvitations">
+          <ion-avatar>
+            <img *ngIf="invitation.asker.publicProfile"
+              [src]="invitation.asker.publicProfile.sex === 0 ? '../../../../../assets/couple-icons/boy-iso-color.webp' :  '../../../../../assets/couple-icons/girl-iso-color.webp'" />
+            <img *ngIf="!invitation.asker.publicProfile"
+              [src]="'../../../../../assets/couple-icons/girl-iso-color.webp'" />
+
+          </ion-avatar>
+          <ion-label class="line-clamp-999">{{invitation.asker.firstname}} {{invitation.asker.lastname}}</ion-label>
+          <ion-buttons>
+            <ion-button color="success" [fill]="true" (click)="onAcceptInvitation(invitation.id)">Accepter</ion-button>
+            <ion-button color="failure" [fill]="true" (click)="onDenyInvitation(invitation.id)">Refuser</ion-button>
+          </ion-buttons>
+        </ion-item>
+      </ng-container>
+    </ion-item-group>
+
+    <!-- ? invitations envoyées -->
+    <ion-item-group>
+      <ion-item-divider>Invitations envoyées</ion-item-divider>
+      <!-- ? aucune invitation envoyée -->
+      <ion-item
+        *ngIf="!authService.currentUserSubject.getValue().askedInvitations || authService.currentUserSubject.getValue().askedInvitations.length <= 0">
+        <ion-label class="line-clamp-999">Aucune invitation envoyée</ion-label>
+      </ion-item>
+
+      <!-- ? liste des invitations envoyées -->
+      <ng-container *ngIf="authService.currentUserSubject.getValue().askedInvitations">
+        <ion-item *ngFor="let invitation of authService.currentUserSubject.getValue().askedInvitations">
+          <ion-avatar>
+            <img *ngIf="invitation.receiver.publicProfile"
+              [src]="invitation.receiver.publicProfile.sex === 0 ? '../../../../../assets/couple-icons/boy-iso-color.webp' :  '../../../../../assets/couple-icons/girl-iso-color.webp'" />
+            <img *ngIf="!invitation.receiver.publicProfile"
+              [src]="'../../../../../assets/couple-icons/girl-iso-color.webp'" />
+          </ion-avatar>
+          <ion-label class="line-clamp-999">{{invitation.receiver.firstname}}
+            {{invitation.receiver.lastname}}</ion-label>
+        </ion-item>
+      </ng-container>
+    </ion-item-group>
   </ion-list>
 </ion-content>

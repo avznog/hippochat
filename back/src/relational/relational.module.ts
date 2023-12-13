@@ -33,13 +33,14 @@ import { SadnessModule } from './sadness/sadness.module';
 import { SadnessService } from './sadness/sadness.service';
 import { InvitationsService } from './invitations/invitations.service';
 import { Invitation } from './invitations/entities/invitation.entity';
+import { InvitationGateway } from 'src/gateways/invitation/invitation.gateway';
 
 @Module({
   imports: [
     MatesModule, PublicProfileModule, CouplesModule, TypeOrmModule.forFeature([Mate, Couple, PublicProfile, Message, DaysEmoji, DaysPicture, Sadness, Invitation]), SadnessModule, MessagesModule, InvitationsModule
   ],
   controllers: [MatesController],
-  providers: [MatesService, CouplesService, MinioService, ConfigService, PublicProfileService, CoupleGateway, GatewaysService, PublicProfileGateway, BatteryGateway, MessagesService, MessagesGateway, DaysEmojisService, DaysPicturesService, DaysEmojisGateway, DaysPicturesGateway, SadnessService, SadnessGateway, InvitationsService]
+  providers: [MatesService, CouplesService, MinioService, ConfigService, PublicProfileService, CoupleGateway, GatewaysService, PublicProfileGateway, BatteryGateway, MessagesService, MessagesGateway, DaysEmojisService, DaysPicturesService, DaysEmojisGateway, DaysPicturesGateway, SadnessService, SadnessGateway, InvitationsService, InvitationGateway]
 })
 export class RelationalModule { }
 

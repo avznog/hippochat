@@ -4,7 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics';
 import { Keyboard } from '@capacitor/keyboard';
 import { Toast } from '@capacitor/toast';
+import { ChangelogsService } from 'src/app/services/changelogs/changelogs.service';
 import { AuthService } from '../auth.service';
+import { Platform } from "@ionic/angular";
 
 @Component({
   selector: 'app-login',
@@ -18,13 +20,19 @@ export class LoginComponent implements OnInit {
   returnUrl!: string;
   loading: boolean = false;
   error: null | string = null;
+  data: any;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService
-  ) { }
+    private authService: AuthService,
+    public readonly changelogsService: ChangelogsService,
+    private readonly platform: Platform
+  ) {
+    this.data = localStorage.getItem("currentUser");
+    console.log("DATA : " + this.data)
+  }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -40,10 +48,6 @@ export class LoginComponent implements OnInit {
   hideKeyboard = () => Keyboard.hide();
 
   async onSubmit() {
-    // ? small vibration on click on the button
-    Haptics.impact({ style: ImpactStyle.Medium })
-
-
     // ? hiding keyboard
     this.hideKeyboard();
 
@@ -55,8 +59,7 @@ export class LoginComponent implements OnInit {
     try {
       await this.authService.login(this.loginForm.value["pseudo"], this.loginForm.value["password"]);
       this.router.navigate([this.returnUrl]);
-      this.loading = false;
-
+      // this.loading = false;
       // ? success vibration on success login
       Haptics.notification({ type: NotificationType.Success })
 
@@ -83,5 +86,11 @@ export class LoginComponent implements OnInit {
       style: ImpactStyle.Medium
     });
     this.router.navigate(["/register"])
+  }
+
+  getPlatform(): 'ios' | 'web' | 'android' {
+    if (this.platform.is("ios") || this.platform.is("ipad") || this.platform.is("iphone")) return "ios"
+    else if (this.platform.is("android")) return "android"
+    else return "web"
   }
 }

@@ -8,10 +8,11 @@ import { Couple } from '../couples/entities/couple.entity';
 import { Mate } from '../mates/entities/mate.entity';
 import { CoupleGateway } from 'src/gateways/couple/couple.gateway';
 import { GatewaysService } from 'src/gateways/services/gateways.service';
+import { InvitationGateway } from 'src/gateways/invitation/invitation.gateway';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Invitation, Couple, Mate])],
   controllers: [InvitationsController],
-  providers: [InvitationsService, CouplesService, CoupleGateway, GatewaysService]
+  providers: [InvitationsService, CouplesService, CoupleGateway, GatewaysService, InvitationGateway]
 })
 export class InvitationsModule { }

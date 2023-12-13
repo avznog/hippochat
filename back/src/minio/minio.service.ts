@@ -12,7 +12,7 @@ export class MinioService {
     private configService: ConfigService
   ) {
     this.minioClient = new Minio.Client({
-      endPoint: this.configService.get('MINIO_ENDPOINT') || "localhost",
+      endPoint: this.configService.get('MINIO_ENDPOINT') || "192.168.7.191",
       port: Number(this.configService.get('MINIO_PORT')) || 9000,
       useSSL: Boolean(this.configService.get('USE_SSL')) || false,
       accessKey: this.configService.get('MINIO_ACCESS_KEY') || "minioadmin",

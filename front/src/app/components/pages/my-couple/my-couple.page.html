@@ -26,7 +26,7 @@
           (click)="onClickPicture()" />
         <ng-lottie *ngIf="publicProfileService.loadingMyProfilePicture"
           [options]="{path: '../../../../assets/lotties/animation_square_loading.json'}"></ng-lottie>
-        <div class="absolute top-0 left-0 bg-white border-2 border-white rounded-full">
+        <div class="absolute top-0 left-0 border-2 border-white rounded-full background-emoji">
           <ion-label class="text-5xl">{{publicProfileService.myPublicProfile?.profileEmoji}}</ion-label>
         </div>
       </div>
@@ -34,14 +34,14 @@
         <ion-label>{{publicProfileService.myPublicProfile?.nickname ?? 'Donne moi un surnom !'}}</ion-label>
       </div>
     </div>
-    <div class="relative w-40 h-40">
+    <div class="relative w-40">
       <div class="h-40">
-        <img class="object-cover w-40 h-40 rounded-full will-change-transform" loading="lazy" id="myMatesProfilePicture"
+        <img class="object-cover w-40 h-40 rounded-full" loading="lazy" id="myMatesProfilePicture"
           [src]="publicProfileService.myMatesProfilePicture" *ngIf="!publicProfileService.loadingMatesProfilePicture"
           loading="lazy" />
         <ng-lottie [options]="{path: '../../../../assets/lotties/animation_square_loading.json'}"
           *ngIf="publicProfileService.loadingMatesProfilePicture"></ng-lottie>
-        <div class="absolute top-0 right-0 bg-white border-2 border-white rounded-full">
+        <div class="absolute top-0 right-0 border-2 border-white rounded-full background-emoji">
           <ion-label class="text-5xl">{{publicProfileService.myMatePublicProfile?.profileEmoji}}</ion-label>
         </div>
       </div>

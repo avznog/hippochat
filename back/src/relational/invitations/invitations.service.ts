@@ -5,6 +5,8 @@ import { IsNull, Repository } from 'typeorm';
 import { Mate } from '../mates/entities/mate.entity';
 import { CreateInvitationDto } from './dto/create-invitation.dto';
 import { CouplesService } from '../couples/couples.service';
+import { UpdateInvitationDto } from './dto/update-invitation.dto';
+import { InvitationGateway } from 'src/gateways/invitation/invitation.gateway';
 
 @Injectable()
 export class InvitationsService {
@@ -13,7 +15,8 @@ export class InvitationsService {
     @InjectRepository(Invitation)
     private readonly invitationRepository: Repository<Invitation>,
 
-    private readonly couplesService: CouplesService
+    private readonly couplesService: CouplesService,
+    private readonly invitationGateway: InvitationGateway
   ) { }
 
   async findMy(mate: Mate) {
@@ -42,7 +45,9 @@ export class InvitationsService {
 
   async create(createInvitationDto: CreateInvitationDto) {
     try {
-      return await this.invitationRepository.save(createInvitationDto);
+      const invitation = await this.invitationRepository.save(createInvitationDto);
+      this.invitationGateway.shareCreatedInvitation(invitation);
+      return invitation
     } catch (error) {
       throw new HttpException("Impossible de créer l'invitation", HttpStatus.INTERNAL_SERVER_ERROR), error
     }
@@ -52,6 +57,7 @@ export class InvitationsService {
     try {
       await this.invitationRepository.update(id, { denied: false });
       const invitation = await this.invitationRepository.findOne({ where: { id: id }, relations: ["asker"] });
+      this.invitationGateway.shareAcceptedInvitation(invitation);
       return await this.couplesService.create({
         matesIds: [mate.id, invitation.asker.id]
       })
@@ -67,6 +73,16 @@ export class InvitationsService {
       return await this.invitationRepository.delete(m.map(me => me.id));
     } catch (error) {
 
+    }
+  }
+
+  async denyInvitation(id: string, updateInvitationDto: UpdateInvitationDto): Promise<Invitation> {
+    try {
+      await this.invitationRepository.update(id, updateInvitationDto);
+      const invitation = await this.invitationRepository.findOne({ where: { id: id }, relations: ["asker", "receiver"] })
+      this.invitationGateway.shareDeniedInvitation(invitation)
+      return invitation;
+    } catch (error) {
     }
   }
 }
